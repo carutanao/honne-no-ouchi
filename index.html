@@ -58,7 +58,7 @@
   --g50:#F9F7F4; --g100:#F1EFE8; --g200:#D3D1C7; --g400:#888780; --g600:#5F5E5A;
   --text:#2C2C2A; --muted:#5F5E5A; --light:#888780; --bg:#FFFDF8;
 }
-body { font-family:'Zen Maru Gothic',sans-serif; background:var(--bg); color:var(--text); line-height:1.7; }
+body { font-family:'Zen Maru Gothic',sans-serif; background:var(--bg); color:var(--text); line-height:1.7; transition:background 1s ease; }
 
 #fv-overlay { position:fixed; inset:0; background:rgba(44,44,42,0.6); display:flex; align-items:center; justify-content:center; z-index:1000; padding:1rem; }
 .fv-card { background:#fff; border-radius:20px; padding:2.5rem 2rem; max-width:420px; width:100%; text-align:center; animation:fadeUp 0.5s ease both; }
@@ -83,6 +83,80 @@ nav a:hover { color:var(--c400); }
 
 .online-strip { background:var(--t50); border-bottom:1px solid #9FE1CB; padding:0.5rem 2rem; display:flex; align-items:center; gap:8px; font-size:0.8125rem; color:var(--t600); position:sticky; top:62px; z-index:99; }
 .online-dot { width:7px; height:7px; background:var(--t400); border-radius:50%; animation:pulse 2s infinite; flex-shrink:0; }
+
+/* 水彩にじみ背景 */
+.watercolor-bg {
+  position:fixed; inset:0; z-index:-1; pointer-events:none;
+  background:#FDFAF5;
+  transition:background 1.5s ease;
+}
+.watercolor-bg::before {
+  content:'';
+  position:absolute; inset:0;
+  background:
+    radial-gradient(ellipse 60% 50% at 10% 20%, rgba(253,232,216,0.45) 0%, transparent 60%),
+    radial-gradient(ellipse 50% 60% at 90% 80%, rgba(225,245,238,0.4) 0%, transparent 60%),
+    radial-gradient(ellipse 40% 40% at 80% 15%, rgba(251,234,240,0.35) 0%, transparent 55%),
+    radial-gradient(ellipse 35% 45% at 20% 75%, rgba(255,248,236,0.3) 0%, transparent 55%);
+  transition:opacity 1.5s ease;
+}
+.watercolor-bg::after {
+  content:'';
+  position:absolute; inset:0;
+  background:
+    radial-gradient(ellipse 30% 30% at 50% 40%, rgba(201,113,74,0.04) 0%, transparent 50%),
+    radial-gradient(ellipse 25% 25% at 70% 60%, rgba(29,158,117,0.04) 0%, transparent 50%);
+}
+/* 夜モード */
+.watercolor-bg.night {
+  background:#1C1A2E;
+}
+.watercolor-bg.night::before {
+  background:
+    radial-gradient(ellipse 50% 50% at 15% 25%, rgba(60,50,90,0.6) 0%, transparent 60%),
+    radial-gradient(ellipse 40% 40% at 85% 75%, rgba(40,60,70,0.5) 0%, transparent 60%),
+    radial-gradient(ellipse 30% 30% at 75% 20%, rgba(50,40,80,0.4) 0%, transparent 50%);
+}
+.watercolor-bg .star { position:absolute; border-radius:50%; background:#E8E0C8; pointer-events:none; animation:twinkle var(--dur,3s) ease-in-out infinite; }
+@keyframes twinkle { 0%,100%{opacity:var(--op,0.6)} 50%{opacity:0.2} }
+
+/* 夜モード時のテキスト・カード色 */
+body.night-mode { color:#C8C0D8; }
+body.night-mode .post-card { background:rgba(40,36,60,0.85); border-color:rgba(255,255,255,0.08); }
+body.night-mode .post-text { color:#C8C0D8; }
+body.night-mode .post-name { color:#8880A0; }
+body.night-mode .sec-title { color:#C8C0D8; }
+body.night-mode .fp { background:rgba(40,36,60,0.6); border-color:rgba(255,255,255,0.1); color:#8880A0; }
+body.night-mode .fp:hover, body.night-mode .fp.active { background:rgba(201,113,74,0.3); color:#E8A080; border-color:rgba(201,113,74,0.4); }
+body.night-mode .read-btn, body.night-mode .reply-toggle { background:rgba(40,36,60,0.6); border-color:rgba(255,255,255,0.1); color:#8880A0; }
+body.night-mode .reply-item { background:rgba(30,26,50,0.6); }
+body.night-mode .reply-form { background:rgba(30,26,50,0.6); border-color:rgba(255,255,255,0.08); }
+body.night-mode header { background:rgba(28,26,46,0.95); border-color:rgba(255,255,255,0.06); }
+body.night-mode .logo { color:#E8D4A8; }
+body.night-mode .posts-section { background:transparent; }
+
+/* 返信の寄り添いスタイル */
+.replies-list { margin-top:0.875rem; display:flex; flex-direction:column; gap:0.5rem; }
+.reply-item {
+  background:#fff;
+  border-left:2.5px solid var(--t400);
+  border-radius:0 10px 10px 10px;
+  padding:0.75rem 1rem;
+  font-size:0.8125rem;
+  color:var(--muted);
+  line-height:1.7;
+  margin-left:16px;
+  box-shadow:0 1px 4px rgba(0,0,0,0.04);
+  transition:transform 0.15s;
+}
+.reply-item:hover { transform:translateX(2px); }
+.reply-item.coral-reply { border-left-color:var(--c400); background:#FFFCFA; }
+.reply-item.teal-reply  { border-left-color:var(--t400); background:#FAFFFC; }
+.reply-item.pink-reply  { border-left-color:var(--p400); background:#FFF8FB; }
+.reply-item.amber-reply { border-left-color:#D4860A; background:#FFFCF5; }
+.reply-from { font-size:0.75rem; font-weight:500; margin-bottom:4px; display:flex; align-items:center; justify-content:space-between; }
+body.night-mode .reply-item { background:rgba(40,36,60,0.7); }
+
 @keyframes pulse { 0%,100%{opacity:1}50%{opacity:0.4} }
 
 .hero { padding:4rem 2rem 3rem; text-align:center; background:linear-gradient(180deg,var(--c50) 0%,var(--bg) 100%); position:relative; overflow:hidden; }
@@ -138,7 +212,7 @@ nav a:hover { color:var(--c400); }
 .role-card h3 { font-size:1rem; font-weight:500; margin-bottom:0.5rem; }
 .role-card p { font-size:0.8125rem; color:var(--muted); line-height:1.7; }
 
-.posts-section { background:var(--g50); padding:3.5rem 2rem; }
+.posts-section { background:transparent; padding:3.5rem 2rem; }
 .posts-inner { max-width:700px; margin:0 auto; }
 .filter-bar { display:flex; gap:0.5rem; flex-wrap:wrap; margin-bottom:1.25rem; }
 .fp { padding:0.35rem 0.875rem; border-radius:999px; border:1px solid var(--g200); font-size:0.8125rem; font-family:'Zen Maru Gothic',sans-serif; cursor:pointer; color:var(--muted); background:#fff; transition:all 0.15s; }
@@ -343,6 +417,7 @@ footer { background:var(--g100); padding:2rem; text-align:center; font-size:0.81
 </head>
 <body>
 
+<div class="watercolor-bg" id="watercolor-bg"></div>
 <div id="fv-overlay">
   <div class="fv-card">
     <svg width="64" height="64" viewBox="0 0 64 64" fill="none" style="margin:0 auto 1.25rem;display:block">
@@ -695,15 +770,15 @@ function renderPosts(filter) {
         ${replies.map(r => {
           const rcol = roleColor[r.role] || 'gray';
           return `
-          <div class="reply-item" id="ri-${r.id}">
-            <div class="reply-from" style="display:flex;align-items:center;gap:6px;justify-content:space-between;margin-bottom:4px">
+          <div class="reply-item ${rcol}-reply" id="ri-${r.id}">
+            <div class="reply-from">
               <div style="display:flex;align-items:center;gap:6px">
                 <span class="reply-icon-wrap" data-icon="${r.icon||''}" data-role="${r.role||''}"></span>
-                <span>${r.nickname ? esc(r.nickname) : '匿名'}より</span>
+                <span style="color:${rcol==='coral'?'var(--c600)':rcol==='teal'?'var(--t600)':rcol==='pink'?'var(--p600)':'#9A5F04'}">${r.nickname ? esc(r.nickname) : '匿名'}より</span>
               </div>
               <span class="badge ${rcol}" style="font-size:0.6375rem">${esc(r.role)}</span>
             </div>
-            ${esc(r.text)}
+            <div style="color:var(--text);margin-top:2px">${esc(r.text)}</div>
           </div>`;
         }).join('')}
       </div>
@@ -1076,6 +1151,46 @@ function deleteMemo(index) {
   if (m) m.remove();
   openHitoriList();
 }
+
+
+// ===== 水彩にじみ + 夜の書斎モード =====
+function isNightMode() {
+  const h = new Date().getHours();
+  return h >= 22 || h < 4;
+}
+
+function applyTheme() {
+  const bg = document.getElementById('watercolor-bg');
+  const body = document.body;
+  if (isNightMode()) {
+    bg.classList.add('night');
+    body.classList.add('night-mode');
+    // 星を生成
+    if (!bg.querySelector('.star')) {
+      for (var i = 0; i < 18; i++) {
+        var star = document.createElement('div');
+        star.className = 'star';
+        star.style.cssText = [
+          'left:' + (Math.random()*100) + '%',
+          'top:' + (Math.random()*60) + '%',
+          'width:' + (1+Math.random()*2) + 'px',
+          'height:' + (1+Math.random()*2) + 'px',
+          '--op:' + (0.3+Math.random()*0.5),
+          '--dur:' + (2+Math.random()*3) + 's',
+          'animation-delay:' + (Math.random()*3) + 's'
+        ].join(';');
+        bg.appendChild(star);
+      }
+    }
+  } else {
+    bg.classList.remove('night');
+    body.classList.remove('night-mode');
+  }
+}
+
+applyTheme();
+// 時間をチェックして切り替え（1分ごと）
+setInterval(applyTheme, 60000);
 
 loadPosts();
 // 10秒ごとに投稿を自動更新
