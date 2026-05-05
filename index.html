@@ -523,7 +523,7 @@ footer { background:var(--g100); padding:2rem; text-align:center; font-size:0.81
 <section class="posts-section" id="posts">
   <div class="posts-inner">
     <p class="sec-title" style="text-align:left;margin-bottom:0.375rem">みんなの声</p>
-    <p style="font-size:0.875rem;color:var(--light);margin-bottom:1.25rem">管理人が確認した投稿のみ掲載されます</p>
+    <p style="font-size:0.875rem;color:var(--light);margin-bottom:1.25rem">それぞれの本音が、ここに集まっています。</p>
     <div class="filter-bar">
       <button class="fp active" onclick="filterPosts('all',this)">すべて</button>
       <button class="fp" onclick="filterPosts('悩んでいる親',this)">悩んでいる親</button>
@@ -573,7 +573,7 @@ footer { background:var(--g100); padding:2rem; text-align:center; font-size:0.81
       <div class="starter-opts" id="starter-opts"></div>
     </div>
     <div class="write-body">
-      <textarea id="write-text" placeholder="悩んでいること、伝えたいこと、なんでも…&#10;（管理人が確認後に公開されます）"></textarea>
+      <textarea id="write-text" placeholder="悩んでいること、伝えたいこと、なんでも…"></textarea>
     </div>
     <button class="hitori-list-btn" onclick="openHitoriList()">
       <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M2 3h10M2 7h10M2 11h6" stroke="currentColor" stroke-width="1.25" stroke-linecap="round"/></svg>
@@ -591,7 +591,7 @@ footer { background:var(--g100); padding:2rem; text-align:center; font-size:0.81
       <span class="hitori-badge" id="hitori-badge">非公開</span>
     </label>
     <div class="write-footer">
-      <span class="write-note" id="write-note">投稿は管理人が確認してから公開されます</span>
+      <span class="write-note" id="write-note">ここに置いていっていいんです。</span>
       <button class="btn-p" style="padding:0.625rem 1.5rem;font-size:0.875rem" id="submit-btn" onclick="submitPost()">送る</button>
     </div>
   </div>
@@ -810,9 +810,9 @@ function renderPosts(filter) {
             <div id="ri-opts-${post.id}" style="display:flex;gap:0.375rem;flex-wrap:wrap"></div>
           </div>
         </div>
-        <textarea placeholder="返信を書いてみてください…（管理人が確認後に公開されます）"></textarea>
+        <textarea placeholder="返信を書いてみてください…"></textarea>
         <div class="rf-footer">
-          <span class="rf-note">確認後に公開されます</span>
+          <span class="rf-note">声にしてくれてありがとう。</span>
           <div class="rf-btns">
             <button class="rf-cancel" onclick="toggleReplyForm('rf-${post.id}')">キャンセル</button>
             <button class="rf-send" onclick="submitReply('rf-${post.id}','${post.id}','${post.role}')">送る</button>
@@ -945,14 +945,15 @@ async function submitReply(fid, postId, postRole) {
   try {
     await sbFetch('replies', {
       method: 'POST',
-      body: JSON.stringify({ post_id: postId, role: rp.textContent, text: ta.value.trim(), nickname: replyNick, icon: replyIcon })
+      body: JSON.stringify({ post_id: postId, role: rp.textContent, text: ta.value.trim(), nickname: replyNick, icon: replyIcon, status: 'approved' })
     });
     ta.value = '';
     if (nickInput) nickInput.value = '';
     if (optsEl) optsEl.innerHTML = '';
     f.querySelectorAll('.r-pill').forEach(p => p.classList.remove('active'));
     f.classList.remove('open');
-    showToast('返信ありがとうございます。管理人が確認後に公開されます。');
+    showToast('返信しました。ありがとうございます。');
+    await loadPosts();
   } catch(e) {
     showToast('送信に失敗しました。もう一度お試しください。');
   } finally {
@@ -1022,7 +1023,7 @@ function toggleHitori(cb) {
   } else {
     badge.style.display = 'none';
     note.style.color = '';
-    note.textContent = '投稿は管理人が確認してから公開されます';
+    note.textContent = 'ここに置いていっていいんです。';
   }
 }
 
@@ -1059,12 +1060,13 @@ async function submitPost() {
         age_tag: ageEl ? ageEl.textContent : null,
         nickname: nickname,
         icon: icon,
-        status: 'pending',
+        status: 'approved',
         is_private: false
       })
     });
-    showToast('ありがとうございます。管理人が確認後に公開されます。');
+    showToast('投稿しました。ありがとうございます。');
     resetWrite();
+    await loadPosts();
   } catch(e) {
     showToast('送信に失敗しました。もう一度お試しください。');
   } finally {
