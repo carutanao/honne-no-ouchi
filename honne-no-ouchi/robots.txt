@@ -2,4 +2,4 @@ User-agent: *
 Allow: /
 Disallow: /admin.html
 
-Sitemap: https://honne-no-ouchi.netlify.app/sitemap.xml
+Sitemap: https://honne-no-ouchi.vercel.app/sitemap.xml
