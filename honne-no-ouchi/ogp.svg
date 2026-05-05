@@ -1,0 +1,44 @@
+<svg width="1200" height="630" viewBox="0 0 1200 630" xmlns="http://www.w3.org/2000/svg">
+  <rect width="1200" height="630" fill="#1A1610"/>
+  <circle cx="120" cy="80" r="2" fill="#E8C860" opacity="0.8"/>
+  <circle cx="280" cy="45" r="1.5" fill="#E8C860" opacity="0.6"/>
+  <circle cx="450" cy="90" r="2.5" fill="#E8C860" opacity="0.7"/>
+  <circle cx="620" cy="35" r="1.5" fill="#E8C860" opacity="0.5"/>
+  <circle cx="820" cy="70" r="2" fill="#E8C860" opacity="0.8"/>
+  <circle cx="980" cy="50" r="1.5" fill="#E8C860" opacity="0.6"/>
+  <circle cx="1100" cy="90" r="2" fill="#E8C860" opacity="0.7"/>
+  <circle cx="180" cy="150" r="1.5" fill="#E8C860" opacity="0.4"/>
+  <circle cx="360" cy="130" r="1" fill="#E8C860" opacity="0.5"/>
+  <circle cx="750" cy="120" r="1.5" fill="#E8C860" opacity="0.4"/>
+  <circle cx="900" cy="140" r="1" fill="#E8C860" opacity="0.3"/>
+  <circle cx="1050" cy="130" r="1.5" fill="#E8C860" opacity="0.5"/>
+  <circle cx="70" cy="200" r="1" fill="#E8C860" opacity="0.3"/>
+  <circle cx="520" cy="160" r="1" fill="#E8C860" opacity="0.4"/>
+  <path d="M1090 60 Q1110 80 1106 106 Q1096 130 1072 130 Q1090 116 1093 96 Q1096 76 1082 58 Q1086 54 1090 60Z" fill="#E8C860" opacity="0.9"/>
+  <path d="M0 500 Q200 420 400 450 Q600 480 800 420 Q1000 360 1200 400 L1200 630 L0 630Z" fill="#2A2418"/>
+  <path d="M0 540 Q150 500 300 510 Q500 520 700 490 Q900 460 1200 480 L1200 630 L0 630Z" fill="#342E22"/>
+  <path d="M480 490 L480 380 L580 310 L680 380 L680 490" fill="#1E1A10" stroke="#E8C860" stroke-width="2"/>
+  <path d="M458 390 L580 305 L702 390" fill="none" stroke="#E8C860" stroke-width="2.5"/>
+  <path d="M648 322 L648 295 L666 295 L666 332" fill="#1E1A10" stroke="#E8C860" stroke-width="1.5"/>
+  <path d="M654 292 Q650 280 655 272 Q660 264 655 256" stroke="#4A4030" stroke-width="2" stroke-linecap="round" fill="none"/>
+  <path d="M660 290 Q666 279 661 270" stroke="#4A4030" stroke-width="1.5" stroke-linecap="round" fill="none"/>
+  <rect x="494" y="400" width="44" height="36" rx="4" fill="#E8C860" opacity="0.85"/>
+  <rect x="622" y="400" width="44" height="36" rx="4" fill="#E8C860" opacity="0.85"/>
+  <ellipse cx="516" cy="456" rx="28" ry="8" fill="#E8C860" opacity="0.07"/>
+  <ellipse cx="644" cy="456" rx="28" ry="8" fill="#E8C860" opacity="0.07"/>
+  <path d="M556 490 L556 442 Q556 434 564 434 L596 434 Q604 434 604 442 L604 490" fill="#2A2418" stroke="#C8A840" stroke-width="1.5"/>
+  <circle cx="601" cy="465" r="3.5" stroke="#C8A840" stroke-width="1.25" fill="none"/>
+  <path d="M360 490 L360 440" stroke="#3A3428" stroke-width="4" stroke-linecap="round"/>
+  <path d="M360 448 Q340 432 344 412 Q348 392 360 408 Q360 392 376 408 Q380 428 360 448Z" fill="#2A2820"/>
+  <path d="M780 490 L780 448" stroke="#3A3428" stroke-width="3.5" stroke-linecap="round"/>
+  <path d="M780 455 Q762 440 766 422 Q770 405 780 419 Q780 405 794 419 Q798 437 780 455Z" fill="#2A2820"/>
+  <path d="M400 490 Q402 482 404 490" stroke="#3A3428" stroke-width="1.5" stroke-linecap="round" fill="none"/>
+  <path d="M416 489 Q419 480 422 489" stroke="#3A3428" stroke-width="1.5" stroke-linecap="round" fill="none"/>
+  <path d="M730 489 Q732 481 734 489" stroke="#3A3428" stroke-width="1.5" stroke-linecap="round" fill="none"/>
+  <path d="M750 490 Q752 483 754 490" stroke="#3A3428" stroke-width="1.5" stroke-linecap="round" fill="none"/>
+  <text x="80" y="200" font-family="'Kaisei Opti','Noto Serif JP','Yu Mincho',serif" font-size="76" fill="#E8D4A8" font-weight="700" letter-spacing="6">ホンネのおうち</text>
+  <line x1="80" y1="228" x2="760" y2="228" stroke="#C8A860" stroke-width="1.5" opacity="0.45"/>
+  <text x="80" y="278" font-family="'Zen Maru Gothic','Hiragino Kaku Gothic Pro',sans-serif" font-size="30" fill="#8A7A58" letter-spacing="3">ひとり親家庭のための、対話の場所</text>
+  <text x="80" y="555" font-family="'Kaisei Opti','Noto Serif JP',serif" font-size="28" fill="#C8A860" letter-spacing="4" opacity="0.95">灯りはついています。</text>
+  <text x="80" y="595" font-family="'Zen Maru Gothic',sans-serif" font-size="18" fill="#5A5040" letter-spacing="1">elaborate-piroshki-bde5b6.netlify.app</text>
+</svg>

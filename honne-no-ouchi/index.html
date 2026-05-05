@@ -1,0 +1,1164 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ホンネのおうち | ひとり親家庭のための、対話の場所</title>
+<meta name="description" content="シングル家庭で悩む親、子育てを乗り越えた先輩、そして育った子どもの本音が集まる場所。匿名で気持ちを書き込んで、つながることができます。">
+<meta name="keywords" content="シングルマザー,シングルファザー,ひとり親,母子家庭,父子家庭,子育て,悩み相談,本音,シングル家庭">
+<meta name="author" content="ホンネのおうち">
+<meta name="robots" content="index, follow">
+<link rel="canonical" href="https://honne-no-ouchi.netlify.app/">
+<meta name="google-site-verification" content="6KOXHGR_gkosyK5IGAk3PtT9yYhM4betfEI3qRvI9vE" />
+
+<!-- OGP（SNSシェア用） -->
+<meta property="og:type" content="website">
+<meta property="og:title" content="ホンネのおうち | ひとり親家庭のための、対話の場所">
+<meta property="og:description" content="シングル家庭で悩む親、子育てを乗り越えた先輩、育った子どもの本音が集まる場所。匿名で気持ちを書き込んでつながれます。">
+<meta property="og:url" content="https://honne-no-ouchi.netlify.app/">
+<meta property="og:site_name" content="ホンネのおうち">
+<meta property="og:locale" content="ja_JP">
+<meta property="og:image" content="https://honne-no-ouchi.netlify.app/ogp.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+
+<!-- Twitter Card -->
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="ホンネのおうち | ひとり親家庭のための、対話の場所">
+<meta name="twitter:description" content="シングル家庭で悩む親、子育てを乗り越えた先輩、育った子どもの本音が集まる場所。">
+<meta name="twitter:image" content="https://honne-no-ouchi.netlify.app/ogp.png">
+
+<!-- 構造化データ（JSON-LD） -->
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "WebSite",
+  "name": "ホンネのおうち",
+  "url": "https://honne-no-ouchi.netlify.app/",
+  "description": "ひとり親家庭に関わるすべての人が、ホンネで語り合える場所。シングル家庭で悩む親、子育てを乗り越えた先輩、育った子どもの本音が集まります。",
+  "inLanguage": "ja",
+  "publisher": {
+    "@type": "Organization",
+    "name": "ホンネのおうち"
+  },
+  "potentialAction": {
+    "@type": "SearchAction",
+    "target": "https://honne-no-ouchi.netlify.app/?q={search_term_string}",
+    "query-input": "required name=search_term_string"
+  }
+}
+</script>
+<link href="https://fonts.googleapis.com/css2?family=Zen+Maru+Gothic:wght@400;500;700&family=Kaisei+Opti:wght@400;700&display=swap" rel="stylesheet">
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+:root {
+  --c50:#FEF6F0; --c100:#FDE8D8; --c400:#C9714A; --c600:#993C1D; --c800:#712B13;
+  --t50:#E1F5EE; --t400:#1D9E75; --t600:#0F6E56;
+  --p50:#FBEAF0; --p400:#D4537E; --p600:#993556;
+  --g50:#F9F7F4; --g100:#F1EFE8; --g200:#D3D1C7; --g400:#888780; --g600:#5F5E5A;
+  --text:#2C2C2A; --muted:#5F5E5A; --light:#888780; --bg:#FFFDF8;
+}
+body { font-family:'Zen Maru Gothic',sans-serif; background:var(--bg); color:var(--text); line-height:1.7; }
+
+#fv-overlay { position:fixed; inset:0; background:rgba(44,44,42,0.6); display:flex; align-items:center; justify-content:center; z-index:1000; padding:1rem; }
+.fv-card { background:#fff; border-radius:20px; padding:2.5rem 2rem; max-width:420px; width:100%; text-align:center; animation:fadeUp 0.5s ease both; }
+.fv-title { font-family:'Kaisei Opti',serif; font-size:1.25rem; color:var(--c800); margin-bottom:0.75rem; }
+.fv-sub { font-size:0.875rem; color:var(--muted); line-height:1.9; margin-bottom:1.75rem; }
+.fv-q { font-size:1rem; font-weight:500; color:var(--text); margin-bottom:1.25rem; }
+.fv-options { display:flex; flex-direction:column; gap:0.625rem; margin-bottom:1.5rem; }
+.fv-opt { background:var(--g50); border:1.5px solid var(--g200); border-radius:12px; padding:0.75rem 1.25rem; font-size:0.875rem; color:var(--text); font-family:'Zen Maru Gothic',sans-serif; cursor:pointer; transition:all 0.15s; text-align:left; }
+.fv-opt:hover,.fv-opt.selected { border-color:var(--c400); background:var(--c50); color:var(--c800); }
+.fv-next { background:var(--c400); color:#fff; border:none; padding:0.75rem 2rem; border-radius:999px; font-size:0.9375rem; font-family:'Zen Maru Gothic',sans-serif; cursor:pointer; transition:background 0.2s; margin-bottom:0.875rem; display:none; width:100%; }
+.fv-next:hover { background:var(--c600); }
+.fv-skip { font-size:0.8125rem; color:var(--light); background:none; border:none; cursor:pointer; font-family:'Zen Maru Gothic',sans-serif; }
+
+header { padding:1.125rem 2rem; display:flex; align-items:center; justify-content:space-between; border-bottom:1px solid var(--c100); background:var(--bg); position:sticky; top:0; z-index:100; height:62px; box-sizing:border-box; }
+.logo { font-family:'Kaisei Opti',serif; font-size:1.2rem; color:var(--c800); display:flex; align-items:center; gap:8px; }
+.logo-dot { width:8px; height:8px; background:var(--c400); border-radius:50%; flex-shrink:0; }
+nav { display:flex; gap:1.25rem; align-items:center; }
+nav a { font-size:0.875rem; color:var(--muted); text-decoration:none; transition:color 0.15s; }
+nav a:hover { color:var(--c400); }
+.nav-btn { background:var(--c400); color:#fff; border:none; padding:0.45rem 1.1rem; border-radius:999px; font-size:0.875rem; font-family:'Zen Maru Gothic',sans-serif; cursor:pointer; transition:background 0.15s; }
+.nav-btn:hover { background:var(--c600); }
+
+.online-strip { background:var(--t50); border-bottom:1px solid #9FE1CB; padding:0.5rem 2rem; display:flex; align-items:center; gap:8px; font-size:0.8125rem; color:var(--t600); position:sticky; top:62px; z-index:99; }
+.online-dot { width:7px; height:7px; background:var(--t400); border-radius:50%; animation:pulse 2s infinite; flex-shrink:0; }
+@keyframes pulse { 0%,100%{opacity:1}50%{opacity:0.4} }
+
+.hero { padding:4rem 2rem 3rem; text-align:center; background:linear-gradient(180deg,var(--c50) 0%,var(--bg) 100%); position:relative; overflow:hidden; }
+.hero::before { display:none; }
+.hero::after { display:none; }
+/* 浮遊する円 */
+.bubble { position:absolute; border-radius:50%; pointer-events:none; }
+.bubble-1 { width:320px; height:320px; background:var(--c100); opacity:0.3; top:-80px; left:-80px; animation:float1 18s ease-in-out infinite; }
+.bubble-2 { width:240px; height:240px; background:var(--p50); opacity:0.35; bottom:-60px; right:-60px; animation:float2 22s ease-in-out infinite; }
+.bubble-3 { width:180px; height:180px; background:var(--t50); opacity:0.25; top:30%; right:5%; animation:float3 16s ease-in-out infinite; }
+.bubble-4 { width:120px; height:120px; background:var(--c50); opacity:0.4; bottom:10%; left:8%; animation:float4 20s ease-in-out infinite; }
+@keyframes float1 {
+  0%,100% { transform:translate(0,0) scale(1); }
+  33% { transform:translate(30px,-20px) scale(1.05); }
+  66% { transform:translate(-20px,30px) scale(0.95); }
+}
+@keyframes float2 {
+  0%,100% { transform:translate(0,0) scale(1); }
+  33% { transform:translate(-25px,20px) scale(1.08); }
+  66% { transform:translate(20px,-25px) scale(0.92); }
+}
+@keyframes float3 {
+  0%,100% { transform:translate(0,0) scale(1); }
+  50% { transform:translate(-30px,20px) scale(1.1); }
+}
+@keyframes float4 {
+  0%,100% { transform:translate(0,0) scale(1); }
+  50% { transform:translate(20px,-30px) scale(0.9); }
+}
+.hero-inner { position:relative; z-index:1; max-width:600px; margin:0 auto; }
+.hero-tag { display:inline-block; background:var(--c50); color:var(--c600); font-size:0.75rem; padding:0.3rem 1rem; border-radius:999px; border:1px solid var(--c100); margin-bottom:1.5rem; letter-spacing:0.04em; }
+.hero h1 { font-family:'Kaisei Opti',serif; font-size:clamp(1.75rem,5vw,2.5rem); color:var(--c800); line-height:1.55; margin-bottom:1.25rem; }
+.hero p { font-size:1rem; color:var(--muted); line-height:1.95; margin-bottom:2rem; }
+.hero-actions { display:flex; gap:1rem; justify-content:center; flex-wrap:wrap; }
+.btn-p { background:var(--c400); color:#fff; border:none; padding:0.875rem 2rem; border-radius:999px; font-size:0.9375rem; font-family:'Zen Maru Gothic',sans-serif; cursor:pointer; transition:background 0.2s,transform 0.1s; }
+.btn-p:hover { background:var(--c600); transform:translateY(-1px); }
+.btn-s { background:transparent; color:var(--c400); border:1.5px solid var(--c400); padding:0.875rem 2rem; border-radius:999px; font-size:0.9375rem; font-family:'Zen Maru Gothic',sans-serif; cursor:pointer; transition:all 0.15s; }
+.btn-s:hover { background:var(--c50); }
+
+.section { padding:3.5rem 2rem; max-width:900px; margin:0 auto; }
+.sec-title { font-family:'Kaisei Opti',serif; font-size:1.25rem; color:var(--text); margin-bottom:0.375rem; text-align:center; }
+.sec-sub { font-size:0.875rem; color:var(--light); text-align:center; margin-bottom:2rem; }
+.roles { display:grid; grid-template-columns:repeat(auto-fit,minmax(220px,1fr)); gap:1rem; }
+.role-card { background:#fff; border:1px solid var(--g100); border-radius:16px; padding:1.5rem 1.25rem; text-align:center; cursor:pointer; transition:box-shadow 0.2s,transform 0.15s,border-color 0.2s; }
+.role-card:hover { box-shadow:0 4px 20px rgba(0,0,0,0.06); transform:translateY(-2px); }
+.role-card.coral:hover { border-color:var(--c400); }
+.role-card.teal:hover { border-color:var(--t400); }
+.role-card.pink:hover { border-color:var(--p400); }
+.role-icon { width:56px; height:56px; border-radius:50%; margin:0 auto 1rem; display:flex; align-items:center; justify-content:center; }
+.role-icon.coral { background:var(--c50); }
+.role-icon.teal { background:var(--t50); }
+.role-icon.pink { background:var(--p50); }
+.role-card h3 { font-size:1rem; font-weight:500; margin-bottom:0.5rem; }
+.role-card p { font-size:0.8125rem; color:var(--muted); line-height:1.7; }
+
+.posts-section { background:var(--g50); padding:3.5rem 2rem; }
+.posts-inner { max-width:700px; margin:0 auto; }
+.filter-bar { display:flex; gap:0.5rem; flex-wrap:wrap; margin-bottom:1.25rem; }
+.fp { padding:0.35rem 0.875rem; border-radius:999px; border:1px solid var(--g200); font-size:0.8125rem; font-family:'Zen Maru Gothic',sans-serif; cursor:pointer; color:var(--muted); background:#fff; transition:all 0.15s; }
+.fp:hover,.fp.active { background:var(--c400); color:#fff; border-color:var(--c400); }
+.post-card { background:#fff; border:1px solid var(--g100); border-radius:16px; padding:1.25rem 1.5rem; margin-bottom:1rem; transition:box-shadow 0.2s; animation:fadeUp 0.4s ease both; }
+.post-card:hover { box-shadow:0 2px 12px rgba(0,0,0,0.05); }
+.post-header { display:flex; align-items:center; gap:10px; margin-bottom:0.75rem; flex-wrap:wrap; }
+.avatar { width:36px; height:36px; border-radius:50%; display:flex; align-items:center; justify-content:center; font-size:0.75rem; font-weight:500; flex-shrink:0; }
+.avatar.coral { background:var(--c50); color:var(--c800); }
+.avatar.teal { background:var(--t50); color:var(--t600); }
+.avatar.pink { background:var(--p50); color:var(--p600); }
+.post-name { font-size:0.8125rem; color:var(--muted); flex:1; }
+.badge { font-size:0.6875rem; padding:3px 10px; border-radius:999px; }
+.badge.coral { background:var(--c50); color:var(--c600); }
+.badge.teal { background:var(--t50); color:var(--t600); }
+.badge.pink { background:var(--p50); color:var(--p600); }
+.age-tag { font-size:0.6875rem; padding:2px 8px; border-radius:999px; background:var(--g100); color:var(--g600); border:1px solid var(--g200); }
+.post-text { font-size:0.9375rem; color:var(--text); line-height:1.8; margin-bottom:0.875rem; }
+.post-actions { display:flex; align-items:center; gap:0.75rem; flex-wrap:wrap; }
+.read-btn { display:flex; align-items:center; gap:5px; font-size:0.8125rem; color:var(--muted); background:none; border:1px solid var(--g200); border-radius:999px; padding:0.3rem 0.875rem; cursor:pointer; font-family:'Zen Maru Gothic',sans-serif; transition:all 0.15s; }
+.read-btn:hover,.read-btn.done { background:var(--t50); color:var(--t600); border-color:var(--t400); }
+.reply-toggle { display:flex; align-items:center; gap:5px; font-size:0.8125rem; color:var(--muted); background:none; border:1px solid var(--g200); border-radius:999px; padding:0.3rem 0.875rem; cursor:pointer; font-family:'Zen Maru Gothic',sans-serif; transition:all 0.15s; }
+.reply-toggle:hover { border-color:var(--c400); color:var(--c600); }
+.replies-list { margin-top:0.75rem; }
+.reply-item { background:var(--g50); border-left:3px solid var(--t400); border-radius:0 8px 8px 0; padding:0.75rem 1rem; margin-bottom:0.5rem; font-size:0.8125rem; color:var(--muted); line-height:1.7; }
+.reply-from { font-size:0.75rem; font-weight:500; color:var(--t600); margin-bottom:4px; }
+.reply-form { margin-top:0.875rem; background:var(--g50); border:1px solid var(--g200); border-radius:12px; padding:1rem; display:none; }
+.reply-form.open { display:block; animation:fadeUp 0.2s ease both; }
+.reply-guide { padding:0.5rem 0.875rem; border-radius:8px; font-size:0.8125rem; line-height:1.7; margin-bottom:0.75rem; display:flex; align-items:flex-start; gap:7px; }
+.reply-guide.teal-g { background:var(--t50); color:var(--t600); border:1px solid #9FE1CB; }
+.reply-guide.coral-g { background:var(--c50); color:var(--c600); border:1px solid var(--c100); }
+.reply-roles { display:flex; gap:0.5rem; flex-wrap:wrap; margin-bottom:0.75rem; }
+.r-pill { padding:0.3rem 0.875rem; border-radius:999px; border:1.5px solid var(--g200); background:#fff; font-size:0.75rem; font-family:'Zen Maru Gothic',sans-serif; cursor:pointer; color:var(--muted); transition:all 0.15s; }
+.r-pill:hover,.r-pill.active { border-color:var(--t400); color:var(--t600); background:var(--t50); }
+.reply-form textarea { width:100%; min-height:80px; padding:0.75rem 1rem; border:1px solid var(--g200); border-radius:10px; font-size:0.875rem; font-family:'Zen Maru Gothic',sans-serif; color:var(--text); background:#fff; resize:none; outline:none; transition:border-color 0.2s; }
+.reply-form textarea:focus { border-color:var(--t400); }
+.rf-footer { display:flex; align-items:center; justify-content:space-between; margin-top:0.75rem; flex-wrap:wrap; gap:0.5rem; }
+.rf-note { font-size:0.75rem; color:var(--light); display:flex; align-items:center; gap:5px; }
+.rf-note::before { content:''; width:6px; height:6px; background:var(--t400); border-radius:50%; flex-shrink:0; }
+.rf-btns { display:flex; gap:0.5rem; }
+.rf-cancel { background:none; border:none; font-size:0.8125rem; color:var(--light); cursor:pointer; font-family:'Zen Maru Gothic',sans-serif; }
+.rf-send { background:var(--t400); color:#fff; border:none; padding:0.5rem 1.25rem; border-radius:999px; font-size:0.8125rem; font-family:'Zen Maru Gothic',sans-serif; cursor:pointer; transition:background 0.15s; }
+.rf-send:hover { background:var(--t600); }
+
+.write-section { padding:3.5rem 2rem; max-width:700px; margin:0 auto; }
+.write-card { background:#fff; border:1px solid var(--c100); border-radius:20px; padding:2rem; }
+.write-title { font-family:'Kaisei Opti',serif; font-size:1.1rem; color:var(--text); margin-bottom:1.25rem; }
+.w-roles { display:flex; gap:0.625rem; margin-bottom:1rem; flex-wrap:wrap; }
+.w-pill { padding:0.4rem 1rem; border-radius:999px; border:1.5px solid var(--g200); background:transparent; font-size:0.8125rem; font-family:'Zen Maru Gothic',sans-serif; cursor:pointer; color:var(--muted); transition:all 0.15s; }
+.w-pill:hover,.w-pill.active { border-color:var(--c400); color:var(--c800); background:var(--c50); }
+.age-selector { margin-bottom:1rem; display:none; animation:fadeIn 0.3s ease both; }
+.age-label { font-size:0.8125rem; color:var(--muted); margin-bottom:0.5rem; }
+.age-opts { display:flex; gap:0.5rem; flex-wrap:wrap; }
+.age-opt { padding:0.3rem 0.75rem; border-radius:999px; border:1px solid var(--g200); font-size:0.75rem; font-family:'Zen Maru Gothic',sans-serif; cursor:pointer; color:var(--muted); background:#fff; transition:all 0.15s; }
+.age-opt:hover,.age-opt.active { background:var(--g100); border-color:var(--g400); color:var(--text); }
+.starter-area { margin-bottom:1rem; display:none; animation:fadeIn 0.3s ease both; }
+.starter-label { font-size:0.8125rem; color:var(--muted); margin-bottom:0.5rem; }
+.starter-opts { display:flex; flex-direction:column; gap:0.5rem; }
+.starter-btn { background:var(--g50); border:1px solid var(--g200); border-radius:10px; padding:0.625rem 1rem; font-size:0.8125rem; color:var(--muted); font-family:'Zen Maru Gothic',sans-serif; cursor:pointer; text-align:left; transition:all 0.15s; }
+.starter-btn:hover { background:var(--c50); border-color:var(--c400); color:var(--c800); }
+.write-body { margin-bottom:1rem; }
+.write-body textarea { width:100%; min-height:140px; padding:1rem; border:1px solid var(--g200); border-radius:12px; font-size:0.9375rem; font-family:'Zen Maru Gothic',sans-serif; color:var(--text); background:var(--g50); resize:vertical; outline:none; transition:border-color 0.2s; line-height:1.7; }
+.write-body textarea:focus { border-color:var(--c400); background:#fff; }
+.write-body textarea::placeholder { color:var(--light); }
+.hitori-row { display:flex; align-items:center; gap:10px; margin-bottom:1rem; padding:0.75rem 1rem; background:var(--g50); border-radius:10px; border:1px solid var(--g200); cursor:pointer; user-select:none; transition:border-color 0.15s; }
+.hitori-row:hover { border-color:var(--g400); }
+.hitori-toggle { position:relative; width:34px; height:19px; flex-shrink:0; }
+.hitori-toggle input { opacity:0; width:0; height:0; }
+.hitori-slider { position:absolute; inset:0; background:var(--g200); border-radius:999px; transition:background 0.2s; }
+.hitori-slider::before { content:''; position:absolute; width:13px; height:13px; background:#fff; border-radius:50%; top:3px; left:3px; transition:transform 0.2s; }
+.hitori-toggle input:checked + .hitori-slider { background:var(--p400); }
+.hitori-toggle input:checked + .hitori-slider::before { transform:translateX(15px); }
+.hitori-text { font-size:0.875rem; color:var(--text); }
+.hitori-desc { font-size:0.75rem; color:var(--light); margin-top:1px; }
+.hitori-badge { margin-left:auto; font-size:0.6875rem; padding:2px 8px; border-radius:999px; background:var(--p50); color:var(--p600); display:none; }
+.hitori-list-btn { display:flex; align-items:center; gap:6px; font-size:0.8125rem; color:var(--p600); background:var(--p50); border:1px solid #F4C0D1; border-radius:999px; padding:0.35rem 1rem; cursor:pointer; font-family:"Zen Maru Gothic",sans-serif; transition:all 0.15s; margin-bottom:1rem; }
+.hitori-list-btn:hover { background:var(--p400); color:#fff; border-color:var(--p400); }
+.hitori-modal { position:fixed; inset:0; background:rgba(44,44,42,0.5); display:flex; align-items:center; justify-content:center; z-index:200; padding:1rem; }
+.hitori-modal-card { background:#fff; border-radius:20px; padding:1.75rem; max-width:520px; width:100%; max-height:80vh; display:flex; flex-direction:column; animation:fadeUp 0.3s ease both; }
+.hitori-modal-head { display:flex; align-items:center; justify-content:space-between; margin-bottom:1.25rem; }
+.hitori-modal-title { font-family:"Kaisei Opti",serif; font-size:1.1rem; color:var(--text); }
+.hitori-modal-close { background:none; border:none; font-size:1.25rem; color:var(--light); cursor:pointer; line-height:1; }
+.hitori-modal-body { overflow-y:auto; flex:1; }
+.hitori-memo-card { background:var(--p50); border:1px solid #F4C0D1; border-radius:12px; padding:1rem 1.125rem; margin-bottom:0.75rem; }
+.hitori-memo-meta { font-size:0.75rem; color:var(--p600); margin-bottom:0.375rem; display:flex; align-items:center; justify-content:space-between; }
+.hitori-memo-text { font-size:0.875rem; color:var(--text); line-height:1.75; }
+.hitori-memo-actions { display:flex; gap:0.5rem; margin-top:0.625rem; }
+.hitori-memo-load { font-size:0.75rem; padding:3px 10px; border-radius:999px; border:1px solid var(--p400); color:var(--p600); background:#fff; cursor:pointer; font-family:"Zen Maru Gothic",sans-serif; }
+.hitori-memo-load:hover { background:var(--p400); color:#fff; }
+.hitori-memo-del { font-size:0.75rem; padding:3px 10px; border-radius:999px; border:1px solid var(--g200); color:var(--light); background:#fff; cursor:pointer; font-family:"Zen Maru Gothic",sans-serif; }
+.hitori-memo-del:hover { border-color:#E24B4A; color:#E24B4A; }
+.hitori-empty { text-align:center; padding:2rem; color:var(--light); font-size:0.875rem; }
+.write-footer { display:flex; align-items:center; justify-content:space-between; flex-wrap:wrap; gap:0.75rem; }
+.write-note { font-size:0.75rem; color:var(--light); display:flex; align-items:center; gap:5px; }
+.write-note::before { content:''; width:6px; height:6px; background:var(--t400); border-radius:50%; }
+
+.loading { text-align:center; padding:3rem 1rem; color:var(--light); font-size:0.9rem; }
+.empty { text-align:center; padding:3rem 1rem; color:var(--light); font-size:0.9rem; }
+.error-msg { background:#FCEBEB; border:1px solid #F09595; border-radius:10px; padding:1rem 1.25rem; font-size:0.875rem; color:#791F1F; margin-bottom:1rem; }
+
+footer { background:var(--g100); padding:2rem; text-align:center; font-size:0.8125rem; color:var(--light); border-top:1px solid var(--g200); }
+.f-logo { font-family:'Kaisei Opti',serif; font-size:1rem; color:var(--c800); margin-bottom:0.375rem; }
+
+#toast { position:fixed; bottom:1.5rem; left:50%; transform:translateX(-50%) translateY(8px); background:var(--text); color:#fff; font-size:0.875rem; padding:0.75rem 1.5rem; border-radius:10px; opacity:0; transition:all 0.25s; pointer-events:none; z-index:999; font-family:'Zen Maru Gothic',sans-serif; white-space:nowrap; }
+#toast.show { opacity:1; transform:translateX(-50%) translateY(0); }
+
+
+/* ニックネーム入力 */
+.nickname-area { margin-bottom:1rem; animation:fadeIn 0.3s ease both; }
+.nickname-label { font-size:0.8125rem; color:var(--muted); margin-bottom:0.5rem; display:flex; align-items:center; gap:8px; }
+.nickname-label span { font-size:0.75rem; color:var(--light); }
+.nickname-row { display:flex; gap:0.625rem; align-items:center; flex-wrap:wrap; }
+.nickname-input { flex:1; min-width:160px; padding:0.5rem 0.875rem; border:1px solid var(--g200); border-radius:999px; font-size:0.875rem; font-family:"Zen Maru Gothic",sans-serif; color:var(--text); background:var(--g50); outline:none; transition:border-color 0.2s; }
+.nickname-input:focus { border-color:var(--c400); background:#fff; }
+.nickname-input::placeholder { color:var(--light); }
+.anon-btn { padding:0.45rem 1rem; border-radius:999px; border:1px solid var(--g200); background:#fff; font-size:0.8125rem; font-family:"Zen Maru Gothic",sans-serif; color:var(--muted); cursor:pointer; transition:all 0.15s; white-space:nowrap; }
+.anon-btn.active { background:var(--g100); border-color:var(--g400); color:var(--text); }
+@keyframes fadeUp { from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:translateY(0)} }
+@keyframes fadeIn { from{opacity:0}to{opacity:1} }
+.hero-inner { animation:fadeUp 0.7s ease both; }
+
+/* ハンバーガーメニュー */
+.hamburger { display:none; flex-direction:column; gap:5px; background:none; border:none; cursor:pointer; padding:4px; }
+.hamburger span { display:block; width:22px; height:2px; background:var(--c600); border-radius:2px; transition:all 0.25s; }
+.hamburger.open span:nth-child(1) { transform:translateY(7px) rotate(45deg); }
+.hamburger.open span:nth-child(2) { opacity:0; }
+.hamburger.open span:nth-child(3) { transform:translateY(-7px) rotate(-45deg); }
+.mobile-menu { display:none; position:fixed; inset:0; top:60px; background:#fff; z-index:99; padding:1.5rem; flex-direction:column; gap:0; border-top:1px solid var(--c100); }
+.mobile-menu.open { display:flex; }
+.mobile-menu a { font-size:1rem; color:var(--text); text-decoration:none; padding:1rem 0; border-bottom:1px solid var(--g100); }
+.mobile-menu .nav-btn { margin-top:1.25rem; width:100%; padding:0.875rem; font-size:1rem; border-radius:12px; }
+
+@media(max-width:640px) {
+  /* ヘッダー */
+  header { padding:0.875rem 1.25rem; height:54px; box-sizing:border-box; }
+  nav a { display:none; }
+  nav .nav-btn { display:none; }
+  .hamburger { display:flex; }
+
+  /* オンラインストリップ */
+  .online-strip { top:54px; padding:0.5rem 1.25rem; font-size:0.8125rem; }
+  .mobile-menu { top:54px; }
+
+  /* ヒーロー */
+  .hero { padding:2.5rem 1.25rem 2rem; }
+  .hero h1 { font-size:1.625rem; line-height:1.5; }
+  .hero p { font-size:0.9rem; }
+  .hero-actions { flex-direction:column; align-items:center; }
+  .hero-actions .btn-p, .hero-actions .btn-s { width:100%; max-width:320px; }
+
+  /* ロールカード：2列→1列 */
+  .roles { grid-template-columns:1fr; }
+  .role-card { padding:1.25rem 1rem; flex-direction:row; text-align:left; align-items:flex-start; gap:1rem; }
+  .role-icon { width:44px; height:44px; flex-shrink:0; margin:0; }
+  .role-card h3 { margin-bottom:0.25rem; }
+
+  /* セクション余白 */
+  .section { padding:2rem 1.25rem; }
+  .posts-section { padding:2rem 1.25rem; }
+  .write-section { padding:2rem 1.25rem; }
+  .sec-title { font-size:1.1rem; }
+
+  /* 投稿カード */
+  .post-card { padding:1rem 1rem; }
+  .post-text { font-size:0.9rem; }
+  .post-actions { gap:0.5rem; }
+  .read-btn, .reply-toggle { padding:0.4rem 0.75rem; font-size:0.8rem; }
+
+  /* フィルター */
+  .filter-bar { gap:0.375rem; }
+  .fp { font-size:0.75rem; padding:0.3rem 0.75rem; }
+
+  /* 書き込みエリア */
+  .write-card { padding:1.5rem 1.125rem; }
+  .w-pill { padding:0.45rem 0.875rem; font-size:0.8125rem; }
+  .write-body textarea { min-height:120px; font-size:1rem; }
+  .btn-p { min-height:44px; }
+
+  /* ひとりごとボタン */
+  .hitori-list-btn { font-size:0.8125rem; }
+  .hitori-row { padding:0.875rem 1rem; }
+
+  /* フッター */
+  footer { padding:1.5rem 1.25rem; }
+}
+
+@media(max-width:380px) {
+  .hero h1 { font-size:1.4rem; }
+  .post-card { padding:0.875rem; }
+  .w-roles { gap:0.375rem; }
+  .w-pill { padding:0.4rem 0.75rem; font-size:0.75rem; }
+}
+
+/* 応援カラー */
+.avatar.amber { background:#FFF8EC; color:#9A5F04; }
+.badge.amber { background:#FFF8EC; color:#9A5F04; }
+/* アイコン選択ボタン */
+.icon-opt { width:44px; height:44px; border-radius:50%; border:2px solid var(--g200); background:#fff; cursor:pointer; display:inline-flex; align-items:center; justify-content:center; transition:all 0.15s; }
+.icon-opt:hover { border-color:var(--c400); }
+.icon-opt.active { border-color:var(--c400); background:var(--c50); }
+</style>
+</head>
+<body>
+
+<div id="fv-overlay">
+  <div class="fv-card">
+    <svg width="64" height="64" viewBox="0 0 64 64" fill="none" style="margin:0 auto 1.25rem;display:block">
+      <circle cx="32" cy="32" r="30" fill="#FEF6F0" stroke="#F5C4B3" stroke-width="1.5"/>
+      <path d="M18 48L18 30L32 18L46 30L46 48" stroke="#C9714A" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+      <path d="M12 32L32 14L52 32" stroke="#C9714A" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+      <path d="M27 48L27 37Q27 33 31 33L33 33Q37 33 37 37L37 48" stroke="#C9714A" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+      <path d="M30 18 C30 16 27 14 25 16 C23 18 25 21 30 24 C35 21 37 18 35 16 C33 14 30 16 30 18Z" stroke="#E07070" stroke-width="1.25" fill="#FEE8E8"/>
+    </svg>
+    <p class="fv-title">ホンネのおうちへ、ようこそ。</p>
+    <p class="fv-sub">ここははじめてですか？<br>よかったら教えてください。</p>
+    <p class="fv-q">あなたはどんな気持ちで<br>ここに来ましたか？</p>
+    <div class="fv-options">
+      <button class="fv-opt" onclick="selectFvOpt(this)">今、子育てに不安を感じている</button>
+      <button class="fv-opt" onclick="selectFvOpt(this)">同じ経験をした人の話を聞きたい</button>
+      <button class="fv-opt" onclick="selectFvOpt(this)">親に言えなかった気持ちを伝えたい</button>
+      <button class="fv-opt" onclick="selectFvOpt(this)">どんな場所か見てみたかった</button>
+    </div>
+    <button class="fv-next" id="fv-next-btn" onclick="closeFv()">このサイトに入る</button>
+    <br>
+    <button class="fv-skip" onclick="closeFv()">スキップする</button>
+  </div>
+</div>
+
+<header>
+  <div class="logo"><span class="logo-dot"></span>ホンネのおうち</div>
+  <nav>
+    <a href="#">声を読む</a>
+    <a href="#">このサイトについて</a>
+    <button class="nav-btn" onclick="document.getElementById('write').scrollIntoView({behavior:'smooth'})">書いてみる</button>
+  </nav>
+  <button class="hamburger" id="hamburger" onclick="toggleMenu()" aria-label="メニュー">
+    <span></span><span></span><span></span>
+  </button>
+</header>
+<div class="mobile-menu" id="mobile-menu">
+  <a href="#" onclick="toggleMenu()">声を読む</a>
+  <a href="#" onclick="toggleMenu()">このサイトについて</a>
+  <button class="nav-btn" onclick="toggleMenu();document.getElementById('write').scrollIntoView({behavior:'smooth'})">気持ちを書いてみる</button>
+</div>
+
+<div class="online-strip">
+  <span class="online-dot"></span>
+  <span id="online-msg">今、<strong id="online-num">7</strong>人がここにいます。あなたはひとりじゃありません。</span>
+</div>
+
+<section class="hero">
+  <div class="bubble bubble-1"></div>
+  <div class="bubble bubble-2"></div>
+  <div class="bubble bubble-3"></div>
+  <div class="bubble bubble-4"></div>
+  <div class="hero-inner">
+    <span class="hero-tag">ひとり親家庭のための、対話の場所</span>
+    <h1>ホンネが、<br>つながる場所。</h1>
+    <p>親の不安も、先輩の経験も、<br>育った子どもの本音も。<br>三つの声が、ここでつながります。</p>
+    <div class="hero-actions">
+      <button class="btn-p" onclick="document.getElementById('write').scrollIntoView({behavior:'smooth'})">気持ちを書いてみる</button>
+      <button class="btn-s" onclick="document.getElementById('posts').scrollIntoView({behavior:'smooth'})">みんなの声を読む</button>
+    </div>
+  </div>
+</section>
+
+<section class="section">
+  <p class="sec-title">あなたはどちらですか？</p>
+  <p class="sec-sub">立場を選ぶと、より近い声が届きます</p>
+  <div class="roles">
+    <div class="role-card coral" onclick="document.getElementById('write').scrollIntoView({behavior:'smooth'})">
+      <div class="role-icon coral">
+        <svg width="26" height="26" viewBox="0 0 26 26" fill="none"><circle cx="13" cy="8" r="4.5" stroke="#C9714A" stroke-width="1.75"/><path d="M4 22c0-4.97 4.03-9 9-9s9 4.03 9 9" stroke="#C9714A" stroke-width="1.75" stroke-linecap="round"/></svg>
+      </div>
+      <h3>今まさに悩んでいる親</h3>
+      <p>不安や迷いを抱えながら子育てをしているあなたへ。同じ思いの声と、乗り越えた先輩の言葉があります。</p>
+    </div>
+    <div class="role-card teal" onclick="document.getElementById('write').scrollIntoView({behavior:'smooth'})">
+      <div class="role-icon teal">
+        <svg width="26" height="26" viewBox="0 0 26 26" fill="none"><circle cx="13" cy="8" r="4.5" stroke="#1D9E75" stroke-width="1.75"/><path d="M4 22c0-4.97 4.03-9 9-9s9 4.03 9 9" stroke="#1D9E75" stroke-width="1.75" stroke-linecap="round"/></svg>
+      </div>
+      <h3>子育てを乗り越えた親</h3>
+      <p>あの頃の自分に言いたいこと、今だから話せる経験を。あなたの言葉が、誰かの「大丈夫」になります。</p>
+    </div>
+    <div class="role-card pink" onclick="document.getElementById('write').scrollIntoView({behavior:'smooth'})">
+      <div class="role-icon pink">
+        <svg width="26" height="26" viewBox="0 0 26 26" fill="none"><circle cx="13" cy="8" r="4.5" stroke="#D4537E" stroke-width="1.75"/><path d="M4 22c0-4.97 4.03-9 9-9s9 4.03 9 9" stroke="#D4537E" stroke-width="1.75" stroke-linecap="round"/></svg>
+      </div>
+      <h3>その家庭で育った子ども</h3>
+      <p>親には言えなかった本音を、これから担う親へ。あなたの経験が、次の家族を支える力になります。</p>
+    </div>
+  </div>
+  <!-- 応援している人（サブカード） -->
+  <div style="max-width:900px;margin:0.75rem auto 0;padding:0 2rem">
+    <div class="role-card" style="border-color:#FEECD0;display:flex;align-items:center;gap:1rem;padding:1rem 1.25rem;text-align:left;cursor:pointer" onclick="document.getElementById('write').scrollIntoView({behavior:'smooth'})">
+      <div style="width:44px;height:44px;border-radius:50%;background:#FFF8EC;display:flex;align-items:center;justify-content:center;flex-shrink:0">
+        <svg width="22" height="22" viewBox="0 0 22 22" fill="none"><path d="M4 9H8L16 5V17L8 13H4V9Z" stroke="#D4860A" stroke-width="1.5" stroke-linejoin="round" fill="none"/><path d="M8 13V18" stroke="#D4860A" stroke-width="1.5" stroke-linecap="round"/><path d="M17 8C18 9 18.5 10 18.5 11C18.5 12 18 13 17 14" stroke="#D4860A" stroke-width="1.5" stroke-linecap="round" fill="none"/></svg>
+      </div>
+      <div>
+        <h3 style="font-size:0.9375rem;color:#9A5F04;margin-bottom:0.25rem">応援している人</h3>
+        <p style="font-size:0.8125rem;color:var(--muted);line-height:1.6">当事者でなくても伝えたい。あなたの温かい言葉が、誰かの支えになります。</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="posts-section" id="posts">
+  <div class="posts-inner">
+    <p class="sec-title" style="text-align:left;margin-bottom:0.375rem">みんなの声</p>
+    <p style="font-size:0.875rem;color:var(--light);margin-bottom:1.25rem">管理人が確認した投稿のみ掲載されます</p>
+    <div class="filter-bar">
+      <button class="fp active" onclick="filterPosts('all',this)">すべて</button>
+      <button class="fp" onclick="filterPosts('悩んでいる親',this)">悩んでいる親</button>
+      <button class="fp" onclick="filterPosts('乗り越えた親',this)">乗り越えた親</button>
+      <button class="fp" onclick="filterPosts('育った子ども',this)">育った子ども</button>
+      <button class="fp" onclick="filterPosts('応援している人',this)">応援している人</button>
+    </div>
+    <div id="posts-list"><div class="loading">読み込み中…</div></div>
+  </div>
+</section>
+
+<section class="write-section" id="write">
+  <div class="write-card">
+    <p class="write-title">気持ちを書いてみる</p>
+    <div class="w-roles">
+      <button class="w-pill" onclick="selectWriteRole(this,'悩んでいる親')">悩んでいる親</button>
+      <button class="w-pill" onclick="selectWriteRole(this,'乗り越えた親')">乗り越えた親</button>
+      <button class="w-pill" onclick="selectWriteRole(this,'育った子ども')">育った子ども</button>
+    </div>
+    <div style="margin-bottom:0.75rem">
+      <button class="w-pill" style="border-color:#FEECD0;color:#9A5F04" onclick="selectWriteRole(this,'応援している人')">応援している人</button>
+    </div>
+    <div class="nickname-area" id="nickname-area" style="display:none">
+      <p class="nickname-label">ニックネーム（任意）<span>空欄の場合は「匿名」になります</span></p>
+      <div class="nickname-row">
+        <input class="nickname-input" id="nickname-input" type="text" maxlength="20" placeholder="例：さくらんぼ、元シンママ など"/>
+        <button class="anon-btn" id="anon-btn" onclick="toggleAnon()">匿名にする</button>
+      </div>
+    </div>
+    <div id="icon-selector" style="margin-bottom:1rem;display:none">
+      <p style="font-size:0.8125rem;color:var(--muted);margin-bottom:0.5rem">アイコンを選ぶ（任意）</p>
+      <div id="icon-opts" style="display:flex;gap:0.5rem;flex-wrap:wrap;align-items:center"></div>
+    </div>
+    <div class="age-selector" id="age-selector">
+      <p class="age-label">お子さんの年齢（任意）</p>
+      <div class="age-opts">
+        <button class="age-opt" onclick="selectAge(this)">0〜3歳</button>
+        <button class="age-opt" onclick="selectAge(this)">4〜6歳</button>
+        <button class="age-opt" onclick="selectAge(this)">小学生</button>
+        <button class="age-opt" onclick="selectAge(this)">中学生</button>
+        <button class="age-opt" onclick="selectAge(this)">高校生〜</button>
+        <button class="age-opt" onclick="selectAge(this)">成人後</button>
+      </div>
+    </div>
+    <div class="starter-area" id="starter-area">
+      <p class="starter-label">書き出しに迷ったら…（タップで入力欄に反映）</p>
+      <div class="starter-opts" id="starter-opts"></div>
+    </div>
+    <div class="write-body">
+      <textarea id="write-text" placeholder="悩んでいること、伝えたいこと、なんでも…&#10;（管理人が確認後に公開されます）"></textarea>
+    </div>
+    <button class="hitori-list-btn" onclick="openHitoriList()">
+      <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M2 3h10M2 7h10M2 11h6" stroke="currentColor" stroke-width="1.25" stroke-linecap="round"/></svg>
+      保存したひとりごとを見る
+    </button>
+    <label class="hitori-row" for="hitori-toggle">
+      <div class="hitori-toggle">
+        <input type="checkbox" id="hitori-toggle" onchange="toggleHitori(this)">
+        <span class="hitori-slider"></span>
+      </div>
+      <div>
+        <div class="hitori-text">ひとりごとモード</div>
+        <div class="hitori-desc">公開せず、自分だけのメモとして書く</div>
+      </div>
+      <span class="hitori-badge" id="hitori-badge">非公開</span>
+    </label>
+    <div class="write-footer">
+      <span class="write-note" id="write-note">投稿は管理人が確認してから公開されます</span>
+      <button class="btn-p" style="padding:0.625rem 1.5rem;font-size:0.875rem" id="submit-btn" onclick="submitPost()">送る</button>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <p class="f-logo">ホンネのおうち</p>
+  <p>ひとり親家庭のための、対話の場所</p>
+  <p style="margin-top:0.75rem">© 2026 ホンネのおうち</p>
+</footer>
+
+<div id="toast"></div>
+
+<script>
+const SUPABASE_URL = 'https://capiwvrzirqsouybntti.supabase.co';
+const SUPABASE_KEY = 'sb_publishable_gUjAJ6CR2mJ1_6FD08V2wg_fAnY_WpP';
+
+async function sbFetch(path, opts = {}) {
+  const { prefer, headers: extraHeaders, ...fetchOpts } = opts;
+  const res = await fetch(`${SUPABASE_URL}/rest/v1/${path}`, {
+    ...fetchOpts,
+    headers: {
+      'apikey': SUPABASE_KEY,
+      'Authorization': `Bearer ${SUPABASE_KEY}`,
+      'Content-Type': 'application/json',
+      'Prefer': prefer || 'return=representation',
+      ...(extraHeaders || {})
+    }
+  });
+  if (!res.ok) {
+    const err = await res.text();
+    console.error('Supabase error:', res.status, err);
+    throw new Error(err);
+  }
+  const text = await res.text();
+  return text ? JSON.parse(text) : null;
+}
+
+// ===== FIRST VISIT =====
+function selectFvOpt(el) {
+  document.querySelectorAll('.fv-opt').forEach(o => o.classList.remove('selected'));
+  el.classList.add('selected');
+  document.getElementById('fv-next-btn').style.display = 'block';
+}
+function closeFv() {
+  const el = document.getElementById('fv-overlay');
+  el.style.opacity = '0';
+  el.style.transition = 'opacity 0.4s ease';
+  setTimeout(() => el.style.display = 'none', 400);
+  const expiry = Date.now() + 7 * 24 * 60 * 60 * 1000;
+  localStorage.setItem('honne_fv_done', JSON.stringify({ expiry }));
+}
+(function() {
+  const FV_KEY = 'honne_fv_done';
+  const EXPIRE_DAYS = 7;
+  const stored = localStorage.getItem(FV_KEY);
+  if (stored) {
+    try {
+      const { expiry } = JSON.parse(stored);
+      if (Date.now() < expiry) {
+        document.getElementById('fv-overlay').style.display = 'none';
+      } else {
+        localStorage.removeItem(FV_KEY);
+      }
+    } catch(e) {
+      localStorage.removeItem(FV_KEY);
+    }
+  }
+})();
+
+// ===== ONLINE COUNT (リアルタイム) =====
+const PRESENCE_KEY = 'honne_' + (sessionStorage.getItem('pk') || (() => { const k = Math.random().toString(36).slice(2); sessionStorage.setItem('pk',k); return k; })());
+
+function toggleMenu() {
+  const h = document.getElementById('hamburger');
+  const m = document.getElementById('mobile-menu');
+  h.classList.toggle('open');
+  m.classList.toggle('open');
+}
+
+function updateOnlineMsg(count) {
+  const el = document.getElementById('online-msg');
+  if (!el) return;
+  if (count <= 1) {
+    el.innerHTML = '灯りはついています。';
+  } else {
+    el.innerHTML = `今、<strong id="online-num">${count}</strong>人がここにいます。あなたはひとりじゃありません。`;
+  }
+}
+
+async function pingPresence() {
+  try {
+    const now = new Date().toISOString();
+    await fetch(`${SUPABASE_URL}/rest/v1/online_presence`, {
+      method: 'POST',
+      headers: {
+        'apikey': SUPABASE_KEY,
+        'Authorization': `Bearer ${SUPABASE_KEY}`,
+        'Content-Type': 'application/json',
+        'Prefer': 'resolution=merge-duplicates,return=minimal'
+      },
+      body: JSON.stringify({ session_key: PRESENCE_KEY, last_seen: now })
+    });
+    const threshold = new Date(Date.now() - 35000).toISOString();
+    const res = await fetch(`${SUPABASE_URL}/rest/v1/online_presence?last_seen=gte.${encodeURIComponent(threshold)}&select=session_key`, {
+      headers: { 'apikey': SUPABASE_KEY, 'Authorization': `Bearer ${SUPABASE_KEY}` }
+    });
+    if (res.ok) {
+      const rows = await res.json();
+      const count = Math.max(1, rows.length);
+      updateOnlineMsg(count);
+    }
+  } catch(e) {
+    updateOnlineMsg(Math.floor(Math.random()*4)+3);
+  }
+}
+pingPresence();
+setInterval(pingPresence, 20000);
+
+// ===== POSTS =====
+const roleColor = {'悩んでいる親':'coral','乗り越えた親':'teal','育った子ども':'pink'};
+const roleIconColor = {'悩んでいる親':'#C9714A','乗り越えた親':'#1D9E75','育った子ども':'#D4537E','応援している人':'#D4860A'};
+const roleInit  = {'悩んでいる親':'母','乗り越えた親':'先','育った子ども':'子'};
+const replyGuides = {
+  '悩んでいる親': { cls:'coral-g', text:'この方は今まさに不安の中にいます。アドバイスより先に「その気持ち、わかります」と受け取ってみてください。' },
+  '乗り越えた親': { cls:'coral-g', text:'この方はすでに乗り越えた経験者です。経験を聞かせてもらう気持ちで、敬意を持って返してみてください。' },
+  '育った子ども': { cls:'teal-g',  text:'育った子どもが勇気を出して書いた声です。否定せず「教えてくれてありがとう」という気持ちで受け取ってみてください。' },
+};
+
+let currentFilter = 'all';
+let allPosts = [];
+
+async function loadPosts(silent = false) {
+  const list = document.getElementById('posts-list');
+  if (!silent) list.innerHTML = '<div class="loading">読み込み中…</div>';
+  try {
+    const posts = await sbFetch('posts?select=*,replies(id,role,text,status,nickname,icon)&status=eq.approved&is_private=eq.false&order=created_at.desc');
+    const newPosts = posts || [];
+    // サイレント時は投稿数が変わったときだけ再描画
+    const newSig = JSON.stringify(newPosts.map(p=>p.id+'_'+p.read_count+'_'+(p.replies?p.replies.length:0)));
+    const oldSig = JSON.stringify(allPosts.map(p=>p.id+'_'+p.read_count+'_'+(p.replies?p.replies.length:0)));
+    if (!silent || newSig !== oldSig) {
+      allPosts = newPosts;
+      renderPosts(currentFilter);
+    }
+  } catch(e) {
+    if (!silent) list.innerHTML = '<div class="error-msg">投稿の読み込みに失敗しました。しばらくしてから再読み込みしてください。</div>';
+  }
+}
+
+function renderPosts(filter) {
+  currentFilter = filter;
+  const list = document.getElementById('posts-list');
+  const filtered = filter === 'all' ? allPosts : allPosts.filter(p => p.role === filter);
+  if (!filtered.length) {
+    list.innerHTML = '<div class="empty">まだ投稿がありません。最初の声を届けてみませんか？</div>';
+    return;
+  }
+  list.innerHTML = '';
+  filtered.forEach((post, i) => {
+    const col = roleColor[post.role] || 'gray';
+    const ini = roleInit[post.role] || '匿';
+    const replies = post.replies ? post.replies.filter(r => r.status === 'approved') : [];
+    const div = document.createElement('div');
+    div.className = 'post-card';
+    div.style.animationDelay = `${i * 0.05}s`;
+    div.innerHTML = `
+      <div class="post-header">
+        <div class="avatar ${col}" id="av-${post.id}">${esc(ini)}</div>
+        <span class="post-name">${post.nickname ? esc(post.nickname) : '匿名'}</span>
+        <span class="badge ${col}">${esc(post.role)}</span>
+        ${post.age_tag ? `<span class="age-tag">${esc(post.age_tag)}</span>` : ''}
+      </div>
+      <p class="post-text">${esc(post.text)}</p>
+      <div class="replies-list" id="rl-${post.id}">
+        ${replies.map(r => {
+          const rcol = roleColor[r.role] || 'gray';
+          return `
+          <div class="reply-item" id="ri-${r.id}">
+            <div class="reply-from" style="display:flex;align-items:center;gap:6px;justify-content:space-between;margin-bottom:4px">
+              <div style="display:flex;align-items:center;gap:6px">
+                <span class="reply-icon-wrap" data-icon="${r.icon||''}" data-role="${r.role||''}"></span>
+                <span>${r.nickname ? esc(r.nickname) : '匿名'}より</span>
+              </div>
+              <span class="badge ${rcol}" style="font-size:0.6375rem">${esc(r.role)}</span>
+            </div>
+            ${esc(r.text)}
+          </div>`;
+        }).join('')}
+      </div>
+      <div class="post-actions">
+        <button class="read-btn" id="rb-${post.id}" onclick="markRead('${post.id}',this)">
+          <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M2 2.5C2 2.5 4 2 7 3.5C10 2 12 2.5 12 2.5V11.5C12 11.5 10 11 7 12.5C4 11 2 11.5 2 11.5V2.5Z" stroke="currentColor" stroke-width="1.25" stroke-linejoin="round"/><path d="M7 3.5V12.5" stroke="currentColor" stroke-width="1.25" stroke-linecap="round"/></svg>
+          読んだよ <span id="rc-${post.id}">${post.read_count || 0}</span>
+        </button>
+        <button class="reply-toggle" onclick="toggleReplyForm('rf-${post.id}')">
+          <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M1 4h9a3 3 0 010 6H7" stroke="currentColor" stroke-width="1.25" stroke-linecap="round"/><path d="M3 6L1 4l2-2" stroke="currentColor" stroke-width="1.25" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          返信する
+        </button>
+      </div>
+      <div class="reply-form" id="rf-${post.id}">
+        <div class="reply-guide ${replyGuides[post.role]?.cls || 'teal-g'}">
+          <svg width="14" height="14" viewBox="0 0 14 14" fill="none" style="flex-shrink:0;margin-top:1px"><circle cx="7" cy="7" r="5.5" stroke="currentColor" stroke-width="1.25"/><path d="M7 6v3M7 4.5v.5" stroke="currentColor" stroke-width="1.25" stroke-linecap="round"/></svg>
+          <span>${replyGuides[post.role]?.text || ''}</span>
+        </div>
+        <div class="reply-roles">
+          <button class="r-pill" onclick="selectReplyRole(this,'rf-${post.id}')">悩んでいる親</button>
+          <button class="r-pill" onclick="selectReplyRole(this,'rf-${post.id}')">乗り越えた親</button>
+          <button class="r-pill" onclick="selectReplyRole(this,'rf-${post.id}')">育った子ども</button>
+          <button class="r-pill" onclick="selectReplyRole(this,'rf-${post.id}')">応援している人</button>
+        </div>
+        <div style="margin-bottom:0.75rem">
+          <div style="font-size:0.8125rem;color:var(--muted);margin-bottom:0.375rem">ニックネーム（任意）</div>
+          <div style="display:flex;gap:0.5rem;align-items:center;flex-wrap:wrap">
+            <input class="nickname-input reply-nick-input" type="text" maxlength="20" placeholder="匿名の場合は空欄のまま" style="flex:1;min-width:140px"/>
+            <div id="ri-opts-${post.id}" style="display:flex;gap:0.375rem;flex-wrap:wrap"></div>
+          </div>
+        </div>
+        <textarea placeholder="返信を書いてみてください…（管理人が確認後に公開されます）"></textarea>
+        <div class="rf-footer">
+          <span class="rf-note">確認後に公開されます</span>
+          <div class="rf-btns">
+            <button class="rf-cancel" onclick="toggleReplyForm('rf-${post.id}')">キャンセル</button>
+            <button class="rf-send" onclick="submitReply('rf-${post.id}','${post.id}','${post.role}')">送る</button>
+          </div>
+        </div>
+      </div>`;
+    list.appendChild(div);
+    // 返信のアイコンを反映
+    div.querySelectorAll('.reply-icon-wrap').forEach(function(wrap) {
+      var iconId = wrap.dataset.icon;
+      var role = wrap.dataset.role;
+      if (!iconId) return;
+      var tmpl = document.getElementById('tpl-' + iconId);
+      if (!tmpl) return;
+      var svg = tmpl.content.cloneNode(true).querySelector('svg');
+      if (!svg) return;
+      var c = roleIconColor[role] || '#888780';
+      svg.style.color = c;
+      svg.setAttribute('width','14'); svg.setAttribute('height','14');
+      svg.style.flexShrink = '0';
+      wrap.appendChild(svg);
+    });
+    if (sessionStorage.getItem('read_' + post.id)) {
+      const rb = document.getElementById('rb-' + post.id);
+      if (rb) rb.classList.add('done');
+    }
+    // アイコン反映（appendChild後に確実に実行）
+    (function(p, d) {
+      if (!p.icon) return;
+      var av = d.querySelector('.avatar');
+      if (!av) return;
+      var tmpl = document.getElementById('tpl-' + p.icon);
+      if (!tmpl) return;
+      var svg = tmpl.content.cloneNode(true).querySelector('svg');
+      if (!svg) return;
+      var c = roleIconColor[p.role] || '#888780';
+      svg.style.color = c;
+      svg.setAttribute('width','20'); svg.setAttribute('height','20');
+      av.innerHTML = ''; av.appendChild(svg);
+    })(post, div);
+  });
+}
+
+function filterPosts(f, el) {
+  document.querySelectorAll('.fp').forEach(b => b.classList.remove('active'));
+  el.classList.add('active');
+  renderPosts(f);
+}
+
+async function markRead(id, btn) {
+  if (btn.classList.contains('done')) return;
+  btn.classList.add('done');
+  sessionStorage.setItem('read_' + id, '1');
+  const post = allPosts.find(p => p.id === id);
+  const newCount = (post?.read_count || 0) + 1;
+  document.getElementById('rc-' + id).textContent = newCount;
+  try {
+    await sbFetch(`posts?id=eq.${id}`, {
+      method: 'PATCH',
+      prefer: 'return=minimal',
+      body: JSON.stringify({ read_count: newCount })
+    });
+  } catch(e) {}
+  showToast('「読んだよ」を伝えました');
+}
+
+function toggleReplyForm(fid) {
+  const f = document.getElementById(fid);
+  f.classList.toggle('open');
+  if (f.classList.contains('open')) {
+    f.querySelector('textarea').focus();
+    // デフォルトでpersonアイコンを表示
+    const postId = fid.replace('rf-', '');
+    const optsEl = document.getElementById('ri-opts-' + postId);
+    if (optsEl && optsEl.children.length === 0) {
+      buildReplyIcons(postId, '#888780');
+    }
+  }
+}
+
+function buildReplyIcons(postId, color) {
+  const optsEl = document.getElementById('ri-opts-' + postId);
+  if (!optsEl) return;
+  optsEl.innerHTML = '';
+  ALL_ICONS.forEach(function(id, i) {
+    const tmpl = document.getElementById('tpl-' + id);
+    if (!tmpl) return;
+    const btn = document.createElement('button');
+    btn.type = 'button';
+    btn.className = 'icon-opt' + (i === 0 ? ' active' : '');
+    btn.dataset.iconId = id;
+    btn.title = ICON_LABELS[id] || id;
+    btn.style.color = color;
+    btn.style.width = '36px';
+    btn.style.height = '36px';
+    const svg = tmpl.content.cloneNode(true).querySelector('svg');
+    if (svg) { svg.style.color = color; svg.setAttribute('width','18'); svg.setAttribute('height','18'); btn.appendChild(svg); }
+    btn.addEventListener('click', function() {
+      optsEl.querySelectorAll('.icon-opt').forEach(function(b){ b.classList.remove('active'); });
+      btn.classList.add('active');
+    });
+    optsEl.appendChild(btn);
+  });
+}
+
+function selectReplyRole(el, fid) {
+  document.querySelectorAll(`#${fid} .r-pill`).forEach(p => p.classList.remove('active'));
+  el.classList.add('active');
+  // アイコン選択欄を構築
+  const postId = fid.replace('rf-', '');
+  const role = el.textContent;
+  const color = roleIconColor[role] || '#888780';
+  buildReplyIcons(postId, color);
+}
+
+async function submitReply(fid, postId, postRole) {
+  const f = document.getElementById(fid);
+  const ta = f.querySelector('textarea');
+  const rp = f.querySelector('.r-pill.active');
+  if (!rp)          { showToast('立場を選んでください'); return; }
+  if (!ta.value.trim()) { showToast('返信を書いてください'); return; }
+  // ニックネーム・アイコン取得
+  const nickInput = f.querySelector('.reply-nick-input');
+  const replyNick = nickInput ? nickInput.value.trim() || null : null;
+  const optsEl = document.getElementById('ri-opts-' + postId);
+  const activeIcon = optsEl ? optsEl.querySelector('.icon-opt.active') : null;
+  const replyIcon = activeIcon ? activeIcon.dataset.iconId : null;
+  const btn = f.querySelector('.rf-send');
+  btn.disabled = true; btn.textContent = '送信中…';
+  try {
+    await sbFetch('replies', {
+      method: 'POST',
+      body: JSON.stringify({ post_id: postId, role: rp.textContent, text: ta.value.trim(), nickname: replyNick, icon: replyIcon })
+    });
+    ta.value = '';
+    if (nickInput) nickInput.value = '';
+    if (optsEl) optsEl.innerHTML = '';
+    f.querySelectorAll('.r-pill').forEach(p => p.classList.remove('active'));
+    f.classList.remove('open');
+    showToast('返信ありがとうございます。管理人が確認後に公開されます。');
+  } catch(e) {
+    showToast('送信に失敗しました。もう一度お試しください。');
+  } finally {
+    btn.disabled = false; btn.textContent = '送る';
+  }
+}
+
+// ===== WRITE =====
+const starters = {
+  '悩んでいる親': ['今日は＿＿が不安でした。','子どもに言えなかったのは＿＿です。','誰かに聞いてほしかったのは＿＿ということ。'],
+  '乗り越えた親': ['あの頃の自分に伝えたいのは＿＿です。','一番つらかったのは＿＿の時でした。','今だから言えるのは＿＿ということ。'],
+  '育った子ども': ['親に言えなかったのは＿＿という気持ちです。','今も覚えているのは＿＿の場面です。','親に伝えたかったのは＿＿ということ。'],
+  '応援している人': ['ひとり親家庭の方に伝えたいのは＿＿です。','このサイトを知って＿＿と感じました。','あなたの頑張りを＿＿と思っています。'],
+};
+
+function selectWriteRole(el, role) {
+  document.querySelectorAll('.w-pill').forEach(p => p.classList.remove('active'));
+  el.classList.add('active');
+  document.getElementById('nickname-area').style.display = 'block';
+  document.getElementById('age-selector').style.display = role !== '育った子ども' ? 'block' : 'none';
+  const sa = document.getElementById('starter-area');
+  const so = document.getElementById('starter-opts');
+  sa.style.display = 'block';
+  so.innerHTML = '';
+  (starters[role] || []).forEach(s => {
+    const btn = document.createElement('button');
+    btn.className = 'starter-btn';
+    btn.textContent = s;
+    btn.onclick = () => {
+      document.getElementById('write-text').value = s;
+      document.getElementById('write-text').focus();
+    };
+    so.appendChild(btn);
+  });
+}
+
+function toggleAnon() {
+  const input = document.getElementById('nickname-input');
+  const btn = document.getElementById('anon-btn');
+  const isAnon = btn.classList.contains('active');
+  if (isAnon) {
+    btn.classList.remove('active');
+    btn.textContent = '匿名にする';
+    input.disabled = false;
+    input.style.opacity = '1';
+  } else {
+    btn.classList.add('active');
+    btn.textContent = '匿名にしました';
+    input.value = '';
+    input.disabled = true;
+    input.style.opacity = '0.4';
+  }
+}
+
+function selectAge(el) {
+  document.querySelectorAll('.age-opt').forEach(o => o.classList.remove('active'));
+  el.classList.add('active');
+}
+
+function toggleHitori(cb) {
+  const badge = document.getElementById('hitori-badge');
+  const note  = document.getElementById('write-note');
+  if (cb.checked) {
+    badge.style.display = 'inline-block';
+    note.style.color = 'var(--p600)';
+    note.textContent = '自分だけのメモとして保存されます';
+  } else {
+    badge.style.display = 'none';
+    note.style.color = '';
+    note.textContent = '投稿は管理人が確認してから公開されます';
+  }
+}
+
+async function submitPost() {
+  const text    = document.getElementById('write-text').value.trim();
+  const roleEl  = document.querySelector('.w-pill.active');
+  const ageEl   = document.querySelector('.age-opt.active');
+  const hitori  = document.getElementById('hitori-toggle').checked;
+  if (!roleEl)  { showToast('あなたの立場を選んでください'); return; }
+  if (!text)    { showToast('気持ちを書いてから送ってください'); return; }
+  if (hitori) {
+    const memos = JSON.parse(localStorage.getItem('honne_memos') || '[]');
+    memos.unshift({ id: Date.now(), role: roleEl.textContent, text, savedAt: new Date().toLocaleString('ja-JP') });
+    if (memos.length > 50) memos.pop();
+    localStorage.setItem('honne_memos', JSON.stringify(memos));
+    showToast('ひとりごととして保存しました');
+    resetWrite();
+    return;
+  }
+  const nicknameInput = document.getElementById('nickname-input');
+  const anonBtn = document.getElementById('anon-btn');
+  const isAnon = anonBtn && anonBtn.classList.contains('active');
+  const nickname = (nicknameInput && !isAnon && nicknameInput.value.trim()) ? nicknameInput.value.trim() : null;
+  const iconActive = document.querySelector('#icon-opts .icon-opt.active');
+  const icon = iconActive ? iconActive.dataset.iconId : null;
+  const btn = document.getElementById('submit-btn');
+  btn.disabled = true; btn.textContent = '送信中…';
+  try {
+    await sbFetch('posts', {
+      method: 'POST',
+      body: JSON.stringify({
+        role: roleEl.textContent,
+        text,
+        age_tag: ageEl ? ageEl.textContent : null,
+        nickname: nickname,
+        icon: icon,
+        status: 'pending',
+        is_private: false
+      })
+    });
+    showToast('ありがとうございます。管理人が確認後に公開されます。');
+    resetWrite();
+  } catch(e) {
+    showToast('送信に失敗しました。もう一度お試しください。');
+  } finally {
+    btn.disabled = false; btn.textContent = '送る';
+  }
+}
+
+function resetWrite() {
+  document.getElementById('write-text').value = '';
+  document.querySelectorAll('.w-pill,.age-opt').forEach(p => p.classList.remove('active'));
+  document.getElementById('hitori-toggle').checked = false;
+  toggleHitori(document.getElementById('hitori-toggle'));
+  document.getElementById('age-selector').style.display = 'none';
+  document.getElementById('starter-area').style.display = 'none';
+  document.getElementById('nickname-area').style.display = 'none';
+  const ni = document.getElementById('nickname-input');
+  if (ni) { ni.value = ''; ni.disabled = false; ni.style.opacity = '1'; }
+  const ab = document.getElementById('anon-btn');
+  if (ab) { ab.classList.remove('active'); ab.textContent = '匿名にする'; }
+}
+
+function esc(s) {
+  return String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+}
+
+function showToast(msg) {
+  const t = document.getElementById('toast');
+  t.textContent = msg; t.classList.add('show');
+  setTimeout(() => t.classList.remove('show'), 2800);
+}
+
+
+// ===== ひとりごとモーダル =====
+function openHitoriList() {
+  const memos = JSON.parse(localStorage.getItem('honne_memos') || '[]');
+  let html = '<div class="hitori-modal" id="hitori-modal" onclick="closeHitoriModal(event)">';
+  html += '<div class="hitori-modal-card">';
+  html += '<div class="hitori-modal-head"><span class="hitori-modal-title">保存したひとりごと</span><button class="hitori-modal-close" onclick="closeHitoriModal()">×</button></div>';
+  html += '<div class="hitori-modal-body">';
+  if (!memos.length) {
+    html += '<div class="hitori-empty">まだひとりごとはありません</div>';
+  } else {
+    memos.forEach((m, i) => {
+      html += `<div class="hitori-memo-card">
+        <div class="hitori-memo-meta"><span>${esc(m.role)}</span><span>${esc(m.savedAt)}</span></div>
+        <div class="hitori-memo-text">${esc(m.text)}</div>
+        <div class="hitori-memo-actions">
+          <button class="hitori-memo-load" onclick="loadMemo(${i})">編集に読み込む</button>
+          <button class="hitori-memo-del" onclick="deleteMemo(${i})">削除</button>
+        </div>
+      </div>`;
+    });
+  }
+  html += '</div></div></div>';
+  document.body.insertAdjacentHTML('beforeend', html);
+}
+
+function closeHitoriModal(e) {
+  if (e && e.target !== document.getElementById('hitori-modal')) return;
+  const m = document.getElementById('hitori-modal');
+  if (m) m.remove();
+}
+
+function loadMemo(index) {
+  const memos = JSON.parse(localStorage.getItem('honne_memos') || '[]');
+  const memo = memos[index];
+  if (!memo) return;
+  document.getElementById('write-text').value = memo.text;
+  document.querySelectorAll('.w-pill').forEach(p => {
+    p.classList.toggle('active', p.textContent === memo.role);
+  });
+  selectWriteRole(document.querySelector('.w-pill.active') || document.querySelector('.w-pill'), memo.role);
+  const m = document.getElementById('hitori-modal');
+  if (m) m.remove();
+  document.getElementById('write').scrollIntoView({ behavior: 'smooth' });
+  showToast('ひとりごとを読み込みました');
+}
+
+function deleteMemo(index) {
+  const memos = JSON.parse(localStorage.getItem('honne_memos') || '[]');
+  memos.splice(index, 1);
+  localStorage.setItem('honne_memos', JSON.stringify(memos));
+  const m = document.getElementById('hitori-modal');
+  if (m) m.remove();
+  openHitoriList();
+}
+
+loadPosts();
+// 10秒ごとに投稿を自動更新
+setInterval(() => loadPosts(true), 10000);
+
+// ===== 応援 + アイコン拡張 =====
+const roleColorExt = {'悩んでいる親':'coral','乗り越えた親':'teal','育った子ども':'pink','応援している人':'amber'};
+const roleInitExt  = {'悩んでいる親':'母','乗り越えた親':'先','育った子ども':'子','応援している人':'応'};
+// roleIconColor defined above // {'悩んでいる親':'#C9714A','乗り越えた親':'#1D9E75','育った子ども':'#D4537E','応援している人':'#D4860A'};
+const ALL_ICONS = ['person','heart','cloud','leaf','letter','bubble','megaphone'];
+const ICON_LABELS = {person:'人物',heart:'ハート',cloud:'雨雲',leaf:'新芽',letter:'手紙',bubble:'吹き出し',megaphone:'メガホン'};
+
+function buildIconSelector(role) {
+  const wrap = document.getElementById('icon-opts');
+  if (!wrap) return;
+  wrap.innerHTML = '';
+  const color = roleIconColor[role] || '#C9714A';
+  ALL_ICONS.forEach(function(id, i) {
+    const tmpl = document.getElementById('tpl-' + id);
+    if (!tmpl) return;
+    const btn = document.createElement('button');
+    btn.type = 'button';
+    btn.className = 'icon-opt' + (i === 0 ? ' active' : '');
+    btn.dataset.iconId = id;
+    btn.title = ICON_LABELS[id] || id;
+    btn.style.color = color;
+    const svg = tmpl.content.cloneNode(true).querySelector('svg');
+    if (svg) { svg.style.color = color; btn.appendChild(svg); }
+    btn.addEventListener('click', function() {
+      wrap.querySelectorAll('.icon-opt').forEach(function(b){ b.classList.remove('active'); });
+      btn.classList.add('active');
+    });
+    wrap.appendChild(btn);
+  });
+  const hint = document.createElement('span');
+  hint.style.cssText = 'font-size:0.75rem;color:var(--light);align-self:center;margin-left:4px';
+  hint.textContent = '好きなものを選んでね';
+  wrap.appendChild(hint);
+}
+
+function getSelectedIcon() {
+  const a = document.querySelector('#icon-opts .icon-opt.active');
+  return a ? a.dataset.iconId : null;
+}
+
+// selectWriteRoleを上書き（応援対応＋アイコン表示）
+const _origSelectWriteRole = selectWriteRole;
+selectWriteRole = function(el, role) {
+  _origSelectWriteRole(el, role);
+  // アイコン選択欄を表示
+  const iconSel = document.getElementById('icon-selector');
+  if (iconSel) { iconSel.style.display = 'block'; buildIconSelector(role); }
+  // 応援は年齢タグ不要
+  if (role === '応援している人') {
+    const as = document.getElementById('age-selector');
+    if (as) as.style.display = 'none';
+  }
+};
+
+// resetWriteを上書き（アイコン選択欄リセット）
+const _origResetWrite = resetWrite;
+resetWrite = function() {
+  _origResetWrite();
+  const iconSel = document.getElementById('icon-selector');
+  if (iconSel) iconSel.style.display = 'none';
+};
+
+// roleColor/roleInitを応援対応に上書き
+if (typeof roleColor !== 'undefined') {
+  roleColor['応援している人'] = 'amber';
+}
+if (typeof roleInit !== 'undefined') {
+  roleInit['応援している人'] = '応';
+}
+</script>
+
+<!-- アイコンテンプレート -->
+<template id="tpl-heart"><svg width="22" height="22" viewBox="0 0 22 22" fill="none"><path d="M11 18C11 18 3 13 3 7.5C3 5 5 3 7.5 3C9 3 10.5 4 11 5C11.5 4 13 3 14.5 3C17 3 19 5 19 7.5C19 13 11 18 11 18Z" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round" fill="none"/></svg></template>
+<template id="tpl-person"><svg width="22" height="22" viewBox="0 0 22 22" fill="none"><circle cx="11" cy="7" r="3.5" stroke="currentColor" stroke-width="1.5"/><path d="M4 19c0-3.87 3.13-7 7-7s7 3.13 7 7" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" fill="none"/></svg></template>
+<template id="tpl-cloud"><svg width="22" height="22" viewBox="0 0 22 22" fill="none"><path d="M5 13C5 13 4 12 4 10.5C4 8 6 6.5 8 6.5C8.5 5 10 4 12 4C14.5 4 16.5 6 16.5 8.5C18 9 18.5 10 18.5 11C18.5 12.5 17.5 13.5 16 13.5H6C5.5 13.5 5 13.3 5 13Z" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round" fill="none"/><path d="M8 16L7.5 18" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/><path d="M11 17L10.5 19" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/><path d="M14 16L13.5 18" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg></template>
+<template id="tpl-leaf"><svg width="22" height="22" viewBox="0 0 22 22" fill="none"><path d="M6 18C6 18 5 11 9 8C12.5 5.5 18 5.5 18 5.5C18 5.5 18 11 15.5 14C13 16.5 6 18 6 18Z" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round" fill="none"/><path d="M6 18C6 18 8 14 11 11" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg></template>
+<template id="tpl-letter"><svg width="22" height="22" viewBox="0 0 22 22" fill="none"><rect x="3" y="6" width="16" height="11" rx="2.5" stroke="currentColor" stroke-width="1.5"/><path d="M3 9L11 14L19 9" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></template>
+<template id="tpl-bubble"><svg width="22" height="22" viewBox="0 0 22 22" fill="none"><path d="M4 5.5C4 4.67 4.67 4 5.5 4H16.5C17.33 4 18 4.67 18 5.5V13C18 13.83 17.33 14.5 16.5 14.5H12L8 18V14.5H5.5C4.67 14.5 4 13.83 4 13V5.5Z" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round" fill="none"/><path d="M7 8H15" stroke="currentColor" stroke-width="1.25" stroke-linecap="round"/><path d="M7 11H12" stroke="currentColor" stroke-width="1.25" stroke-linecap="round"/></svg></template>
+<template id="tpl-megaphone"><svg width="22" height="22" viewBox="0 0 22 22" fill="none"><path d="M4 9H8L16 5V17L8 13H4V9Z" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round" fill="none"/><path d="M8 13V18" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/><path d="M17 8C18 9 18.5 10 18.5 11C18.5 12 18 13 17 14" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" fill="none"/></svg></template>
+</body>
+</html>
