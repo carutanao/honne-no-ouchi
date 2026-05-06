@@ -1076,10 +1076,12 @@ async function submitPost() {
   const ageEl   = document.querySelector('.age-opt.active');
   const hitori  = document.getElementById('hitori-toggle').checked;
   if (!roleEl)  { showToast('あなたの立場を選んでください'); return; }
+  const roleNameEl = roleEl.querySelector('.role-select-name');
+  const roleName = roleNameEl ? roleNameEl.textContent.trim() : roleEl.textContent.trim();
   if (!text)    { showToast('気持ちを書いてから送ってください'); return; }
   if (hitori) {
     const memos = JSON.parse(localStorage.getItem('honne_memos') || '[]');
-    memos.unshift({ id: Date.now(), role: roleEl.textContent, text, savedAt: new Date().toLocaleString('ja-JP') });
+    memos.unshift({ id: Date.now(), role: roleName, text, savedAt: new Date().toLocaleString('ja-JP') });
     if (memos.length > 50) memos.pop();
     localStorage.setItem('honne_memos', JSON.stringify(memos));
     showToast('ひとりごととして保存しました');
@@ -1098,7 +1100,7 @@ async function submitPost() {
     await sbFetch('posts', {
       method: 'POST',
       body: JSON.stringify({
-        role: roleEl.textContent,
+        role: roleName,
         text,
         age_tag: ageEl ? ageEl.textContent : null,
         nickname: nickname,
