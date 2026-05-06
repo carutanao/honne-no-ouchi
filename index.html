@@ -1072,7 +1072,7 @@ function toggleHitori(cb) {
 
 async function submitPost() {
   const text    = document.getElementById('write-text').value.trim();
-  const roleEl  = document.querySelector('.w-pill.active');
+  const roleEl  = document.querySelector('.role-select-card.active') || document.querySelector('.w-pill.active');
   const ageEl   = document.querySelector('.age-opt.active');
   const hitori  = document.getElementById('hitori-toggle').checked;
   if (!roleEl)  { showToast('あなたの立場を選んでください'); return; }
@@ -1181,7 +1181,7 @@ function loadMemo(index) {
   document.querySelectorAll('.w-pill').forEach(p => {
     p.classList.toggle('active', p.textContent === memo.role);
   });
-  selectWriteRole(document.querySelector('.w-pill.active') || document.querySelector('.w-pill'), memo.role);
+  selectWriteRole(document.querySelector('.role-select-card[onclick*="' + memo.role + '"]') || document.querySelector('.w-pill.active') || document.querySelector('.w-pill'), memo.role);
   const m = document.getElementById('hitori-modal');
   if (m) m.remove();
   document.getElementById('write').scrollIntoView({ behavior: 'smooth' });
