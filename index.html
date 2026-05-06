@@ -527,7 +527,7 @@ footer { background:var(--g100); padding:2rem; text-align:center; font-size:0.81
     <p style="font-size:0.875rem;color:var(--light);margin-bottom:1.25rem">それぞれの本音が、ここに集まっています。</p>
     <div class="filter-bar">
       <button class="fp active" onclick="filterPosts('all',this)">すべて</button>
-      <button class="fp" onclick="filterPosts('悩んでいる親',this)">悩んでいる親</button>
+      <button class="fp" onclick="filterPosts('今、子育て中の親',this)">今、子育て中の親</button>
       <button class="fp" onclick="filterPosts('乗り越えた親',this)">乗り越えた親</button>
       <button class="fp" onclick="filterPosts('育った子ども',this)">育った子ども</button>
       <button class="fp" onclick="filterPosts('応援している人',this)">応援している人</button>
@@ -541,12 +541,12 @@ footer { background:var(--g100); padding:2rem; text-align:center; font-size:0.81
     <p class="write-title">気持ちを書いてみる</p>
     <p style="font-size:0.8125rem;color:var(--muted);margin-bottom:0.875rem">あなたは、どなたですか？</p>
     <div class="role-select-grid" id="role-select-grid">
-      <button class="role-select-card coral" onclick="selectWriteRole(this,'悩んでいる親')">
+      <button class="role-select-card coral" onclick="selectWriteRole(this,'今、子育て中の親')">
         <div class="role-select-icon coral">
           <svg width="22" height="22" viewBox="0 0 22 22" fill="none"><circle cx="11" cy="7" r="3.5" stroke="#C9714A" stroke-width="1.5"/><path d="M4 19c0-3.87 3.13-7 7-7s7 3.13 7 7" stroke="#C9714A" stroke-width="1.5" stroke-linecap="round" fill="none"/></svg>
         </div>
         <div class="role-select-text">
-          <span class="role-select-name">悩んでいる親</span>
+          <span class="role-select-name">今、子育て中の親</span>
           <span class="role-select-desc">今の不安をここへ</span>
         </div>
       </button>
@@ -747,11 +747,11 @@ pingPresence();
 setInterval(pingPresence, 20000);
 
 // ===== POSTS =====
-const roleColor = {'悩んでいる親':'coral','乗り越えた親':'teal','育った子ども':'pink'};
-const roleIconColor = {'悩んでいる親':'#C9714A','乗り越えた親':'#1D9E75','育った子ども':'#D4537E','応援している人':'#D4860A'};
-const roleInit  = {'悩んでいる親':'母','乗り越えた親':'先','育った子ども':'子'};
+const roleColor = {'今、子育て中の親':'coral','乗り越えた親':'teal','育った子ども':'pink'};
+const roleIconColor = {'今、子育て中の親':'#C9714A','乗り越えた親':'#1D9E75','育った子ども':'#D4537E','応援している人':'#D4860A'};
+const roleInit  = {'今、子育て中の親':'母','乗り越えた親':'先','育った子ども':'子'};
 const replyGuides = {
-  '悩んでいる親': { cls:'coral-g', text:'この方は今まさに不安の中にいます。アドバイスより先に「その気持ち、わかります」と受け取ってみてください。' },
+  '今、子育て中の親': { cls:'coral-g', text:'この方は今まさに不安の中にいます。アドバイスより先に「その気持ち、わかります」と受け取ってみてください。' },
   '乗り越えた親': { cls:'coral-g', text:'この方はすでに乗り越えた経験者です。経験を聞かせてもらう気持ちで、敬意を持って返してみてください。' },
   '育った子ども': { cls:'teal-g',  text:'育った子どもが勇気を出して書いた声です。否定せず「教えてくれてありがとう」という気持ちで受け取ってみてください。' },
 };
@@ -833,7 +833,7 @@ function renderPosts(filter) {
           <span>${replyGuides[post.role]?.text || ''}</span>
         </div>
         <div class="reply-roles">
-          <button class="r-pill" onclick="selectReplyRole(this,'rf-${post.id}')">悩んでいる親</button>
+          <button class="r-pill" onclick="selectReplyRole(this,'rf-${post.id}')">今、子育て中の親</button>
           <button class="r-pill" onclick="selectReplyRole(this,'rf-${post.id}')">乗り越えた親</button>
           <button class="r-pill" onclick="selectReplyRole(this,'rf-${post.id}')">育った子ども</button>
           <button class="r-pill" onclick="selectReplyRole(this,'rf-${post.id}')">応援している人</button>
@@ -998,7 +998,7 @@ async function submitReply(fid, postId, postRole) {
 
 // ===== WRITE =====
 const starters = {
-  '悩んでいる親': ['今日は＿＿が不安でした。','子どもに言えなかったのは＿＿です。','誰かに聞いてほしかったのは＿＿ということ。'],
+  '今、子育て中の親': ['今日は＿＿が不安でした。','子どもに言えなかったのは＿＿です。','誰かに聞いてほしかったのは＿＿ということ。'],
   '乗り越えた親': ['あの頃の自分に伝えたいのは＿＿です。','一番つらかったのは＿＿の時でした。','今だから言えるのは＿＿ということ。'],
   '育った子ども': ['親に言えなかったのは＿＿という気持ちです。','今も覚えているのは＿＿の場面です。','親に伝えたかったのは＿＿ということ。'],
   '応援している人': ['ひとり親家庭の方に伝えたいのは＿＿です。','このサイトを知って＿＿と感じました。','あなたの頑張りを＿＿と思っています。'],
@@ -1012,7 +1012,7 @@ function selectWriteRole(el, role) {
   var area = document.getElementById('write-body-area');
   if (area) area.style.display = 'block';
   document.getElementById('nickname-area').style.display = 'block';
-  document.getElementById('age-selector').style.display = (role === '悩んでいる親' || role === '乗り越えた親') ? 'block' : 'none';
+  document.getElementById('age-selector').style.display = (role === '今、子育て中の親' || role === '乗り越えた親') ? 'block' : 'none';
   var sa = document.getElementById('starter-area');
   var so = document.getElementById('starter-opts');
   if (sa && so) {
@@ -1242,9 +1242,9 @@ loadPosts();
 setInterval(() => loadPosts(true), 10000);
 
 // ===== 応援 + アイコン拡張 =====
-const roleColorExt = {'悩んでいる親':'coral','乗り越えた親':'teal','育った子ども':'pink','応援している人':'amber'};
-const roleInitExt  = {'悩んでいる親':'母','乗り越えた親':'先','育った子ども':'子','応援している人':'応'};
-// roleIconColor defined above // {'悩んでいる親':'#C9714A','乗り越えた親':'#1D9E75','育った子ども':'#D4537E','応援している人':'#D4860A'};
+const roleColorExt = {'今、子育て中の親':'coral','乗り越えた親':'teal','育った子ども':'pink','応援している人':'amber'};
+const roleInitExt  = {'今、子育て中の親':'母','乗り越えた親':'先','育った子ども':'子','応援している人':'応'};
+// roleIconColor defined above // {'今、子育て中の親':'#C9714A','乗り越えた親':'#1D9E75','育った子ども':'#D4537E','応援している人':'#D4860A'};
 const ALL_ICONS = ['person','heart','cloud','leaf','letter','bubble','megaphone'];
 const ICON_LABELS = {person:'人物',heart:'ハート',cloud:'雨雲',leaf:'新芽',letter:'手紙',bubble:'吹き出し',megaphone:'メガホン'};
 
