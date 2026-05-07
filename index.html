@@ -85,6 +85,30 @@ nav a:hover { color:var(--c400); }
 .online-dot { width:7px; height:7px; background:var(--t400); border-radius:50%; animation:pulse 2s infinite; flex-shrink:0; }
 
 /* 水彩にじみ背景 */
+
+/* 返信への返信 */
+.reply-to-reply-btn {
+  background:none;border:none;
+  font-size:0.75rem;color:var(--light);
+  cursor:pointer;font-family:'Zen Maru Gothic',sans-serif;
+  padding:0.25rem 0;margin-top:0.375rem;
+  transition:color 0.15s;display:block;
+}
+.reply-to-reply-btn:hover { color:var(--c400); }
+.nested-reply-form { margin-top:0.5rem;padding-top:0.5rem;border-top:1px solid var(--g100); }
+.nested-reply-item {
+  margin-left:12px;
+  border-left:2px solid var(--g200);
+  border-radius:0 8px 8px 0;
+  padding:0.625rem 0.875rem;
+  font-size:0.8rem;
+  color:var(--muted);
+  line-height:1.7;
+  margin-top:0.375rem;
+  background:rgba(255,255,255,0.6);
+}
+.nested-reply-from { font-size:0.7rem;margin-bottom:3px;display:flex;align-items:center;justify-content:space-between; }
+
 .watercolor-bg {
   position:fixed; inset:0; z-index:-1; pointer-events:none;
   background:#FDFAF5;
@@ -763,7 +787,7 @@ async function loadPosts(silent = false) {
   const list = document.getElementById('posts-list');
   if (!silent) list.innerHTML = '<div class="loading">読み込み中…</div>';
   try {
-    const posts = await sbFetch('posts?select=*,replies(id,role,text,status,nickname,icon)&status=eq.approved&is_private=eq.false&order=created_at.desc');
+    const posts = await sbFetch('posts?select=*,replies(id,role,text,status,nickname,icon,parent_reply_id)&status=eq.approved&is_private=eq.false&order=created_at.desc');
     const newPosts = posts || [];
     // サイレント時は投稿数が変わったときだけ再描画
     const newSig = JSON.stringify(newPosts.map(p=>p.id+'_'+p.read_count+'_'+(p.replies?p.replies.length:0)));
@@ -814,6 +838,30 @@ function renderPosts(filter) {
               <span class="badge ${rcol}" style="font-size:0.6375rem">${esc(r.role)}</span>
             </div>
             <div style="color:var(--text);margin-top:2px">${esc(r.text)}</div>
+            ${(nestedMap[r.id]||[]).map(nr => {
+              const nrcol = roleColor[nr.role] || 'gray';
+              return `<div class="nested-reply-item">
+                <div class="nested-reply-from">
+                  <span style="color:${nrcol==='coral'?'var(--c600)':nrcol==='teal'?'var(--t600)':nrcol==='pink'?'var(--p600)':'#9A5F04'}">${nr.nickname ? esc(nr.nickname) : '匿名'}より</span>
+                  <span class="badge ${nrcol}" style="font-size:0.6rem">${esc(nr.role)}</span>
+                </div>
+                <div style="font-size:0.8rem;color:var(--text)">${esc(nr.text)}</div>
+              </div>`;
+            }).join('')}
+            <button class="reply-to-reply-btn" onclick="toggleNestedReplyForm('nrf-${r.id}','${post.id}','${r.id}')">返信する</button>
+            <div class="nested-reply-form" id="nrf-${r.id}" style="display:none">
+              <div class="reply-roles" style="margin-bottom:0.5rem">
+                <button class="r-pill" onclick="selectNestedRole(this,'nrf-${r.id}')">今、子育て中の親</button>
+                <button class="r-pill" onclick="selectNestedRole(this,'nrf-${r.id}')">乗り越えた親</button>
+                <button class="r-pill" onclick="selectNestedRole(this,'nrf-${r.id}')">育った子ども</button>
+                <button class="r-pill" onclick="selectNestedRole(this,'nrf-${r.id}')">応援している人</button>
+              </div>
+              <textarea class="nested-ta" placeholder="返信を書いてみてください…" style="width:100%;min-height:80px;padding:0.625rem;border:1px solid var(--g200);border-radius:8px;font-family:'Zen Maru Gothic',sans-serif;font-size:0.875rem;resize:vertical;outline:none;margin-bottom:0.5rem"></textarea>
+              <div style="display:flex;justify-content:flex-end;gap:0.5rem">
+                <button class="rf-cancel" onclick="toggleNestedReplyForm('nrf-${r.id}','${post.id}','${r.id}')">キャンセル</button>
+                <button class="rf-send" onclick="submitNestedReply('nrf-${r.id}','${post.id}','${r.id}')">送る</button>
+              </div>
+            </div>
           </div>`;
         }).join('')}
       </div>
@@ -987,6 +1035,52 @@ async function submitReply(fid, postId, postRole) {
     if (optsEl) optsEl.innerHTML = '';
     f.querySelectorAll('.r-pill').forEach(p => p.classList.remove('active'));
     f.classList.remove('open');
+    showToast('返信しました。ありがとうございます。');
+    await loadPosts();
+  } catch(e) {
+    showToast('送信に失敗しました。もう一度お試しください。');
+  } finally {
+    btn.disabled = false; btn.textContent = '送る';
+  }
+}
+
+
+// ===== 返信への返信 =====
+function toggleNestedReplyForm(fid, postId, replyId) {
+  const f = document.getElementById(fid);
+  if (!f) return;
+  f.style.display = f.style.display === 'none' ? 'block' : 'none';
+}
+
+function selectNestedRole(el, fid) {
+  const f = document.getElementById(fid);
+  f.querySelectorAll('.r-pill').forEach(p => p.classList.remove('active'));
+  el.classList.add('active');
+}
+
+async function submitNestedReply(fid, postId, parentReplyId) {
+  const f = document.getElementById(fid);
+  if (!f) return;
+  const ta = f.querySelector('.nested-ta');
+  const rp = f.querySelector('.r-pill.active');
+  if (!rp) { showToast('立場を選んでください'); return; }
+  if (!ta.value.trim()) { showToast('返信を書いてください'); return; }
+  const btn = f.querySelector('.rf-send');
+  btn.disabled = true; btn.textContent = '送信中…';
+  try {
+    await sbFetch('replies', {
+      method: 'POST',
+      body: JSON.stringify({
+        post_id: postId,
+        parent_reply_id: parentReplyId,
+        role: rp.textContent,
+        text: ta.value.trim(),
+        status: 'approved'
+      })
+    });
+    ta.value = '';
+    f.style.display = 'none';
+    f.querySelectorAll('.r-pill').forEach(p => p.classList.remove('active'));
     showToast('返信しました。ありがとうございます。');
     await loadPosts();
   } catch(e) {

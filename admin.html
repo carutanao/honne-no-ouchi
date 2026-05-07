@@ -174,6 +174,14 @@ body { font-family:'Zen Maru Gothic',sans-serif; background:#F4F2EE; color:var(-
         承認待ち返信
         <span class="nav-badge" id="pending-reply-badge" style="display:none">0</span>
       </div>
+      <div class="nav-item" onclick="showPage('approved-replies',this)">
+        <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M1 4h9a3 3 0 010 6H7" stroke="currentColor" stroke-width="1.25" stroke-linecap="round"/><path d="M3 6L1 4l2-2" stroke="currentColor" stroke-width="1.25" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        公開中の返信
+      </div>
+      <div class="nav-item" onclick="showPage('rejected-replies',this)">
+        <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M1 4h9a3 3 0 010 6H7" stroke="currentColor" stroke-width="1.25" stroke-linecap="round"/><path d="M3 6L1 4l2-2" stroke="currentColor" stroke-width="1.25" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        非公開の返信
+      </div>
       <div class="nav-item" onclick="showPage('approved',this)">
         <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><circle cx="8" cy="8" r="6.5" stroke="currentColor" stroke-width="1.25"/><path d="M5 8l2 2 4-4" stroke="currentColor" stroke-width="1.25" stroke-linecap="round" stroke-linejoin="round"/></svg>
         公開中の投稿
@@ -215,6 +223,18 @@ body { font-family:'Zen Maru Gothic',sans-serif; background:#F4F2EE; color:var(-
       <div class="page" id="page-pending-replies">
         <p class="page-title">承認待ちの返信</p>
         <div id="pending-replies-list"><div class="loading">読み込み中…</div></div>
+      </div>
+
+      <!-- APPROVED REPLIES -->
+      <div class="page" id="page-approved-replies">
+        <p class="page-title">公開中の返信</p>
+        <div id="approved-replies-list"><div class="loading">読み込み中…</div></div>
+      </div>
+
+      <!-- REJECTED REPLIES -->
+      <div class="page" id="page-rejected-replies">
+        <p class="page-title">非公開の返信</p>
+        <div id="rejected-replies-list"><div class="loading">読み込み中…</div></div>
       </div>
 
       <!-- APPROVED -->
@@ -417,6 +437,8 @@ async function loadAll(silent = false) {
     renderPostList('approved-list', cachedPosts.filter(p => p.status === 'approved'));
     renderPostList('rejected-list', cachedPosts.filter(p => p.status === 'rejected'));
     renderReplyList('pending-replies-list', cachedReplies.filter(r => r.status === 'pending'), cachedPosts);
+    renderReplyList('approved-replies-list', cachedReplies.filter(r => r.status === 'approved'), cachedPosts);
+    renderReplyList('rejected-replies-list', cachedReplies.filter(r => r.status === 'rejected'), cachedPosts);
     if (!silent) checkDbStatus();
   } catch(e) {
     if (!silent) {
@@ -498,24 +520,29 @@ function makePostCard(post) {
 
 function renderReplyList(containerId, replies, posts) {
   const el = document.getElementById(containerId);
-  if (!replies.length) { el.innerHTML = '<div class="empty-state">承認待ちの返信はありません</div>'; return; }
+  if (!replies.length) { el.innerHTML = '<div class="empty-state">該当する返信はありません</div>'; return; }
   el.innerHTML = '';
   replies.forEach((r, i) => {
     const parentPost = posts.find(p => p.id === r.post_id);
     const dt = new Date(r.created_at).toLocaleString('ja-JP', {year:'numeric',month:'2-digit',day:'2-digit',hour:'2-digit',minute:'2-digit'});
+    const statusLabel = {pending:'確認待ち', approved:'公開中', rejected:'非公開'}[r.status] || r.status;
     const div = document.createElement('div');
-    div.className = 'admin-post-card pending';
+    div.className = `admin-post-card ${r.status}`;
     div.id = `reply-card-${r.id}`;
     div.style.animationDelay = `${i * 0.04}s`;
     div.innerHTML = `
       <p style="font-size:0.75rem;color:var(--light);margin-bottom:0.5rem">返信先：${parentPost ? esc(parentPost.text.slice(0,40)) + '…' : '(削除済み)'}</p>
       <div class="admin-reply-item">
-        <div class="admin-reply-from">${esc(r.role)}より <span style="font-weight:400;color:var(--light)">${dt}</span></div>
+        <div class="admin-reply-from" style="display:flex;justify-content:space-between">
+          <span>${esc(r.role)}${r.nickname ? ' / ' + esc(r.nickname) : ''}より <span style="font-weight:400;color:var(--light)">${dt}</span></span>
+          <span class="status-badge ${r.status}">${statusLabel}</span>
+        </div>
         ${esc(r.text)}
       </div>
       <div class="reply-act-row" id="reply-actions-${r.id}">
-        <button class="reply-act reply-approve" onclick="changeReplyStatus('${r.id}','approved',this)">公開する</button>
-        <button class="reply-act reply-reject"  onclick="changeReplyStatus('${r.id}','rejected',this)">非公開にする</button>
+        ${r.status !== 'approved' ? `<button class="reply-act reply-approve" onclick="changeReplyStatus('${r.id}','approved',this)">公開する</button>` : ''}
+        ${r.status !== 'rejected' ? `<button class="reply-act reply-reject" onclick="changeReplyStatus('${r.id}','rejected',this)">非公開にする</button>` : ''}
+        <button class="reply-act" style="border-color:var(--red400);color:var(--red600)" onclick="deleteReply('${r.id}',this)">削除</button>
       </div>`;
     el.appendChild(div);
   });
@@ -547,6 +574,19 @@ async function deletePost(id, btn) {
     await loadAll();
   } catch(e) {
     showToast('❌ 削除に失敗しました: ' + e.message);
+    btn.disabled = false; btn.textContent = '削除';
+  }
+}
+
+async function deleteReply(id, btn) {
+  if (!confirm('この返信を完全に削除しますか？')) return;
+  btn.disabled = true; btn.textContent = '削除中…';
+  try {
+    await sbFetch(`replies?id=eq.${id}`, { method: 'DELETE', prefer: 'return=minimal' });
+    showToast('🗑 返信を削除しました');
+    await loadAll();
+  } catch(e) {
+    showToast('❌ 削除に失敗しました');
     btn.disabled = false; btn.textContent = '削除';
   }
 }
