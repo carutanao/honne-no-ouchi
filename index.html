@@ -97,6 +97,7 @@ nav a:hover { color:var(--c400); }
 .reply-to-reply-btn:hover { color:var(--c400); }
 .nested-reply-form { margin-top:0.5rem;padding-top:0.5rem;border-top:1px solid var(--g100); }
 .nested-reply-item {
+  white-space:pre-wrap; word-break:break-word;
   margin-left:12px;
   border-left:2px solid var(--g200);
   border-radius:0 8px 8px 0;
@@ -254,7 +255,7 @@ body.night-mode .reply-item { background:rgba(40,36,60,0.7); }
 .badge.teal { background:var(--t50); color:var(--t600); }
 .badge.pink { background:var(--p50); color:var(--p600); }
 .age-tag { font-size:0.6875rem; padding:2px 8px; border-radius:999px; background:var(--g100); color:var(--g600); border:1px solid var(--g200); }
-.post-text { font-size:0.9375rem; color:var(--text); line-height:1.8; margin-bottom:0.875rem; }
+.post-text { font-size:0.9375rem; color:var(--text); line-height:1.8; margin-bottom:0.875rem; white-space:pre-wrap; word-break:break-word; }
 .post-actions { display:flex; align-items:center; gap:0.75rem; flex-wrap:wrap; }
 .read-btn { display:flex; align-items:center; gap:5px; font-size:0.8125rem; color:var(--muted); background:none; border:1px solid var(--g200); border-radius:999px; padding:0.3rem 0.875rem; cursor:pointer; font-family:'Zen Maru Gothic',sans-serif; transition:all 0.15s; }
 .read-btn:hover,.read-btn.done { background:var(--t50); color:var(--t600); border-color:var(--t400); }
@@ -849,7 +850,7 @@ function renderPosts(filter) {
               </div>
               <span class="badge ${rcol}" style="font-size:0.6375rem">${esc(r.role)}</span>
             </div>
-            <div style="color:var(--text);margin-top:2px">${esc(r.text)}</div>
+            <div style="color:var(--text);margin-top:2px;white-space:pre-wrap;word-break:break-word">${esc(r.text)}</div>
             ${(nestedMap[r.id]||[]).map(nr => {
               const nrcol = roleColor[nr.role] || 'gray';
               return `<div class="nested-reply-item">
@@ -857,7 +858,7 @@ function renderPosts(filter) {
                   <span style="color:${nrcol==='coral'?'var(--c600)':nrcol==='teal'?'var(--t600)':nrcol==='pink'?'var(--p600)':'#9A5F04'}">${nr.nickname ? esc(nr.nickname) : '匿名'}より</span>
                   <span class="badge ${nrcol}" style="font-size:0.6rem">${esc(nr.role)}</span>
                 </div>
-                <div style="font-size:0.8rem;color:var(--text)">${esc(nr.text)}</div>
+                <div style="font-size:0.8rem;color:var(--text);white-space:pre-wrap;word-break:break-word">${esc(nr.text)}</div>
               </div>`;
             }).join('')}
             <button class="reply-to-reply-btn" onclick="toggleNestedReplyForm('nrf-${r.id}','${post.id}','${r.id}')">返信する</button>
