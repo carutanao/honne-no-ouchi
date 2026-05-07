@@ -862,6 +862,13 @@ function renderPosts(filter) {
                 <button class="r-pill" onclick="selectNestedRole(this,'nrf-${r.id}')">育った子ども</button>
                 <button class="r-pill" onclick="selectNestedRole(this,'nrf-${r.id}')">応援している人</button>
               </div>
+              <div style="margin-bottom:0.5rem">
+                <div style="font-size:0.8125rem;color:var(--muted);margin-bottom:0.375rem">ニックネーム（任意）</div>
+                <div style="display:flex;gap:0.5rem;align-items:center;flex-wrap:wrap">
+                  <input class="nickname-input nested-nick-input" type="text" maxlength="20" placeholder="匿名の場合は空欄のまま" style="flex:1;min-width:140px"/>
+                  <button class="anon-btn nested-anon-btn" onclick="toggleNestedAnon(this)">匿名にする</button>
+                </div>
+              </div>
               <textarea class="nested-ta" placeholder="返信を書いてみてください…" style="width:100%;min-height:80px;padding:0.625rem;border:1px solid var(--g200);border-radius:8px;font-family:'Zen Maru Gothic',sans-serif;font-size:0.875rem;resize:vertical;outline:none;margin-bottom:0.5rem"></textarea>
               <div style="display:flex;justify-content:flex-end;gap:0.5rem">
                 <button class="rf-cancel" onclick="toggleNestedReplyForm('nrf-${r.id}','${post.id}','${r.id}')">キャンセル</button>
@@ -1064,6 +1071,20 @@ function selectNestedRole(el, fid) {
   el.classList.add('active');
 }
 
+function toggleNestedAnon(btn) {
+  const row = btn.closest('div');
+  const input = row.querySelector('.nested-nick-input');
+  if (!input) return;
+  const isAnon = btn.classList.contains('active');
+  if (isAnon) {
+    btn.classList.remove('active'); btn.textContent = '匿名にする';
+    input.disabled = false; input.style.opacity = '1';
+  } else {
+    btn.classList.add('active'); btn.textContent = '匿名にしました';
+    input.value = ''; input.disabled = true; input.style.opacity = '0.4';
+  }
+}
+
 async function submitNestedReply(fid, postId, parentReplyId) {
   const f = document.getElementById(fid);
   if (!f) return;
@@ -1071,6 +1092,10 @@ async function submitNestedReply(fid, postId, parentReplyId) {
   const rp = f.querySelector('.r-pill.active');
   if (!rp) { showToast('立場を選んでください'); return; }
   if (!ta.value.trim()) { showToast('返信を書いてください'); return; }
+  const nickInput = f.querySelector('.nested-nick-input');
+  const anonBtn = f.querySelector('.nested-anon-btn');
+  const isAnon = anonBtn && anonBtn.classList.contains('active');
+  const nickname = (nickInput && !isAnon && nickInput.value.trim()) ? nickInput.value.trim() : null;
   const btn = f.querySelector('.rf-send');
   btn.disabled = true; btn.textContent = '送信中…';
   try {
@@ -1081,10 +1106,14 @@ async function submitNestedReply(fid, postId, parentReplyId) {
         parent_reply_id: parentReplyId,
         role: rp.textContent,
         text: ta.value.trim(),
+        nickname: nickname,
+        icon: 'person',
         status: 'approved'
       })
     });
     ta.value = '';
+    if (nickInput) { nickInput.value = ''; nickInput.disabled = false; nickInput.style.opacity = '1'; }
+    if (anonBtn) { anonBtn.classList.remove('active'); anonBtn.textContent = '匿名にする'; }
     f.style.display = 'none';
     f.querySelectorAll('.r-pill').forEach(p => p.classList.remove('active'));
     showToast('返信しました。ありがとうございます。');
