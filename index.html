@@ -536,7 +536,7 @@ footer { background:var(--g100); padding:2rem; text-align:center; font-size:0.81
   <div class="hero-inner">
     <span class="hero-tag">ひとり親家庭のための、対話の場所</span>
     <h1>ホンネが、<br>つながる場所。</h1>
-    <p>親の不安も、先輩の経験も、<br>育った子どもの本音も。<br>三つの声が、ここでつながります。</p>
+    <p>親の不安も、先輩の経験も、<br>育った子どもの本音も。<br>３つの声が、ここでつながります。</p>
     <div class="hero-actions">
       <button class="btn-p" onclick="document.getElementById('posts').scrollIntoView({behavior:'smooth'})">みんなの声を読む</button>
       <button class="btn-s" onclick="document.getElementById('write').scrollIntoView({behavior:'smooth'})">気持ちを書いてみる</button>
@@ -1339,7 +1339,8 @@ function deleteMemo(index) {
 // ===== 水彩にじみ + 夜の書斎モード =====
 function isNightMode() {
   const h = new Date().getHours();
-  return h >= 22 || h < 4;
+//  return h >= 22 || h < 4;
+    return false;
 }
 
 function applyTheme() {
