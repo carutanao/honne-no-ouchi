@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>プライバシーポリシー | ホンネのおうち</title>
+<meta name="description" content="ホンネのおうちにおける個人情報の取り扱いについて説明します。">
+<meta name="robots" content="index, follow">
+<link rel="canonical" href="https://honne-no-ouchi.vercel.app/privacy.html">
+<meta property="og:type" content="website">
+<meta property="og:title" content="プライバシーポリシー | ホンネのおうち">
+<meta property="og:description" content="ホンネのおうちにおける個人情報の取り扱いについて説明します。">
+<meta property="og:url" content="https://honne-no-ouchi.vercel.app/privacy.html">
+<meta property="og:site_name" content="ホンネのおうち">
+<meta property="og:locale" content="ja_JP">
+<link href="https://fonts.googleapis.com/css2?family=Kaisei+Opti:wght@400;700&family=Zen+Maru+Gothic:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+:root {
+  --c50:#FEF6F0; --c100:#FDE8D8; --c400:#C9714A; --c600:#993C1D; --c800:#712B13;
+  --t50:#E1F5EE; --t400:#1D9E75; --t600:#0F6E56;
+  --g50:#F9F7F4; --g100:#F1EFE8; --g200:#D3D1C7; --g400:#888780; --g600:#5F5E5A;
+  --text:#2C2C2A; --muted:#5F5E5A; --light:#888780; --bg:#FFFDF8;
+}
+body { font-family:'Zen Maru Gothic',sans-serif; background:var(--bg); color:var(--text); line-height:1.8; }
+
+.watercolor-bg {
+  position:fixed; inset:0; z-index:-1; pointer-events:none;
+  background:
+    radial-gradient(ellipse 60% 50% at 10% 20%, rgba(253,232,216,0.4) 0%, transparent 60%),
+    radial-gradient(ellipse 50% 60% at 90% 80%, rgba(225,245,238,0.35) 0%, transparent 60%),
+    radial-gradient(ellipse 40% 40% at 80% 15%, rgba(251,234,240,0.3) 0%, transparent 55%);
+  background-color:var(--bg);
+}
+
+header {
+  padding:1.125rem 2rem; display:flex; align-items:center; justify-content:space-between;
+  border-bottom:1px solid var(--c100); background:rgba(255,253,248,0.92);
+  position:sticky; top:0; z-index:100; height:62px; backdrop-filter:blur(8px);
+}
+.logo { font-family:'Kaisei Opti',serif; font-size:1.125rem; font-weight:700; color:var(--c800); text-decoration:none; display:flex; align-items:center; gap:8px; }
+.logo-dot { width:7px; height:7px; background:var(--c400); border-radius:50%; }
+.back-btn { font-size:0.8125rem; color:var(--muted); text-decoration:none; display:flex; align-items:center; gap:6px; transition:color 0.15s; }
+.back-btn:hover { color:var(--c400); }
+
+.content { max-width:720px; margin:0 auto; padding:3.5rem 2rem 6rem; animation:fadeUp 0.4s ease both; }
+@keyframes fadeUp { from{opacity:0;transform:translateY(10px)} to{opacity:1;transform:translateY(0)} }
+
+.page-eyebrow { font-size:0.75rem; letter-spacing:0.2em; color:var(--c400); text-transform:uppercase; margin-bottom:0.75rem; }
+.page-title { font-family:'Kaisei Opti',serif; font-size:2rem; font-weight:700; color:var(--c800); line-height:1.4; margin-bottom:1rem; }
+.page-lead { font-size:1rem; color:var(--muted); line-height:2; margin-bottom:3rem; padding-bottom:2rem; border-bottom:1px solid var(--g100); }
+
+h2 { font-family:'Kaisei Opti',serif; font-size:1.125rem; color:var(--text); margin:2.5rem 0 0.875rem; padding-left:0.875rem; border-left:3px solid var(--c400); }
+h3 { font-size:0.9375rem; font-weight:500; color:var(--text); margin:1.5rem 0 0.5rem; }
+p { font-size:0.9rem; color:var(--muted); line-height:2; margin-bottom:1rem; }
+ul { padding-left:1.25rem; margin-bottom:1rem; }
+li { font-size:0.9rem; color:var(--muted); line-height:2; }
+
+.updated { font-size:0.8125rem; color:var(--light); margin-top:3rem; padding-top:1.5rem; border-top:1px solid var(--g100); }
+
+.nav-links { display:flex; gap:1.5rem; flex-wrap:wrap; margin-top:2.5rem; padding-top:1.5rem; border-top:1px solid var(--g100); }
+.nav-links a { font-size:0.8125rem; color:var(--muted); text-decoration:none; transition:color 0.15s; }
+.nav-links a:hover { color:var(--c400); }
+
+footer { background:var(--g100); padding:2rem; text-align:center; font-size:0.8125rem; color:var(--light); border-top:1px solid var(--g200); margin-top:4rem; }
+.f-logo { font-family:'Kaisei Opti',serif; font-size:1rem; color:var(--c800); margin-bottom:0.375rem; }
+.f-links { display:flex; gap:1.5rem; justify-content:center; flex-wrap:wrap; margin-top:0.75rem; }
+.f-links a { color:var(--light); text-decoration:none; font-size:0.8125rem; transition:color 0.15s; }
+.f-links a:hover { color:var(--c400); }
+
+@media(max-width:640px) {
+  .content { padding:2rem 1.25rem 5rem; }
+  .page-title { font-size:1.5rem; }
+  header { padding:0.875rem 1.25rem; }
+}
+</style>
+</head>
+<body>
+
+<div class="watercolor-bg"></div>
+
+<header>
+  <a href="/" class="logo"><span class="logo-dot"></span>ホンネのおうち</a>
+  <a href="/" class="back-btn">
+    <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M9 2L4 7l5 5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+    声の場所へ戻る
+  </a>
+</header>
+
+<main class="content">
+  <p class="page-eyebrow">Privacy Policy</p>
+  <h1 class="page-title">プライバシーポリシー</h1>
+  <p class="page-lead">「ホンネのおうち」（以下「本サービス」）における個人情報の取り扱いについて説明します。</p>
+
+  <h2>収集する情報</h2>
+
+  <h3>投稿・返信データ</h3>
+  <p>投稿・返信時に入力された内容（テキスト・ニックネーム・選択した属性・アイコン）をデータベースに保存します。ニックネームは任意入力であり、本名の入力は不要です。</p>
+
+  <h3>ローカルストレージ</h3>
+  <p>ひとりごとメモ・セッション情報を、お使いのデバイスのローカルストレージに保存します。これらはサーバーには送信されず、端末内にのみ保存されます。</p>
+
+  <h3>アクセス解析</h3>
+  <p>サービス改善のため、アクセス状況（ページ閲覧数・流入元など）を解析ツールにより収集することがあります。これらは個人を特定するものではありません。</p>
+
+  <h2>情報の利用目的</h2>
+  <ul>
+    <li>サービスの提供・運営・改善</li>
+    <li>不適切なコンテンツの管理</li>
+    <li>サービスの安全性確保</li>
+    <li>利用状況の把握および機能改善</li>
+  </ul>
+
+  <h2>第三者への提供</h2>
+  <p>法令に基づく場合を除き、収集した情報を第三者に提供することはありません。</p>
+
+  <h2>広告について</h2>
+  <p>本サービスでは、第三者配信の広告サービスを利用する場合があります。広告配信事業者は、ユーザーの興味に応じた広告を表示するために、Cookie等を使用することがあります。Cookieを無効にする設定は、お使いのブラウザの設定から行うことができます。</p>
+
+  <h2>Cookieの使用</h2>
+  <p>本サービスでは、利便性向上のためにCookieを使用する場合があります。ブラウザの設定によりCookieを無効にすることができますが、一部の機能が利用できなくなる場合があります。</p>
+
+  <h2>免責事項</h2>
+  <p>本サービスに掲載されている情報の正確性には万全を期していますが、利用者が本サービスの情報を用いて行う一切の行為について、運営者は責任を負いません。</p>
+
+  <h2>プライバシーポリシーの変更</h2>
+  <p>本ポリシーの内容は、法令改正やサービス変更に応じて予告なく変更する場合があります。変更後のポリシーは本ページに掲載した時点で効力を生じるものとします。</p>
+
+  <h2>お問い合わせ</h2>
+  <p>個人情報の取り扱いに関するお問い合わせは、以下のメールアドレスまたはお問い合わせページよりご連絡ください。</p>
+  <p>メールアドレス：<a href="mailto:honne.no.ouchi@gmail.com" style="color:var(--c400);text-decoration:none;">honne.no.ouchi@gmail.com</a></p>
+
+  <p class="updated">制定日：2026年5月 ／ 最終更新：2026年5月</p>
+
+  <div class="nav-links">
+    <a href="/about.html">このサイトについて</a>
+    <a href="/about.html#terms">利用規約</a>
+    <a href="/about.html#contact">お問い合わせ</a>
+    <a href="/">トップへ戻る</a>
+  </div>
+</main>
+
+<footer>
+  <p class="f-logo">ホンネのおうち</p>
+  <p>ひとり親家庭のための、対話の場所</p>
+  <div class="f-links">
+    <a href="/about.html">このサイトについて</a>
+    <a href="/about.html#terms">利用規約</a>
+    <a href="/privacy.html">プライバシーポリシー</a>
+    <a href="/about.html#contact">お問い合わせ</a>
+  </div>
+</footer>
+
+</body>
+</html>
