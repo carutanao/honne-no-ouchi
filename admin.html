@@ -137,6 +137,24 @@ body { font-family:'Zen Maru Gothic',sans-serif; background:#F4F2EE; color:var(-
 </head>
 <body>
 
+<!-- SETUP (初回パスワード設定) -->
+<div id="setup-screen" style="display:none;position:fixed;inset:0;background:#FFFDF8;display:none;align-items:center;justify-content:center;">
+  <div class="login-card">
+    <div class="lock-icon">
+      <svg width="20" height="20" viewBox="0 0 20 20" fill="none"><rect x="3" y="9" width="14" height="10" rx="3" stroke="#C9714A" stroke-width="1.5"/><path d="M6.5 9V6.5a3.5 3.5 0 017 0V9" stroke="#C9714A" stroke-width="1.5" stroke-linecap="round"/><circle cx="10" cy="14" r="1.25" fill="#C9714A"/></svg>
+    </div>
+    <p class="login-logo">ホンネのおうち</p>
+    <p class="login-sub">初回セットアップ</p>
+    <p style="font-size:0.8125rem;color:#888780;margin-bottom:1rem;text-align:center;">管理画面のパスワードを設定してください</p>
+    <div class="attempt-warn" id="setup-warn"></div>
+    <label class="login-label">新しいパスワード（8文字以上）</label>
+    <input class="login-input" id="setup-pw1" type="password" placeholder="••••••••"/>
+    <label class="login-label">確認用（もう一度）</label>
+    <input class="login-input" id="setup-pw2" type="password" placeholder="••••••••" onkeydown="if(event.key==='Enter')doSetup()"/>
+    <button class="login-btn" onclick="doSetup()">パスワードを設定する</button>
+  </div>
+</div>
+
 <!-- LOGIN -->
 <div id="login-screen">
   <div class="login-card">
@@ -309,10 +327,35 @@ async function sbFetch(path, opts = {}) {
 const ADMIN_ID = 'admin';
 const SESSION_KEY = 'honne_admin_session';
 const SESSION_DURATION = 5 * 60 * 1000; // 5分
-let adminPassword = localStorage.getItem('honne_admin_pw') || 'kimochi2025';
+let adminPassword = localStorage.getItem('honne_admin_pw') || '';
 let failCount = 0;
 let lockUntil = 0;
 let realtimeInterval = null;
+
+// 起動時：パスワード未設定ならセットアップ画面を表示
+window.addEventListener('DOMContentLoaded', () => {
+  if (!adminPassword) {
+    document.getElementById('login-screen').style.display = 'none';
+    document.getElementById('setup-screen').style.display = 'flex';
+  } else if (checkSession()) {
+    document.getElementById('login-screen').style.display = 'none';
+    enterAdmin();
+  }
+});
+
+function doSetup() {
+  const pw1 = document.getElementById('setup-pw1').value;
+  const pw2 = document.getElementById('setup-pw2').value;
+  const warn = document.getElementById('setup-warn');
+  if (pw1.length < 8) { warn.textContent = 'パスワードは8文字以上にしてください'; warn.classList.add('show'); return; }
+  if (pw1 !== pw2) { warn.textContent = 'パスワードが一致しません'; warn.classList.add('show'); return; }
+  adminPassword = pw1;
+  localStorage.setItem('honne_admin_pw', pw1);
+  document.getElementById('setup-screen').style.display = 'none';
+  document.getElementById('login-screen').style.display = 'flex';
+  document.getElementById('attempt-warn').textContent = 'パスワードを設定しました。ログインしてください。';
+  document.getElementById('attempt-warn').classList.add('show');
+}
 
 function checkSession() {
   const session = sessionStorage.getItem(SESSION_KEY);
@@ -334,6 +377,10 @@ function doLogin() {
   if (now < lockUntil) {
     const secs = Math.ceil((lockUntil - now) / 1000);
     showWarn(`ロック中です。あと ${secs} 秒後に再試行できます。`);
+    return;
+  }
+  if (!adminPassword) {
+    showWarn('パスワードが設定されていません。管理者にお問い合わせください。');
     return;
   }
   const id = document.getElementById('login-id').value.trim();
