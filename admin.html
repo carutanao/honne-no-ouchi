@@ -1,0 +1,682 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>管理人ページ — ホンネのおうち</title>
+<link href="https://fonts.googleapis.com/css2?family=Zen+Maru+Gothic:wght@400;500;700&family=Kaisei+Opti:wght@400;700&display=swap" rel="stylesheet">
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+:root {
+  --c50:#FEF6F0; --c100:#FDE8D8; --c400:#C9714A; --c600:#993C1D; --c800:#712B13;
+  --t50:#E1F5EE; --t400:#1D9E75; --t600:#0F6E56;
+  --p50:#FBEAF0; --p400:#D4537E; --p600:#993556;
+  --amber50:#FAEEDA; --amber400:#BA7517; --amber600:#854F0B;
+  --red50:#FCEBEB; --red400:#E24B4A; --red600:#A32D2D;
+  --green50:#EAF3DE; --green400:#639922; --green600:#3B6D11;
+  --g50:#F9F7F4; --g100:#F1EFE8; --g200:#D3D1C7; --g400:#888780; --g600:#5F5E5A;
+  --text:#2C2C2A; --muted:#5F5E5A; --light:#888780;
+  --sidebar-w:220px;
+}
+body { font-family:'Zen Maru Gothic',sans-serif; background:#F4F2EE; color:var(--text); min-height:100vh; }
+
+/* LOGIN */
+#login-screen { min-height:100vh; display:flex; align-items:center; justify-content:center; background:linear-gradient(135deg,var(--c50) 0%,#FFFCF9 60%,var(--t50) 100%); }
+.login-card { background:#fff; border:1px solid var(--g100); border-radius:20px; padding:2.5rem 2rem; width:100%; max-width:360px; box-shadow:0 4px 24px rgba(0,0,0,0.07); animation:fadeUp 0.4s ease both; }
+.lock-icon { width:44px; height:44px; background:var(--c50); border-radius:50%; display:flex; align-items:center; justify-content:center; margin:0 auto 1.25rem; }
+.login-logo { font-family:'Kaisei Opti',serif; font-size:1.1rem; font-weight:600; color:var(--c800); margin-bottom:0.25rem; text-align:center; }
+.login-sub { font-size:0.8125rem; color:var(--light); margin-bottom:2rem; text-align:center; }
+.login-label { font-size:0.8125rem; color:var(--muted); display:block; margin-bottom:0.375rem; }
+.login-input { width:100%; padding:0.75rem 1rem; border:1px solid var(--g200); border-radius:10px; font-size:0.9375rem; font-family:'Zen Maru Gothic',sans-serif; color:var(--text); background:var(--g50); outline:none; margin-bottom:1rem; transition:border-color 0.2s; }
+.login-input:focus { border-color:var(--c400); background:#fff; }
+.login-btn { width:100%; background:var(--c400); color:#fff; border:none; padding:0.875rem; border-radius:10px; font-size:0.9375rem; font-family:'Zen Maru Gothic',sans-serif; cursor:pointer; transition:background 0.2s; }
+.login-btn:hover { background:var(--c600); }
+.login-error { font-size:0.8125rem; color:var(--red600); background:var(--red50); border-radius:8px; padding:0.5rem 0.875rem; margin-bottom:1rem; display:none; }
+.login-error.show { display:block; }
+.attempt-warn { font-size:0.75rem; color:var(--amber600); background:var(--amber50); border-radius:8px; padding:0.5rem 0.875rem; margin-bottom:1rem; display:none; }
+.attempt-warn.show { display:block; }
+
+/* LAYOUT */
+#admin-screen { display:none; min-height:100vh; }
+.admin-wrap { display:flex; min-height:100vh; }
+
+/* SIDEBAR */
+.sidebar { width:var(--sidebar-w); background:#fff; border-right:1px solid var(--g100); display:flex; flex-direction:column; padding:1.5rem 0; position:sticky; top:0; height:100vh; flex-shrink:0; overflow-y:auto; }
+.sidebar-logo { font-family:'Kaisei Opti',serif; font-size:1rem; font-weight:600; color:var(--c800); padding:0 1.25rem 1.5rem; border-bottom:1px solid var(--g100); margin-bottom:1rem; }
+.sidebar-logo span { display:inline-block; width:7px; height:7px; background:var(--c400); border-radius:50%; margin-right:7px; vertical-align:middle; position:relative; top:-1px; }
+.nav-item { display:flex; align-items:center; gap:10px; padding:0.625rem 1.25rem; font-size:0.875rem; color:var(--muted); cursor:pointer; border-left:3px solid transparent; transition:all 0.15s; user-select:none; }
+.nav-item:hover { color:var(--text); background:var(--g50); }
+.nav-item.active { color:var(--c600); background:var(--c50); border-left-color:var(--c400); font-weight:500; }
+.nav-badge { margin-left:auto; background:var(--c400); color:#fff; font-size:0.6875rem; padding:1px 7px; border-radius:999px; min-width:20px; text-align:center; }
+.sidebar-footer { margin-top:auto; padding:1rem 1.25rem; border-top:1px solid var(--g100); }
+.logout-btn { font-size:0.8125rem; color:var(--light); background:none; border:none; cursor:pointer; font-family:'Zen Maru Gothic',sans-serif; transition:color 0.15s; }
+.logout-btn:hover { color:var(--red600); }
+
+/* MAIN */
+.main { flex:1; padding:2rem; overflow-y:auto; }
+.page { display:none; }
+.page.active { display:block; }
+.page-title { font-family:'Kaisei Opti',serif; font-size:1.25rem; font-weight:600; color:var(--text); margin-bottom:1.5rem; }
+
+/* STATS */
+.stats-grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(140px,1fr)); gap:1rem; margin-bottom:2rem; }
+.stat-card { background:#fff; border:1px solid var(--g100); border-radius:12px; padding:1rem 1.25rem; }
+.stat-label { font-size:0.75rem; color:var(--light); margin-bottom:0.375rem; }
+.stat-num { font-size:1.75rem; font-weight:500; color:var(--text); }
+.stat-num.amber { color:var(--amber600); }
+.stat-num.green { color:var(--green600); }
+.stat-num.coral { color:var(--c600); }
+
+/* POST CARDS */
+.admin-post-card { background:#fff; border:1px solid var(--g100); border-radius:14px; padding:1.25rem 1.5rem; margin-bottom:0.875rem; transition:box-shadow 0.2s; animation:fadeUp 0.3s ease both; }
+.admin-post-card:hover { box-shadow:0 2px 12px rgba(0,0,0,0.05); }
+.admin-post-card.pending { border-left:4px solid var(--amber400); }
+.admin-post-card.approved { border-left:4px solid var(--green400); }
+.admin-post-card.rejected { border-left:4px solid var(--red400); opacity:0.65; }
+.post-card-header { display:flex; align-items:center; gap:10px; margin-bottom:0.75rem; flex-wrap:wrap; }
+.avatar { width:32px; height:32px; border-radius:50%; display:flex; align-items:center; justify-content:center; font-size:0.75rem; font-weight:500; flex-shrink:0; }
+.avatar.coral { background:var(--c50); color:var(--c800); }
+.avatar.teal { background:var(--t50); color:var(--t600); }
+.avatar.pink { background:var(--p50); color:var(--p600); }
+.role-badge { font-size:0.6875rem; padding:2px 9px; border-radius:999px; }
+.role-badge.coral { background:var(--c50); color:var(--c600); }
+.role-badge.teal { background:var(--t50); color:var(--t600); }
+.role-badge.pink { background:var(--p50); color:var(--p600); }
+.status-badge { font-size:0.6875rem; padding:2px 9px; border-radius:999px; font-weight:500; margin-left:auto; }
+.status-badge.pending { background:var(--amber50); color:var(--amber600); }
+.status-badge.approved { background:var(--green50); color:var(--green600); }
+.status-badge.rejected { background:var(--red50); color:var(--red600); }
+.age-tag { font-size:0.6875rem; padding:2px 8px; border-radius:999px; background:var(--g100); color:var(--g600); border:1px solid var(--g200); }
+.post-body { font-size:0.9rem; color:var(--text); line-height:1.8; margin-bottom:1rem; }
+.post-meta-row { font-size:0.75rem; color:var(--light); margin-bottom:0.875rem; }
+.action-row { display:flex; gap:0.625rem; flex-wrap:wrap; }
+.act-btn { padding:0.4rem 1rem; border-radius:999px; border:1px solid; font-size:0.8125rem; font-family:'Zen Maru Gothic',sans-serif; cursor:pointer; transition:all 0.15s; }
+.act-approve { border-color:var(--green400); color:var(--green600); background:var(--green50); }
+.act-approve:hover { background:var(--green400); color:#fff; }
+.act-reject { border-color:var(--red400); color:var(--red600); background:var(--red50); }
+.act-reject:hover { background:var(--red400); color:#fff; }
+.act-delete { border-color:var(--g200); color:var(--light); background:#fff; }
+.act-delete:hover { border-color:var(--red400); color:var(--red600); }
+.act-btn:disabled { opacity:0.5; cursor:not-allowed; }
+
+/* REPLIES in admin */
+.admin-replies { margin-top:0.75rem; padding-top:0.75rem; border-top:1px solid var(--g100); }
+.admin-reply-item { background:var(--g50); border-left:3px solid var(--t400); border-radius:0 8px 8px 0; padding:0.625rem 0.875rem; margin-bottom:0.5rem; font-size:0.8125rem; color:var(--muted); line-height:1.6; }
+.admin-reply-item.pending { border-left-color:var(--amber400); }
+.admin-reply-from { font-size:0.75rem; font-weight:500; color:var(--t600); margin-bottom:3px; display:flex; align-items:center; justify-content:space-between; }
+.reply-act-row { display:flex; gap:0.5rem; margin-top:0.5rem; }
+.reply-act { padding:0.25rem 0.75rem; border-radius:999px; border:1px solid; font-size:0.75rem; font-family:'Zen Maru Gothic',sans-serif; cursor:pointer; transition:all 0.15s; }
+.reply-approve { border-color:var(--green400); color:var(--green600); background:var(--green50); }
+.reply-approve:hover { background:var(--green400); color:#fff; }
+.reply-reject { border-color:var(--red400); color:var(--red600); background:var(--red50); }
+.reply-reject:hover { background:var(--red400); color:#fff; }
+
+/* SETTINGS */
+.settings-section { background:#fff; border:1px solid var(--g100); border-radius:14px; padding:1.5rem; margin-bottom:1.25rem; }
+.settings-title { font-size:0.9375rem; font-weight:500; color:var(--text); margin-bottom:1rem; padding-bottom:0.75rem; border-bottom:1px solid var(--g100); }
+.setting-row { display:flex; align-items:center; justify-content:space-between; padding:0.625rem 0; border-bottom:1px solid var(--g50); flex-wrap:wrap; gap:0.5rem; }
+.setting-row:last-child { border-bottom:none; }
+.setting-label { font-size:0.875rem; color:var(--text); }
+.setting-desc { font-size:0.75rem; color:var(--light); margin-top:2px; }
+.pw-input { padding:0.5rem 0.875rem; border:1px solid var(--g200); border-radius:8px; font-size:0.875rem; font-family:'Zen Maru Gothic',sans-serif; color:var(--text); background:var(--g50); outline:none; width:200px; transition:border-color 0.2s; }
+.pw-input:focus { border-color:var(--c400); background:#fff; }
+.save-btn { padding:0.5rem 1.25rem; background:var(--c400); color:#fff; border:none; border-radius:8px; font-size:0.875rem; font-family:'Zen Maru Gothic',sans-serif; cursor:pointer; transition:background 0.2s; }
+.save-btn:hover { background:var(--c600); }
+
+/* LOADING / EMPTY */
+.loading { text-align:center; padding:3rem 1rem; color:var(--light); font-size:0.9rem; }
+.empty-state { text-align:center; padding:3rem 1rem; color:var(--light); font-size:0.9rem; }
+.error-msg { background:var(--red50); border:1px solid #F09595; border-radius:10px; padding:1rem 1.25rem; font-size:0.875rem; color:var(--red600); margin-bottom:1rem; }
+
+/* TOAST */
+#toast { position:fixed; bottom:1.5rem; right:1.5rem; background:var(--g600); color:#fff; font-size:0.875rem; padding:0.75rem 1.25rem; border-radius:10px; opacity:0; transform:translateY(8px); transition:all 0.25s; pointer-events:none; font-family:'Zen Maru Gothic',sans-serif; z-index:999; }
+#toast.show { opacity:1; transform:translateY(0); }
+
+@keyframes fadeUp { from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:translateY(0)} }
+</style>
+</head>
+<body>
+
+<!-- SETUP (初回パスワード設定) -->
+<div id="setup-screen" style="display:none;position:fixed;inset:0;background:#FFFDF8;display:none;align-items:center;justify-content:center;">
+  <div class="login-card">
+    <div class="lock-icon">
+      <svg width="20" height="20" viewBox="0 0 20 20" fill="none"><rect x="3" y="9" width="14" height="10" rx="3" stroke="#C9714A" stroke-width="1.5"/><path d="M6.5 9V6.5a3.5 3.5 0 017 0V9" stroke="#C9714A" stroke-width="1.5" stroke-linecap="round"/><circle cx="10" cy="14" r="1.25" fill="#C9714A"/></svg>
+    </div>
+    <p class="login-logo">ホンネのおうち</p>
+    <p class="login-sub">初回セットアップ</p>
+    <p style="font-size:0.8125rem;color:#888780;margin-bottom:1rem;text-align:center;">管理画面のパスワードを設定してください</p>
+    <div class="attempt-warn" id="setup-warn"></div>
+    <label class="login-label">新しいパスワード（8文字以上）</label>
+    <input class="login-input" id="setup-pw1" type="password" placeholder="••••••••"/>
+    <label class="login-label">確認用（もう一度）</label>
+    <input class="login-input" id="setup-pw2" type="password" placeholder="••••••••" onkeydown="if(event.key==='Enter')doSetup()"/>
+    <button class="login-btn" onclick="doSetup()">パスワードを設定する</button>
+  </div>
+</div>
+
+<!-- LOGIN -->
+<div id="login-screen">
+  <div class="login-card">
+    <div class="lock-icon">
+      <svg width="20" height="20" viewBox="0 0 20 20" fill="none"><rect x="3" y="9" width="14" height="10" rx="3" stroke="#C9714A" stroke-width="1.5"/><path d="M6.5 9V6.5a3.5 3.5 0 017 0V9" stroke="#C9714A" stroke-width="1.5" stroke-linecap="round"/><circle cx="10" cy="14" r="1.25" fill="#C9714A"/></svg>
+    </div>
+    <p class="login-logo">ホンネのおうち</p>
+    <p class="login-sub">管理人専用ページ</p>
+    <div class="login-error" id="login-error">IDまたはパスワードが違います</div>
+    <div class="attempt-warn" id="attempt-warn"></div>
+    <label class="login-label">管理人ID</label>
+    <input class="login-input" id="login-id" type="text" placeholder="admin" autocomplete="username"/>
+    <label class="login-label">パスワード</label>
+    <input class="login-input" id="login-pw" type="password" placeholder="••••••••" autocomplete="current-password" onkeydown="if(event.key==='Enter')doLogin()"/>
+    <button class="login-btn" onclick="doLogin()">ログイン</button>
+  </div>
+</div>
+
+<!-- ADMIN -->
+<div id="admin-screen">
+  <div class="admin-wrap">
+    <aside class="sidebar">
+      <div class="sidebar-logo"><span></span>管理人ページ</div>
+      <div class="nav-item active" onclick="showPage('dashboard',this)">
+        <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><rect x="1" y="1" width="6" height="6" rx="1.5" stroke="currentColor" stroke-width="1.25"/><rect x="9" y="1" width="6" height="6" rx="1.5" stroke="currentColor" stroke-width="1.25"/><rect x="1" y="9" width="6" height="6" rx="1.5" stroke="currentColor" stroke-width="1.25"/><rect x="9" y="9" width="6" height="6" rx="1.5" stroke="currentColor" stroke-width="1.25"/></svg>
+        ダッシュボード
+      </div>
+      <div class="nav-item" onclick="showPage('pending',this)">
+        <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><circle cx="8" cy="8" r="6.5" stroke="currentColor" stroke-width="1.25"/><path d="M8 5v3.5l2 1.5" stroke="currentColor" stroke-width="1.25" stroke-linecap="round"/></svg>
+        承認待ち投稿
+        <span class="nav-badge" id="pending-badge" style="display:none">0</span>
+      </div>
+      <div class="nav-item" onclick="showPage('pending-replies',this)">
+        <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M1 4h9a3 3 0 010 6H7" stroke="currentColor" stroke-width="1.25" stroke-linecap="round"/><path d="M3 6L1 4l2-2" stroke="currentColor" stroke-width="1.25" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        承認待ち返信
+        <span class="nav-badge" id="pending-reply-badge" style="display:none">0</span>
+      </div>
+      <div class="nav-item" onclick="showPage('approved-replies',this)">
+        <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M1 4h9a3 3 0 010 6H7" stroke="currentColor" stroke-width="1.25" stroke-linecap="round"/><path d="M3 6L1 4l2-2" stroke="currentColor" stroke-width="1.25" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        公開中の返信
+      </div>
+      <div class="nav-item" onclick="showPage('rejected-replies',this)">
+        <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M1 4h9a3 3 0 010 6H7" stroke="currentColor" stroke-width="1.25" stroke-linecap="round"/><path d="M3 6L1 4l2-2" stroke="currentColor" stroke-width="1.25" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        非公開の返信
+      </div>
+      <div class="nav-item" onclick="showPage('approved',this)">
+        <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><circle cx="8" cy="8" r="6.5" stroke="currentColor" stroke-width="1.25"/><path d="M5 8l2 2 4-4" stroke="currentColor" stroke-width="1.25" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        公開中の投稿
+      </div>
+      <div class="nav-item" onclick="showPage('rejected',this)">
+        <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><circle cx="8" cy="8" r="6.5" stroke="currentColor" stroke-width="1.25"/><path d="M5.5 5.5l5 5M10.5 5.5l-5 5" stroke="currentColor" stroke-width="1.25" stroke-linecap="round"/></svg>
+        非公開の投稿
+      </div>
+      <div class="nav-item" onclick="showPage('settings',this)">
+        <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><circle cx="8" cy="8" r="2.5" stroke="currentColor" stroke-width="1.25"/><path d="M8 1.5v1.25M8 13.25V14.5M1.5 8h1.25M13.25 8H14.5M3.4 3.4l.88.88M11.72 11.72l.88.88M3.4 12.6l.88-.88M11.72 4.28l.88-.88" stroke="currentColor" stroke-width="1.25" stroke-linecap="round"/></svg>
+        設定
+      </div>
+      <div class="sidebar-footer">
+        <button class="logout-btn" onclick="doLogout()">ログアウト</button>
+      </div>
+    </aside>
+
+    <main class="main">
+      <!-- DASHBOARD -->
+      <div class="page active" id="page-dashboard">
+        <p class="page-title">ダッシュボード</p>
+        <div class="stats-grid">
+          <div class="stat-card"><p class="stat-label">承認待ち投稿</p><p class="stat-num amber" id="stat-pending">—</p></div>
+          <div class="stat-card"><p class="stat-label">承認待ち返信</p><p class="stat-num amber" id="stat-pending-replies">—</p></div>
+          <div class="stat-card"><p class="stat-label">公開中</p><p class="stat-num green" id="stat-approved">—</p></div>
+          <div class="stat-card"><p class="stat-label">累計投稿</p><p class="stat-num coral" id="stat-total">—</p></div>
+        </div>
+        <p style="font-size:0.875rem;color:var(--muted);margin-bottom:1rem">最近の承認待ち投稿</p>
+        <div id="dashboard-pending"><div class="loading">読み込み中…</div></div>
+      </div>
+
+      <!-- PENDING POSTS -->
+      <div class="page" id="page-pending">
+        <p class="page-title">承認待ちの投稿</p>
+        <div id="pending-list"><div class="loading">読み込み中…</div></div>
+      </div>
+
+      <!-- PENDING REPLIES -->
+      <div class="page" id="page-pending-replies">
+        <p class="page-title">承認待ちの返信</p>
+        <div id="pending-replies-list"><div class="loading">読み込み中…</div></div>
+      </div>
+
+      <!-- APPROVED REPLIES -->
+      <div class="page" id="page-approved-replies">
+        <p class="page-title">公開中の返信</p>
+        <div id="approved-replies-list"><div class="loading">読み込み中…</div></div>
+      </div>
+
+      <!-- REJECTED REPLIES -->
+      <div class="page" id="page-rejected-replies">
+        <p class="page-title">非公開の返信</p>
+        <div id="rejected-replies-list"><div class="loading">読み込み中…</div></div>
+      </div>
+
+      <!-- APPROVED -->
+      <div class="page" id="page-approved">
+        <p class="page-title">公開中の投稿</p>
+        <div id="approved-list"><div class="loading">読み込み中…</div></div>
+      </div>
+
+      <!-- REJECTED -->
+      <div class="page" id="page-rejected">
+        <p class="page-title">非公開の投稿</p>
+        <div id="rejected-list"><div class="loading">読み込み中…</div></div>
+      </div>
+
+      <!-- SETTINGS -->
+      <div class="page" id="page-settings">
+        <p class="page-title">設定</p>
+        <div class="settings-section">
+          <p class="settings-title">セキュリティ</p>
+          <div class="setting-row">
+            <div><p class="setting-label">管理人パスワードを変更</p><p class="setting-desc">新しいパスワードを入力（8文字以上）</p></div>
+            <div style="display:flex;gap:8px;align-items:center;flex-wrap:wrap">
+              <input class="pw-input" type="password" id="new-pw" placeholder="新しいパスワード"/>
+              <button class="save-btn" onclick="changePassword()">変更</button>
+            </div>
+          </div>
+          <div class="setting-row">
+            <div><p class="setting-label">ログイン試行制限</p><p class="setting-desc">5回失敗で30分ロック（有効）</p></div>
+            <span style="font-size:0.75rem;color:var(--green600);background:var(--green50);padding:3px 10px;border-radius:999px">有効</span>
+          </div>
+        </div>
+        <div class="settings-section">
+          <p class="settings-title">サイト情報</p>
+          <div class="setting-row">
+            <div><p class="setting-label">Supabase接続</p><p class="setting-desc">データベースに正常に接続されています</p></div>
+            <span style="font-size:0.75rem;color:var(--green600);background:var(--green50);padding:3px 10px;border-radius:999px" id="db-status">確認中…</span>
+          </div>
+        </div>
+      </div>
+    </main>
+  </div>
+</div>
+
+<div id="toast"></div>
+
+<script>
+const SUPABASE_URL = 'https://capiwvrzirqsouybntti.supabase.co';
+const SUPABASE_KEY = 'sb_publishable_gUjAJ6CR2mJ1_6FD08V2wg_fAnY_WpP';
+
+async function sbFetch(path, opts = {}) {
+  const { prefer, headers: extraHeaders, ...fetchOpts } = opts;
+  const res = await fetch(`${SUPABASE_URL}/rest/v1/${path}`, {
+    ...fetchOpts,
+    headers: {
+      'apikey': SUPABASE_KEY,
+      'Authorization': `Bearer ${SUPABASE_KEY}`,
+      'Content-Type': 'application/json',
+      'Prefer': prefer || 'return=representation',
+      ...(extraHeaders || {})
+    }
+  });
+  if (!res.ok) {
+    const err = await res.text();
+    console.error('Supabase error:', res.status, err);
+    throw new Error(err);
+  }
+  const text = await res.text();
+  return text ? JSON.parse(text) : null;
+}
+
+// ===== AUTH =====
+const ADMIN_ID = 'admin';
+const SESSION_KEY = 'honne_admin_session';
+const SESSION_DURATION = 5 * 60 * 1000; // 5分
+let adminPassword = localStorage.getItem('honne_admin_pw') || '';
+let failCount = 0;
+let lockUntil = 0;
+let realtimeInterval = null;
+
+// 起動時：パスワード未設定ならセットアップ画面を表示
+window.addEventListener('DOMContentLoaded', () => {
+  if (!adminPassword) {
+    document.getElementById('login-screen').style.display = 'none';
+    document.getElementById('setup-screen').style.display = 'flex';
+  } else if (checkSession()) {
+    document.getElementById('login-screen').style.display = 'none';
+    enterAdmin();
+  }
+});
+
+function doSetup() {
+  const pw1 = document.getElementById('setup-pw1').value;
+  const pw2 = document.getElementById('setup-pw2').value;
+  const warn = document.getElementById('setup-warn');
+  if (pw1.length < 8) { warn.textContent = 'パスワードは8文字以上にしてください'; warn.classList.add('show'); return; }
+  if (pw1 !== pw2) { warn.textContent = 'パスワードが一致しません'; warn.classList.add('show'); return; }
+  adminPassword = pw1;
+  localStorage.setItem('honne_admin_pw', pw1);
+  document.getElementById('setup-screen').style.display = 'none';
+  document.getElementById('login-screen').style.display = 'flex';
+  document.getElementById('attempt-warn').textContent = 'パスワードを設定しました。ログインしてください。';
+  document.getElementById('attempt-warn').classList.add('show');
+}
+
+function checkSession() {
+  const session = sessionStorage.getItem(SESSION_KEY);
+  if (!session) return false;
+  const { expiry } = JSON.parse(session);
+  if (Date.now() > expiry) {
+    sessionStorage.removeItem(SESSION_KEY);
+    return false;
+  }
+  return true;
+}
+
+function saveSession() {
+  sessionStorage.setItem(SESSION_KEY, JSON.stringify({ expiry: Date.now() + SESSION_DURATION }));
+}
+
+function doLogin() {
+  const now = Date.now();
+  if (now < lockUntil) {
+    const secs = Math.ceil((lockUntil - now) / 1000);
+    showWarn(`ロック中です。あと ${secs} 秒後に再試行できます。`);
+    return;
+  }
+  if (!adminPassword) {
+    showWarn('パスワードが設定されていません。管理者にお問い合わせください。');
+    return;
+  }
+  const id = document.getElementById('login-id').value.trim();
+  const pw = document.getElementById('login-pw').value;
+  if (id === ADMIN_ID && pw === adminPassword) {
+    failCount = 0;
+    saveSession();
+    enterAdmin();
+  } else {
+    failCount++;
+    document.getElementById('login-error').classList.add('show');
+    if (failCount >= 5) {
+      lockUntil = Date.now() + 30 * 60 * 1000;
+      showWarn('5回失敗しました。30分間ロックされます。');
+      document.getElementById('login-id').disabled = true;
+      document.getElementById('login-pw').disabled = true;
+      setTimeout(() => {
+        document.getElementById('login-id').disabled = false;
+        document.getElementById('login-pw').disabled = false;
+        failCount = 0;
+        document.getElementById('attempt-warn').classList.remove('show');
+      }, 30 * 60 * 1000);
+    } else {
+      showWarn(`あと ${5 - failCount} 回失敗するとロックされます。`);
+    }
+  }
+}
+
+function enterAdmin() {
+  document.getElementById('login-screen').style.display = 'none';
+  document.getElementById('admin-screen').style.display = 'block';
+  loadAll();
+  checkDbStatus();
+  startRealtime();
+}
+
+function showWarn(msg) {
+  const el = document.getElementById('attempt-warn');
+  el.textContent = msg; el.classList.add('show');
+}
+
+function doLogout() {
+  sessionStorage.removeItem(SESSION_KEY);
+  stopRealtime();
+  document.getElementById('admin-screen').style.display = 'none';
+  document.getElementById('login-screen').style.display = 'flex';
+  document.getElementById('login-id').value = '';
+  document.getElementById('login-pw').value = '';
+  document.getElementById('login-error').classList.remove('show');
+}
+
+function changePassword() {
+  const pw = document.getElementById('new-pw').value;
+  if (pw.length < 8) { showToast('パスワードは8文字以上にしてください'); return; }
+  adminPassword = pw;
+  localStorage.setItem('honne_admin_pw', pw);
+  document.getElementById('new-pw').value = '';
+  showToast('パスワードを変更しました。次回ログインから有効です。');
+}
+
+// ===== REALTIME (ポーリング) =====
+function startRealtime() {
+  stopRealtime();
+  realtimeInterval = setInterval(() => {
+    loadAll(true);
+  }, 15000); // 15秒ごとに自動更新
+}
+
+function stopRealtime() {
+  if (realtimeInterval) { clearInterval(realtimeInterval); realtimeInterval = null; }
+}
+
+// ===== DB STATUS =====
+async function checkDbStatus() {
+  try {
+    await sbFetch('posts?limit=1');
+    document.getElementById('db-status').textContent = '接続OK';
+  } catch(e) {
+    document.getElementById('db-status').textContent = 'エラー';
+    document.getElementById('db-status').style.color = 'var(--red600)';
+  }
+}
+
+// ===== LOAD =====
+const roleColor = {'悩んでいる親':'coral','乗り越えた親':'teal','育った子ども':'pink'};
+const roleInit  = {'悩んでいる親':'母','乗り越えた親':'先','育った子ども':'子'};
+let cachedPosts = [];
+let cachedReplies = [];
+
+async function loadAll(silent = false) {
+  try {
+    const [posts, replies] = await Promise.all([
+      sbFetch('posts?select=*&order=created_at.desc'),
+      sbFetch('replies?select=*&order=created_at.desc')
+    ]);
+    cachedPosts = posts || [];
+    cachedReplies = replies || [];
+    updateStats(cachedPosts, cachedReplies);
+    renderDashboard(cachedPosts);
+    renderPostList('pending-list',  cachedPosts.filter(p => p.status === 'pending'));
+    renderPostList('approved-list', cachedPosts.filter(p => p.status === 'approved'));
+    renderPostList('rejected-list', cachedPosts.filter(p => p.status === 'rejected'));
+    renderReplyList('pending-replies-list', cachedReplies.filter(r => r.status === 'pending'), cachedPosts);
+    renderReplyList('approved-replies-list', cachedReplies.filter(r => r.status === 'approved'), cachedPosts);
+    renderReplyList('rejected-replies-list', cachedReplies.filter(r => r.status === 'rejected'), cachedPosts);
+    if (!silent) checkDbStatus();
+  } catch(e) {
+    if (!silent) {
+      ['pending-list','approved-list','rejected-list','dashboard-pending','pending-replies-list']
+        .forEach(id => { document.getElementById(id).innerHTML = '<div class="error-msg">読み込みに失敗しました。ページを再読み込みしてください。</div>'; });
+    }
+  }
+}
+
+function updateStats(posts, replies) {
+  const pending  = posts.filter(p => p.status === 'pending').length;
+  const preplies = replies.filter(r => r.status === 'pending').length;
+  const approved = posts.filter(p => p.status === 'approved').length;
+  document.getElementById('stat-pending').textContent = pending;
+  document.getElementById('stat-pending-replies').textContent = preplies;
+  document.getElementById('stat-approved').textContent = approved;
+  document.getElementById('stat-total').textContent = posts.length;
+  const pb = document.getElementById('pending-badge');
+  pb.textContent = pending; pb.style.display = pending ? 'inline-block' : 'none';
+  const rb = document.getElementById('pending-reply-badge');
+  rb.textContent = preplies; rb.style.display = preplies ? 'inline-block' : 'none';
+}
+
+function renderDashboard(posts) {
+  const pending = posts.filter(p => p.status === 'pending').slice(0, 3);
+  const el = document.getElementById('dashboard-pending');
+  if (!pending.length) { el.innerHTML = '<div class="empty-state">承認待ちの投稿はありません 🎉</div>'; return; }
+  el.innerHTML = '';
+  pending.forEach(p => el.appendChild(makePostCard(p)));
+}
+
+function renderPostList(containerId, posts) {
+  const el = document.getElementById(containerId);
+  if (!posts.length) { el.innerHTML = '<div class="empty-state">該当する投稿はありません</div>'; return; }
+  el.innerHTML = '';
+  posts.forEach((p, i) => {
+    const card = makePostCard(p);
+    card.style.animationDelay = `${i * 0.04}s`;
+    el.appendChild(card);
+  });
+}
+
+function makePostCard(post) {
+  const col = roleColor[post.role] || 'coral';
+  const ini = roleInit[post.role] || '匿';
+  const dt  = new Date(post.created_at).toLocaleString('ja-JP', {year:'numeric',month:'2-digit',day:'2-digit',hour:'2-digit',minute:'2-digit'});
+  const statusLabel = {pending:'確認待ち', approved:'公開中', rejected:'非公開'}[post.status] || post.status;
+  const div = document.createElement('div');
+  div.className = `admin-post-card ${post.status}`;
+  div.id = `card-${post.id}`;
+  div.innerHTML = `
+    <div class="post-card-header">
+      <div class="avatar ${col}">${esc(ini)}</div>
+      <span style="font-size:0.8125rem;color:var(--muted)">匿名</span>
+      <span class="role-badge ${col}">${esc(post.role)}</span>
+      ${post.age_tag ? `<span class="age-tag">${esc(post.age_tag)}</span>` : ''}
+      <span class="status-badge ${post.status}">${statusLabel}</span>
+    </div>
+    <p class="post-body">${esc(post.text)}</p>
+    <p class="post-meta-row">投稿日時：${dt}　既読数：${post.read_count || 0}</p>
+    <div class="action-row" id="actions-${post.id}"></div>`;
+  const actions = div.querySelector(`#actions-${post.id}`);
+  if (post.status === 'pending') {
+    actions.innerHTML = `
+      <button class="act-btn act-approve" onclick="changePostStatus('${post.id}','approved',this)">公開する</button>
+      <button class="act-btn act-reject"  onclick="changePostStatus('${post.id}','rejected',this)">非公開にする</button>
+      <button class="act-btn act-delete"  onclick="deletePost('${post.id}',this)">削除</button>`;
+  } else if (post.status === 'approved') {
+    actions.innerHTML = `
+      <button class="act-btn act-reject" onclick="changePostStatus('${post.id}','rejected',this)">非公開にする</button>
+      <button class="act-btn act-delete" onclick="deletePost('${post.id}',this)">削除</button>`;
+  } else {
+    actions.innerHTML = `
+      <button class="act-btn act-approve" onclick="changePostStatus('${post.id}','approved',this)">再公開する</button>
+      <button class="act-btn act-delete"  onclick="deletePost('${post.id}',this)">削除</button>`;
+  }
+  return div;
+}
+
+function renderReplyList(containerId, replies, posts) {
+  const el = document.getElementById(containerId);
+  if (!replies.length) { el.innerHTML = '<div class="empty-state">該当する返信はありません</div>'; return; }
+  el.innerHTML = '';
+  replies.forEach((r, i) => {
+    const parentPost = posts.find(p => p.id === r.post_id);
+    const dt = new Date(r.created_at).toLocaleString('ja-JP', {year:'numeric',month:'2-digit',day:'2-digit',hour:'2-digit',minute:'2-digit'});
+    const statusLabel = {pending:'確認待ち', approved:'公開中', rejected:'非公開'}[r.status] || r.status;
+    const div = document.createElement('div');
+    div.className = `admin-post-card ${r.status}`;
+    div.id = `reply-card-${r.id}`;
+    div.style.animationDelay = `${i * 0.04}s`;
+    div.innerHTML = `
+      <p style="font-size:0.75rem;color:var(--light);margin-bottom:0.5rem">返信先：${parentPost ? esc(parentPost.text.slice(0,40)) + '…' : '(削除済み)'}</p>
+      <div class="admin-reply-item">
+        <div class="admin-reply-from" style="display:flex;justify-content:space-between">
+          <span>${esc(r.role)}${r.nickname ? ' / ' + esc(r.nickname) : ''}より <span style="font-weight:400;color:var(--light)">${dt}</span></span>
+          <span class="status-badge ${r.status}">${statusLabel}</span>
+        </div>
+        ${esc(r.text)}
+      </div>
+      <div class="reply-act-row" id="reply-actions-${r.id}">
+        ${r.status !== 'approved' ? `<button class="reply-act reply-approve" onclick="changeReplyStatus('${r.id}','approved',this)">公開する</button>` : ''}
+        ${r.status !== 'rejected' ? `<button class="reply-act reply-reject" onclick="changeReplyStatus('${r.id}','rejected',this)">非公開にする</button>` : ''}
+        <button class="reply-act" style="border-color:var(--red400);color:var(--red600)" onclick="deleteReply('${r.id}',this)">削除</button>
+      </div>`;
+    el.appendChild(div);
+  });
+}
+
+// ===== ACTIONS =====
+async function changePostStatus(id, status, btn) {
+  btn.disabled = true; btn.textContent = '処理中…';
+  try {
+    await sbFetch(`posts?id=eq.${id}`, {
+      method: 'PATCH',
+      prefer: 'return=minimal',
+      body: JSON.stringify({ status })
+    });
+    showToast(status === 'approved' ? '✅ 公開しました' : '🔒 非公開にしました');
+    await loadAll();
+  } catch(e) {
+    showToast('❌ 更新に失敗しました: ' + e.message);
+    btn.disabled = false; btn.textContent = status === 'approved' ? '公開する' : '非公開にする';
+  }
+}
+
+async function deletePost(id, btn) {
+  if (!confirm('この投稿を完全に削除しますか？\n関連する返信もすべて削除されます。')) return;
+  btn.disabled = true; btn.textContent = '削除中…';
+  try {
+    await sbFetch(`posts?id=eq.${id}`, { method: 'DELETE', prefer: 'return=minimal' });
+    showToast('🗑 削除しました');
+    await loadAll();
+  } catch(e) {
+    showToast('❌ 削除に失敗しました: ' + e.message);
+    btn.disabled = false; btn.textContent = '削除';
+  }
+}
+
+async function deleteReply(id, btn) {
+  if (!confirm('この返信を完全に削除しますか？')) return;
+  btn.disabled = true; btn.textContent = '削除中…';
+  try {
+    await sbFetch(`replies?id=eq.${id}`, { method: 'DELETE', prefer: 'return=minimal' });
+    showToast('🗑 返信を削除しました');
+    await loadAll();
+  } catch(e) {
+    showToast('❌ 削除に失敗しました');
+    btn.disabled = false; btn.textContent = '削除';
+  }
+}
+
+async function changeReplyStatus(id, status, btn) {
+  btn.disabled = true; btn.textContent = '処理中…';
+  try {
+    await sbFetch(`replies?id=eq.${id}`, {
+      method: 'PATCH',
+      prefer: 'return=minimal',
+      body: JSON.stringify({ status })
+    });
+    showToast(status === 'approved' ? '✅ 返信を公開しました' : '🔒 返信を非公開にしました');
+    await loadAll();
+  } catch(e) {
+    showToast('❌ 更新に失敗しました: ' + e.message);
+    btn.disabled = false; btn.textContent = status === 'approved' ? '公開する' : '非公開にする';
+  }
+}
+
+// ===== NAV =====
+function showPage(name, navEl) {
+  document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+  document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
+  document.getElementById('page-' + name).classList.add('active');
+  if (navEl) navEl.classList.add('active');
+}
+
+// ===== INIT =====
+// セッションが残っていれば自動ログイン
+if (checkSession()) {
+  enterAdmin();
+}
+
+// ===== HELPERS =====
+function esc(s) {
+  return String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+}
+function showToast(msg) {
+  const t = document.getElementById('toast');
+  t.textContent = msg; t.classList.add('show');
+  setTimeout(() => t.classList.remove('show'), 2500);
+}
+</script>
+</body>
+</html>

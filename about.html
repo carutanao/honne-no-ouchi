@@ -1,0 +1,276 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ホンネのおうち — サイトについて</title>
+<link href="https://fonts.googleapis.com/css2?family=Kaisei+Opti:wght@400;700&family=Zen+Maru+Gothic:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+:root {
+  --c50:#FEF6F0; --c100:#FDE8D8; --c400:#C9714A; --c600:#993C1D; --c800:#712B13;
+  --t50:#E1F5EE; --t400:#1D9E75; --t600:#0F6E56;
+  --g50:#F9F7F4; --g100:#F1EFE8; --g200:#D3D1C7; --g400:#888780; --g600:#5F5E5A;
+  --text:#2C2C2A; --muted:#5F5E5A; --light:#888780; --bg:#FFFDF8;
+}
+body { font-family:'Zen Maru Gothic',sans-serif; background:var(--bg); color:var(--text); line-height:1.8; }
+
+/* 水彩背景 */
+.watercolor-bg { position:fixed; inset:0; z-index:-1; pointer-events:none;
+  background:
+    radial-gradient(ellipse 60% 50% at 10% 20%,rgba(253,232,216,0.4) 0%,transparent 60%),
+    radial-gradient(ellipse 50% 60% at 90% 80%,rgba(225,245,238,0.35) 0%,transparent 60%),
+    radial-gradient(ellipse 40% 40% at 80% 15%,rgba(251,234,240,0.3) 0%,transparent 55%);
+  background-color:var(--bg);
+}
+
+/* ヘッダー */
+header { padding:1.125rem 2rem; display:flex; align-items:center; justify-content:space-between; border-bottom:1px solid var(--c100); background:rgba(255,253,248,0.92); position:sticky; top:0; z-index:100; height:62px; backdrop-filter:blur(8px); }
+.logo { font-family:'Kaisei Opti',serif; font-size:1.125rem; font-weight:700; color:var(--c800); text-decoration:none; display:flex; align-items:center; gap:8px; }
+.logo-dot { width:7px; height:7px; background:var(--c400); border-radius:50%; }
+.back-btn { font-size:0.8125rem; color:var(--muted); text-decoration:none; display:flex; align-items:center; gap:6px; transition:color 0.15s; }
+.back-btn:hover { color:var(--c400); }
+
+/* タブナビ */
+.tab-nav { background:rgba(255,253,248,0.9); border-bottom:1px solid var(--g100); padding:0 2rem; display:flex; gap:0; overflow-x:auto; position:sticky; top:62px; z-index:99; }
+.tab-btn { padding:0.875rem 1.25rem; font-size:0.875rem; font-family:'Zen Maru Gothic',sans-serif; color:var(--light); background:none; border:none; border-bottom:2px solid transparent; cursor:pointer; white-space:nowrap; transition:all 0.15s; }
+.tab-btn:hover { color:var(--text); }
+.tab-btn.active { color:var(--c600); border-bottom-color:var(--c400); font-weight:500; }
+
+/* コンテンツ */
+.content { max-width:720px; margin:0 auto; padding:3rem 2rem 6rem; }
+.page { display:none; }
+.page.active { display:block; animation:fadeUp 0.4s ease both; }
+@keyframes fadeUp { from{opacity:0;transform:translateY(10px)} to{opacity:1;transform:translateY(0)} }
+
+/* タイポグラフィ */
+.page-eyebrow { font-size:0.75rem; letter-spacing:0.2em; color:var(--c400); text-transform:uppercase; margin-bottom:0.75rem; }
+.page-title { font-family:'Kaisei Opti',serif; font-size:2rem; font-weight:700; color:var(--c800); line-height:1.4; margin-bottom:1rem; }
+.page-lead { font-size:1rem; color:var(--muted); line-height:2; margin-bottom:3rem; padding-bottom:2rem; border-bottom:1px solid var(--g100); }
+h2 { font-family:'Kaisei Opti',serif; font-size:1.125rem; color:var(--text); margin:2.5rem 0 0.875rem; padding-left:0.875rem; border-left:3px solid var(--c400); }
+h3 { font-size:0.9375rem; font-weight:500; color:var(--text); margin:1.5rem 0 0.5rem; }
+p { font-size:0.9rem; color:var(--muted); line-height:2; margin-bottom:1rem; }
+ul { padding-left:1.25rem; margin-bottom:1rem; }
+li { font-size:0.9rem; color:var(--muted); line-height:2; }
+
+/* カード */
+.intro-card { background:var(--c50); border-radius:16px; padding:1.75rem 2rem; margin-bottom:2rem; border-left:4px solid var(--c400); }
+.intro-card p { color:var(--c800); margin:0; font-size:0.9375rem; line-height:1.9; }
+
+/* 問い合わせ */
+.contact-card { background:#fff; border:1px solid var(--g100); border-radius:16px; padding:2rem; margin-bottom:1.25rem; }
+.contact-label { font-size:0.75rem; letter-spacing:0.12em; color:var(--light); margin-bottom:0.5rem; text-transform:uppercase; }
+.contact-value { font-size:0.9375rem; color:var(--text); font-weight:500; }
+.contact-note { font-size:0.8125rem; color:var(--light); margin-top:0.25rem; }
+.contact-link { color:var(--c400); text-decoration:none; }
+.contact-link:hover { text-decoration:underline; }
+
+/* フォーム */
+.form-group { margin-bottom:1.25rem; }
+.form-label { font-size:0.8125rem; color:var(--muted); display:block; margin-bottom:0.375rem; }
+.form-input, .form-textarea { width:100%; padding:0.75rem 1rem; border:1px solid var(--g200); border-radius:10px; font-size:0.9rem; font-family:'Zen Maru Gothic',sans-serif; color:var(--text); background:var(--g50); outline:none; transition:border-color 0.2s; }
+.form-input:focus, .form-textarea:focus { border-color:var(--c400); background:#fff; }
+.form-textarea { min-height:140px; resize:vertical; }
+.form-btn { background:var(--c400); color:#fff; border:none; padding:0.875rem 2rem; border-radius:10px; font-size:0.9375rem; font-family:'Zen Maru Gothic',sans-serif; cursor:pointer; transition:background 0.2s; }
+.form-btn:hover { background:var(--c600); }
+.form-note { font-size:0.8125rem; color:var(--light); margin-top:0.75rem; }
+
+/* 更新日 */
+.updated { font-size:0.8125rem; color:var(--light); margin-top:3rem; padding-top:1.5rem; border-top:1px solid var(--g100); }
+
+@media(max-width:640px) {
+  .content { padding:2rem 1.25rem 5rem; }
+  .page-title { font-size:1.5rem; }
+  .tab-btn { padding:0.75rem 1rem; font-size:0.8125rem; }
+  header { padding:0.875rem 1.25rem; }
+  .tab-nav { padding:0 0.5rem; }
+}
+</style>
+</head>
+<body>
+
+<div class="watercolor-bg"></div>
+
+<header>
+  <a href="/" class="logo"><span class="logo-dot"></span>ホンネのおうち</a>
+  <a href="/" class="back-btn">
+    <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M9 2L4 7l5 5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+    声の場所へ戻る
+  </a>
+</header>
+
+<nav class="tab-nav">
+  <button class="tab-btn active" onclick="showTab('about')">このサイトについて</button>
+  <button class="tab-btn" onclick="showTab('terms')">利用規約</button>
+  <button class="tab-btn" onclick="showTab('privacy')">プライバシーポリシー</button>
+  <button class="tab-btn" onclick="showTab('contact')">お問い合わせ</button>
+</nav>
+
+<main class="content">
+
+  <!-- ① このサイトについて -->
+  <div class="page active" id="page-about">
+    <p class="page-eyebrow">About</p>
+    <h1 class="page-title">このサイトを<br>作った理由</h1>
+    <p class="page-lead">母子家庭で育ちました。親には言えなかった気持ちが、今も胸の中にあります。その経験が、このサイトを作るきっかけになりました。</p>
+
+    <div class="intro-card">
+      <p>「ホンネ」を置いていける場所があったらいいな。<br>そう思ってこの場所を作りました。</p>
+    </div>
+
+    <h2>気づいたこと</h2>
+    <p>ひとり親を支援する団体や相談窓口は、少しずつ増えてきました。でも、ふと気づいたことがあります。ひとり親と支援団体をつなぐ場所はあっても、ひとり親世帯で育った子どもとひとり親をつなぐ場所は、ほとんどない。</p>
+    <p>悩んでいる親に、「大丈夫だよ」と伝えられるのは、同じ境遇を生き抜いた先輩親だけじゃない。その家庭で育った子どもの声もまた、親の心に届くものがあると思っています。</p>
+
+    <h2>つなげたい、という気持ち</h2>
+    <p>「親には言えなかったけど、感謝していた」「あの頃のお母さんに、ちゃんと伝えたかった」——そんな声を持っている人がいます。一方で、「自分の子どもはどう思っているんだろう」と夜中に不安になっている親がいます。</p>
+    <p>この二つをつなぎたい。そのために、この場所を作りました。</p>
+
+    <h2>声が流れる場所</h2>
+    <p>悩んでいる親の声を、乗り越えた先輩が受け取る。育った子どもの本音が、今まさに悩む親に届く。そのつながりが、「一人じゃない」という感覚を生むと信じています。</p>
+    <p>このサイトは、そういう声がそっと流れていく場所でありたいと思っています。</p>
+
+    <h2>運営について</h2>
+    <p>このサイトは個人が運営しています。声が届く場所として、できる限り続けていきたいと思っています。</p>
+    <p>不適切な投稿は管理人が非表示・削除対応をしています。安心して声を置いていってください。</p>
+
+    <p class="updated">最終更新：2026年5月</p>
+  </div>
+
+  <!-- ② 利用規約 -->
+  <div class="page" id="page-terms">
+    <p class="page-eyebrow">Terms of Service</p>
+    <h1 class="page-title">利用規約</h1>
+    <p class="page-lead">「ホンネのおうち」（以下「本サービス」）をご利用いただく前に、以下の利用規約をお読みください。本サービスを利用することで、これらの規約に同意したものとみなします。</p>
+
+    <h2>第1条（サービスの目的）</h2>
+    <p>本サービスは、ひとり親家庭に関わるすべての方が匿名で声を置いていける場所を提供することを目的としています。</p>
+
+    <h2>第2条（禁止事項）</h2>
+    <p>以下の行為を禁止します。</p>
+    <ul>
+      <li>他のユーザーを誹謗中傷・攻撃する行為</li>
+      <li>特定の個人・団体を傷つける内容の投稿</li>
+      <li>差別的・暴力的・性的な表現を含む投稿</li>
+      <li>個人情報（氏名・住所・電話番号等）を含む投稿</li>
+      <li>広告・宣伝・スパム目的の投稿</li>
+      <li>法令に違反する行為</li>
+      <li>サービスの運営を妨げる行為</li>
+    </ul>
+
+    <h2>第3条（投稿コンテンツ）</h2>
+    <p>投稿された内容の著作権は投稿者に帰属しますが、本サービスはサービス運営・改善のために投稿内容を利用できるものとします。不適切と判断した投稿は、予告なく非表示・削除する場合があります。</p>
+
+    <h2>第4条（免責事項）</h2>
+    <p>本サービスは、投稿内容の正確性・完全性を保証しません。本サービスの利用によって生じたいかなる損害についても、運営者は責任を負いません。本サービスは医療・法律・心理相談の代替ではありません。専門的なサポートが必要な場合は、適切な機関にご相談ください。</p>
+
+    <h2>第5条（サービスの変更・終了）</h2>
+    <p>運営者は予告なく本サービスの内容を変更・終了することがあります。</p>
+
+    <h2>第6条（規約の変更）</h2>
+    <p>本規約は必要に応じて変更することがあります。変更後も継続してサービスを利用した場合、変更後の規約に同意したものとみなします。</p>
+
+    <p class="updated">制定日：2026年5月 / 最終更新：2026年5月</p>
+  </div>
+
+  <!-- ③ プライバシーポリシー -->
+  <div class="page" id="page-privacy">
+    <p class="page-eyebrow">Privacy Policy</p>
+    <h1 class="page-title">プライバシーポリシー</h1>
+    <p class="page-lead">「ホンネのおうち」（以下「本サービス」）における個人情報の取り扱いについて説明します。</p>
+
+    <h2>収集する情報</h2>
+    <h3>投稿・返信データ</h3>
+    <p>投稿・返信時に入力された内容（テキスト・ニックネーム・選択した属性・アイコン）をデータベースに保存します。ニックネームは任意入力であり、本名の入力は不要です。</p>
+
+    <h3>ローカルストレージ</h3>
+    <p>ひとりごとメモ・セッション情報を、お使いのデバイスのローカルストレージに保存します。これらはサーバーには送信されず、端末内にのみ保存されます。</p>
+
+    <h2>情報の利用目的</h2>
+    <ul>
+      <li>サービスの提供・運営・改善</li>
+      <li>不適切なコンテンツの管理</li>
+      <li>サービスの安全性確保</li>
+    </ul>
+
+    <h2>第三者への提供</h2>
+    <p>法令に基づく場合を除き、収集した情報を第三者に提供することはありません。</p>
+
+    <h2>お問い合わせ</h2>
+    <p>個人情報の取り扱いに関するお問い合わせは、お問い合わせページよりご連絡ください。</p>
+
+    <p class="updated">制定日：2026年5月 / 最終更新：2026年5月</p>
+  </div>
+
+  <!-- ④ お問い合わせ -->
+  <div class="page" id="page-contact">
+    <p class="page-eyebrow">Contact</p>
+    <h1 class="page-title">お問い合わせ</h1>
+    <p class="page-lead">ご意見・ご要望・不適切な投稿の報告など、お気軽にご連絡ください。できる限り丁寧に対応いたします。</p>
+
+    <div class="contact-card">
+      <p class="contact-label">運営者</p>
+      <p class="contact-value">ホンネのおうち 運営者</p>
+      <p class="contact-note">個人によるサービス運営のため、返信にお時間をいただく場合があります。</p>
+    </div>
+
+    <div class="contact-card">
+      <p class="contact-label">メールアドレス</p>
+      <p class="contact-value"><a href="mailto:honne.no.ouchi@gmail.com" class="contact-link">honne.no.ouchi@gmail.com</a></p>
+    </div>
+
+
+
+    <h2 style="margin-top:2.5rem">お問い合わせフォーム</h2>
+    <p style="margin-bottom:1.5rem">以下のフォームからもご連絡いただけます。</p>
+
+    <div class="form-group">
+      <label class="form-label">お名前（任意）</label>
+      <input class="form-input" type="text" placeholder="匿名でも大丈夫です"/>
+    </div>
+    <div class="form-group">
+      <label class="form-label">メールアドレス（返信希望の場合）</label>
+      <input class="form-input" type="email" placeholder="example@mail.com"/>
+    </div>
+    <div class="form-group">
+      <label class="form-label">お問い合わせ種別</label>
+      <select class="form-input">
+        <option value="">選択してください</option>
+        <option>ご意見・ご感想</option>
+        <option>不適切な投稿の報告</option>
+        <option>バグ・不具合の報告</option>
+        <option>その他</option>
+      </select>
+    </div>
+    <div class="form-group">
+      <label class="form-label">お問い合わせ内容</label>
+      <textarea class="form-textarea" placeholder="内容をご記入ください…"></textarea>
+    </div>
+    <button class="form-btn" onclick="sendContact()">送信する</button>
+    <p class="form-note">※ 現在このフォームはサンプルです。実際の送信機能は別途設定が必要です。</p>
+  </div>
+
+</main>
+
+<script>
+function showTab(id) {
+  document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+  document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+  document.getElementById('page-' + id).classList.add('active');
+  event.currentTarget.classList.add('active');
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+function sendContact() {
+  alert('ありがとうございます。\n現在フォーム送信機能は準備中です。\nメールまたはXよりご連絡ください。');
+}
+
+// URLハッシュで直接ページを開く
+const hash = location.hash.replace('#', '');
+if (['about','terms','privacy','contact'].includes(hash)) {
+  const btn = document.querySelector(`[onclick="showTab('${hash}')"]`);
+  if (btn) btn.click();
+}
+</script>
+</body>
+</html>
