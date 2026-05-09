@@ -510,6 +510,100 @@ footer { background:var(--g100); padding:2rem; text-align:center; font-size:0.81
 .icon-opt { width:44px; height:44px; border-radius:50%; border:2px solid var(--g200); background:#fff; cursor:pointer; display:inline-flex; align-items:center; justify-content:center; transition:all 0.15s; }
 .icon-opt:hover { border-color:var(--c400); }
 .icon-opt.active { border-color:var(--c400); background:var(--c50); }
+
+/* ══════════════════════════════
+   つなぐ機能 CSS
+══════════════════════════════ */
+/* カード選択状態 */
+.post-card.selected {
+  border-color:rgba(201,113,74,0.3);
+  box-shadow:0 0 0 1px rgba(201,113,74,0.15),0 0 16px 5px rgba(253,232,216,0.5),0 0 36px 12px rgba(253,232,216,0.2);
+  transform:translateY(-1px);
+}
+/* キーワードチップ */
+.kw-section { overflow:hidden;max-height:0;opacity:0;transition:max-height 0.4s ease,opacity 0.3s ease;border-top:1px solid var(--g100);margin-top:0.75rem;padding-top:0; }
+.kw-section.open { max-height:100px;opacity:1;padding-top:0.75rem; }
+.kw-label { font-size:0.6875rem;color:var(--c400);letter-spacing:0.1em;margin-bottom:7px; }
+.kw-chips { display:flex;flex-wrap:wrap;gap:6px; }
+.kw-chip { font-size:0.75rem;padding:4px 13px;border-radius:999px;border:1px solid rgba(201,113,74,0.25);background:var(--c50);color:var(--c600);cursor:pointer;font-family:'Zen Maru Gothic',sans-serif;transition:all 0.18s ease;opacity:0;transform:translateY(7px);animation:chipRise 0.3s ease forwards; }
+.kw-chip:nth-child(1){animation-delay:0.05s}.kw-chip:nth-child(2){animation-delay:0.1s}.kw-chip:nth-child(3){animation-delay:0.15s}.kw-chip:nth-child(4){animation-delay:0.2s}.kw-chip:nth-child(5){animation-delay:0.25s}
+@keyframes chipRise { to{opacity:1;transform:translateY(0)} }
+.kw-chip:hover,.kw-chip.active { background:var(--c400);color:#fff;border-color:var(--c400);box-shadow:0 2px 8px rgba(201,113,74,0.25); }
+.kw-chip.active { transform:scale(1.04); }
+/* キーワード光り */
+mark.kw-glow { background:transparent;color:var(--c600);font-weight:500;border-radius:3px;padding:0 2px;animation:kwPulse 2.8s ease-in-out infinite;display:inline;font-style:normal; }
+@keyframes kwPulse { 0%,100%{background-color:rgba(201,113,74,0.09)} 50%{background-color:rgba(201,113,74,0.26)} }
+.post-card.selected mark.kw-glow { animation:kwPulseStrong 2s ease-in-out infinite; }
+@keyframes kwPulseStrong { 0%,100%{background-color:rgba(201,113,74,0.12)} 50%{background-color:rgba(201,113,74,0.34);box-shadow:0 0 6px rgba(201,113,74,0.15)} }
+/* FAB */
+.fab { position:fixed;right:24px;bottom:32px;z-index:300;width:56px;height:56px;border-radius:50%;border:none;cursor:pointer;display:flex;align-items:center;justify-content:center;flex-direction:column;gap:2px;font-family:'Kaisei Opti',serif;transition:background 0.3s,opacity 0.3s,box-shadow 0.3s; }
+.fab.idle { background:var(--g400);color:#fff;opacity:0.5;box-shadow:0 4px 14px rgba(0,0,0,0.15); }
+.fab.post-selected { background:var(--c400);color:#fff;opacity:1;animation:fabPulse 2s ease-in-out infinite; }
+.fab.ready { background:var(--c400);color:#fff;opacity:1;animation:fabGlow 1.5s ease-in-out infinite; }
+@keyframes fabPulse { 0%,100%{box-shadow:0 4px 18px rgba(201,113,74,0.35)} 50%{box-shadow:0 4px 28px rgba(201,113,74,0.6)} }
+@keyframes fabGlow { 0%,100%{box-shadow:0 0 0 0 rgba(201,113,74,0.4),0 4px 18px rgba(201,113,74,0.5);transform:scale(1)} 50%{box-shadow:0 0 0 10px rgba(201,113,74,0),0 4px 32px rgba(201,113,74,0.7);transform:scale(1.05)} }
+.fab-icon { font-size:1.2rem;line-height:1; }
+.fab-label { font-size:0.5625rem;letter-spacing:0.08em; }
+/* コネクトビュー */
+#connect-view { position:fixed;inset:0;z-index:400;background:rgba(255,253,248,0.97);display:none;flex-direction:column;align-items:center;overflow:hidden; }
+#connect-view.visible { display:flex;animation:cvEnter 0.35s ease both; }
+@keyframes cvEnter { from{opacity:0;transform:scale(0.97)} to{opacity:1;transform:scale(1)} }
+#connect-view::before { content:'';position:absolute;inset:0;pointer-events:none;background:radial-gradient(ellipse 70% 60% at 50% 40%,rgba(253,232,216,0.35) 0%,transparent 65%),radial-gradient(ellipse 50% 50% at 15% 80%,rgba(225,245,238,0.3) 0%,transparent 55%),radial-gradient(ellipse 45% 40% at 88% 18%,rgba(251,234,240,0.25) 0%,transparent 55%); }
+.cv-header { width:100%;padding:1rem 2rem;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid var(--c100);background:rgba(255,253,248,0.92);backdrop-filter:blur(8px);position:relative;z-index:10;flex-shrink:0;height:62px; }
+.cv-title { font-family:'Kaisei Opti',serif;font-size:1rem;color:var(--c800);display:flex;align-items:center;gap:8px; }
+.cv-kw-pill { background:var(--c50);border:1px solid var(--c100);color:var(--c600);font-size:0.75rem;padding:3px 12px;border-radius:999px; }
+.cv-back { display:flex;align-items:center;gap:6px;font-size:0.875rem;color:var(--muted);background:none;border:none;cursor:pointer;font-family:'Zen Maru Gothic',sans-serif;transition:color 0.15s; }
+.cv-back:hover { color:var(--c400); }
+#lines-svg { position:absolute;inset:0;width:100%;height:100%;pointer-events:none;z-index:402; }
+.cv-scene { position:relative;flex:1;width:100%;max-width:720px;display:flex;align-items:center;justify-content:center; }
+.cv-center { position:relative;z-index:405;width:min(320px,86vw); }
+.cv-center .post-card { cursor:default;box-shadow:0 0 0 1.5px rgba(201,113,74,0.2),0 8px 40px rgba(201,113,74,0.12),0 0 28px 10px rgba(253,232,216,0.4);border-color:rgba(201,113,74,0.25);transform:none !important; }
+.cv-center .post-card:hover { transform:none !important;box-shadow:0 0 0 1.5px rgba(201,113,74,0.2),0 8px 40px rgba(201,113,74,0.12),0 0 28px 10px rgba(253,232,216,0.4) !important; }
+.cv-center-label { text-align:center;margin-top:10px;font-size:0.8125rem;color:var(--c400);letter-spacing:0.03em; }
+.cv-center-label span { background:var(--c50);border:1px solid var(--c100);padding:3px 14px;border-radius:999px; }
+.cv-center .post-card { position:relative; }
+.cv-center .post-card .cv-hole { top:16px;left:16px;width:12px;height:12px; }
+.cv-float { position:absolute;z-index:404;width:clamp(220px,34vw,264px);cursor:grab;user-select:none;touch-action:none;transition:box-shadow 0.2s; }
+.cv-float.pinned { animation:none !important; }
+.cv-float.dragging { cursor:grabbing;z-index:420; }
+.cv-float.active-card { z-index:415;filter:drop-shadow(0 8px 24px rgba(0,0,0,0.13)); }
+.cv-fc-card { background:#fff;border-radius:16px;border:1px solid var(--g100);padding:1rem 1.125rem 0.875rem;box-shadow:0 4px 18px rgba(0,0,0,0.07);transition:box-shadow 0.2s,border-color 0.2s;overflow:hidden;position:relative; }
+.cv-float.active-card .cv-fc-card { border-color:rgba(201,113,74,0.25);box-shadow:0 8px 32px rgba(201,113,74,0.12),0 0 0 1.5px rgba(201,113,74,0.15); }
+.cv-fc-header { display:flex;align-items:center;gap:7px;flex-wrap:wrap;margin-bottom:0.5rem; }
+.cv-fc-text { font-size:0.8125rem;color:var(--text);line-height:1.75;display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden;margin-bottom:0.5rem; }
+.cv-float.active-card .cv-fc-text { -webkit-line-clamp:unset; }
+.cv-fc-kw-match { display:inline-block;margin-bottom:0.5rem;font-size:0.625rem;padding:2px 9px;border-radius:999px;background:var(--c50);color:var(--c600);border:1px solid var(--c100); }
+.cv-fc-replies { border-top:1px solid var(--g100);margin-top:0.5rem;padding-top:0.625rem; }
+.cv-fc-reply { font-size:0.75rem;color:var(--muted);line-height:1.65;padding:0.5rem 0.625rem;border-left:2.5px solid var(--t400);border-radius:0 8px 8px 0;background:#FAFFFC;margin-bottom:0.375rem; }
+.cv-fc-reply.cr { border-left-color:var(--c400);background:#FFFCFA; }
+.cv-fc-reply.tr { border-left-color:var(--t400);background:#FAFFFC; }
+.cv-fc-reply.pr { border-left-color:var(--p400);background:#FFF8FB; }
+.cv-fc-reply.ar { border-left-color:#D4860A;background:#FFFDF5; }
+.cv-fc-reply-from { display:flex;align-items:center;gap:5px;font-size:0.6875rem;font-weight:500;color:var(--text);margin-bottom:3px; }
+.cv-fc-reply-badge { font-size:0.575rem;padding:1px 6px;border-radius:999px; }
+.cv-fc-extra { display:none; }
+.cv-float.active-card .cv-fc-extra { display:block; }
+.cv-fc-show-more { display:flex;align-items:center;gap:4px;font-size:0.75rem;color:var(--muted);background:none;border:none;cursor:pointer;font-family:'Zen Maru Gothic',sans-serif;padding:4px 2px;margin-top:2px;transition:color 0.15s; }
+.cv-fc-show-more:hover { color:var(--c400); }
+.cv-float.active-card .cv-fc-show-more { display:none; }
+/* 穴 */
+.cv-hole { position:absolute;width:11px;height:11px;border-radius:50%;background:rgba(255,253,248,0.94);border:1.5px solid rgba(185,162,135,0.25);box-shadow:inset 0 1px 3px rgba(0,0,0,0.08);z-index:6;pointer-events:none; }
+.cv-fc-card .cv-hole { top:11px;left:11px; }
+/* ドリフト */
+@keyframes drift1 { 0%,100%{transform:translateY(0px) translateX(0px) rotate(-0.4deg)} 30%{transform:translateY(-7px) translateX(3px) rotate(0.2deg)} 65%{transform:translateY(-4px) translateX(-2px) rotate(-0.55deg)} }
+@keyframes drift2 { 0%,100%{transform:translateY(0px) translateX(0px) rotate(0.5deg)} 38%{transform:translateY(-8px) translateX(-3px) rotate(-0.18deg)} 72%{transform:translateY(-4px) translateX(2px) rotate(0.65deg)} }
+@keyframes drift3 { 0%,100%{transform:translateY(0px) translateX(0px) rotate(-0.3deg)} 42%{transform:translateY(-6px) translateX(2px) rotate(0.35deg)} 76%{transform:translateY(-3px) translateX(-3px) rotate(-0.48deg)} }
+@keyframes drift4 { 0%,100%{transform:translateY(0px) translateX(0px) rotate(0.4deg)} 35%{transform:translateY(-7px) translateX(-2px) rotate(-0.25deg)} 70%{transform:translateY(-3px) translateX(3px) rotate(0.58deg)} }
+/* カウント表示 */
+.cv-count-display { position:absolute;bottom:20px;left:50%;transform:translateX(-50%);text-align:center;z-index:406;animation:countFadeUp 0.5s ease 0.3s both; }
+@keyframes countFadeUp { from{opacity:0;transform:translateX(-50%) translateY(12px)} to{opacity:1;transform:translateX(-50%) translateY(0)} }
+.cv-count-wrap { position:relative;display:inline-block; }
+.cv-ripple { position:absolute;top:50%;left:50%;width:32px;height:32px;border-radius:50%;border:1.5px solid rgba(201,113,74,0.4);transform:translate(-50%,-50%);animation:ripple 2s ease-out both; }
+.cv-ripple:nth-child(2){animation-delay:0.4s}.cv-ripple:nth-child(3){animation-delay:0.8s}
+@keyframes ripple { 0%{width:32px;height:32px;opacity:0.7} 100%{width:110px;height:110px;opacity:0} }
+.cv-count-num { font-family:'Kaisei Opti',serif;font-size:2.25rem;color:var(--c400);line-height:1; }
+.cv-count-label { font-size:0.75rem;color:var(--muted);margin-top:4px;letter-spacing:0.05em; }
+@media(max-width:640px){ .cv-float{width:clamp(190px,42vw,240px)} .cv-center{width:min(260px,80vw)} .cv-header{padding:0.875rem 1.25rem;height:54px} }
 </style>
 </head>
 <body>
@@ -704,6 +798,34 @@ footer { background:var(--g100); padding:2rem; text-align:center; font-size:0.81
 
 <div id="toast"></div>
 
+<!-- FAB -->
+<button class="fab idle" id="fab">
+  <span class="fab-icon">✦</span>
+  <span class="fab-label">つなぐ</span>
+</button>
+
+<!-- コネクトビュー -->
+<div id="connect-view">
+  <svg id="lines-svg" style="display:none"></svg>
+  <div class="cv-header">
+    <div class="cv-title">
+      <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+        <path d="M3 8.5C3 5.8 5 3.7 8 3.7s5 2.1 5 4.8" stroke="#C9714A" stroke-width="1.5" stroke-linecap="round"/>
+        <circle cx="3" cy="8.5" r="2" fill="#C9714A"/>
+        <circle cx="13" cy="8.5" r="2" fill="#C9714A"/>
+      </svg>
+      つながった声
+      <span class="cv-kw-pill" id="cv-kw-pill"></span>
+    </div>
+    <button class="cv-back" id="cv-back-btn">
+      <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M9 2L4 7l5 5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      一覧に戻る
+    </button>
+  </div>
+  <div class="cv-scene" id="cv-scene"></div>
+  <div class="cv-count-display" id="cv-count-display"></div>
+</div>
+
 <script>
 const SUPABASE_URL = 'https://capiwvrzirqsouybntti.supabase.co';
 const SUPABASE_KEY = 'sb_publishable_gUjAJ6CR2mJ1_6FD08V2wg_fAnY_WpP';
@@ -862,6 +984,7 @@ function renderPosts(filter) {
     });
     const div = document.createElement('div');
     div.className = 'post-card';
+    div.dataset.id = post.id;
     div.style.animationDelay = `${i * 0.05}s`;
     div.innerHTML = `
       <div class="post-header">
@@ -990,6 +1113,8 @@ function renderPosts(filter) {
       av.innerHTML = ''; av.appendChild(svg);
     })(post, div);
   });
+  // キーワードチップを注入
+  injectConnectChips(filtered);
 }
 
 function filterPosts(f, el) {
@@ -1480,5 +1605,336 @@ if (typeof roleInit !== 'undefined') {
 <template id="tpl-letter"><svg width="22" height="22" viewBox="0 0 22 22" fill="none"><rect x="3" y="6" width="16" height="11" rx="2.5" stroke="currentColor" stroke-width="1.5"/><path d="M3 9L11 14L19 9" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></template>
 <template id="tpl-bubble"><svg width="22" height="22" viewBox="0 0 22 22" fill="none"><path d="M4 5.5C4 4.67 4.67 4 5.5 4H16.5C17.33 4 18 4.67 18 5.5V13C18 13.83 17.33 14.5 16.5 14.5H12L8 18V14.5H5.5C4.67 14.5 4 13.83 4 13V5.5Z" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round" fill="none"/><path d="M7 8H15" stroke="currentColor" stroke-width="1.25" stroke-linecap="round"/><path d="M7 11H12" stroke="currentColor" stroke-width="1.25" stroke-linecap="round"/></svg></template>
 <template id="tpl-megaphone"><svg width="22" height="22" viewBox="0 0 22 22" fill="none"><path d="M4 9H8L16 5V17L8 13H4V9Z" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round" fill="none"/><path d="M8 13V18" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/><path d="M17 8C18 9 18.5 10 18.5 11C18.5 12 18 13 17 14" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" fill="none"/></svg></template>
+<script>
+/* ══════════════════════════════════════
+   つなぐ機能 JS
+══════════════════════════════════════ */
+const KEYWORD_MASTER = [
+  '疲れた','一人で','子ども','不安','大丈夫','限界','乗り越えた',
+  'ありがとう','感謝','深夜','泣けてきた','頑張った','怖かった',
+  '反抗期','ご飯','夕飯','笑顔','誇り','辛い','心配','謝りたい',
+  '傷ついた','泣いた','朝が来る','伝えたい','孤独','仕事','学校'
+];
+function extractKeywords(text) {
+  const found = KEYWORD_MASTER.filter(kw => text.includes(kw));
+  return found.length > 0 ? found.slice(0, 5) : ['つながる'];
+}
+function highlightKw(text, kw) {
+  if (!kw) return text;
+  const escaped = kw.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+  return text.replace(new RegExp(escaped, 'g'), `<mark class="kw-glow">${kw}</mark>`);
+}
+function shuffle(arr) {
+  const a = [...arr]; for (let i = a.length-1; i>0; i--) { const j=Math.floor(Math.random()*(i+1)); [a[i],a[j]]=[a[j],a[i]]; } return a;
+}
+function relativeTime(dateStr) {
+  const diff = (Date.now() - new Date(dateStr).getTime()) / 1000;
+  if (diff < 60) return 'たった今';
+  if (diff < 3600) return `${Math.floor(diff/60)}分前`;
+  if (diff < 86400) return `${Math.floor(diff/3600)}時間前`;
+  return `${Math.floor(diff/86400)}日前`;
+}
+const ROLE_META_CV = {
+  '今、子育て中の親': { key:'now',  color:'coral', init:'母', cls:'cr', badgeCls:'coral' },
+  '乗り越えた親':     { key:'past',  color:'teal',  init:'先', cls:'tr', badgeCls:'teal'  },
+  '育った子ども':     { key:'child', color:'pink',  init:'子', cls:'pr', badgeCls:'pink'  },
+  '応援している人':   { key:'cheer', color:'amber', init:'応', cls:'ar', badgeCls:'amber' },
+};
+
+/* 状態 */
+let cvSelectedId  = null;
+let cvSelectedKw  = null;
+let cvConnectMode = false;
+let cvAnimFrameId = null;
+let cvDragState   = null;
+let cvFrontZ      = 406;
+const cvLS_KEY    = 'honne_connect_count';
+let cvCount       = parseInt(localStorage.getItem(cvLS_KEY)||'0', 10);
+
+const fab            = document.getElementById('fab');
+const cvView         = document.getElementById('connect-view');
+const cvScene        = document.getElementById('cv-scene');
+const linesSvg       = document.getElementById('lines-svg');
+const cvCountDisplay = document.getElementById('cv-count-display');
+
+function cvSetCount(n) {
+  cvCount = n; localStorage.setItem(cvLS_KEY, n);
+}
+
+/* キーワードチップを投稿カードに注入 */
+function injectConnectChips(posts) {
+  posts.forEach(post => {
+    const card = document.querySelector(`.post-card[data-id="${post.id}"]`);
+    if (!card || card.dataset.cvReady) return;
+    card.dataset.cvReady = '1';
+    const keywords = extractKeywords(post.text);
+    const kwSec = document.createElement('div');
+    kwSec.className = 'kw-section'; kwSec.id = `kw-${post.id}`;
+    kwSec.innerHTML = `<div class="kw-label">つながるワード</div><div class="kw-chips">${keywords.map(k=>`<button class="kw-chip" data-kw="${k}" data-pid="${post.id}">${k}</button>`).join('')}</div>`;
+    card.appendChild(kwSec);
+    card.addEventListener('click', e => { if (e.target.classList.contains('kw-chip')) return; cvHandleCardClick(post); });
+    kwSec.querySelectorAll('.kw-chip').forEach(chip => {
+      chip.addEventListener('click', e => { e.stopPropagation(); cvHandleChipClick(post, chip.dataset.kw, chip); });
+    });
+  });
+}
+
+/* カード選択 */
+function cvHandleCardClick(post) {
+  if (cvConnectMode) return;
+  const id = post.id;
+  if (cvSelectedId === id) { cvDeselectAll(); return; }
+  if (cvSelectedId !== null) cvDeselectAll();
+  cvSelectedId = id;
+  const card = document.querySelector(`.post-card[data-id="${id}"]`);
+  if (!card) return;
+  card.classList.add('selected');
+  const kwSec = document.getElementById(`kw-${id}`);
+  if (kwSec) {
+    kwSec.classList.add('open');
+    kwSec.querySelectorAll('.kw-chip').forEach(c => { c.style.animation='none'; void c.offsetWidth; c.style.animation=''; });
+  }
+  fab.className = 'fab post-selected';
+  cvSelectedKw = null;
+}
+
+function cvDeselectAll() {
+  if (cvSelectedId !== null) {
+    const card = document.querySelector(`.post-card[data-id="${cvSelectedId}"]`);
+    if (card) {
+      card.classList.remove('selected');
+      const kwSec = document.getElementById(`kw-${cvSelectedId}`);
+      if (kwSec) kwSec.classList.remove('open');
+      if (cvSelectedKw) { const t = card.querySelector('.post-text'); if (t) { const p = allPosts.find(x=>x.id==cvSelectedId); if (p) t.textContent=p.text; } }
+    }
+  }
+  cvSelectedId = null; cvSelectedKw = null;
+  fab.className = 'fab idle';
+  document.querySelectorAll('.kw-chip.active').forEach(c => c.classList.remove('active'));
+}
+
+function cvHandleChipClick(post, kw, chipEl) {
+  if (cvSelectedId !== post.id) cvHandleCardClick(post);
+  document.querySelectorAll('.kw-chip.active').forEach(c => c.classList.remove('active'));
+  chipEl.classList.add('active');
+  const card = document.querySelector(`.post-card[data-id="${post.id}"]`);
+  if (card) { const t = card.querySelector('.post-text'); if (t) t.innerHTML = highlightKw(post.text, kw); }
+  cvSelectedKw = kw;
+  fab.className = 'fab ready';
+}
+
+/* FAB */
+fab.addEventListener('click', () => {
+  if (cvConnectMode) return;
+  if (!cvSelectedId) { showToast('まず投稿を選んでください'); return; }
+  if (!cvSelectedKw) { showToast('つながるワードを選んでください'); return; }
+  const base = allPosts.find(p => p.id == cvSelectedId);
+  if (!base) return;
+  const kw = cvSelectedKw;
+  let matches = allPosts.filter(p => p.id !== base.id && extractKeywords(p.text).includes(kw));
+  const others = shuffle(allPosts.filter(p => p.id !== base.id && !matches.includes(p)));
+  matches = shuffle([...matches, ...others]).slice(0, 4);
+  cvSetCount(cvCount + 1);
+  cvBuildView(base, kw, matches);
+  cvConnectMode = true;
+});
+
+/* コネクトビュー構築 */
+function cvBuildView(base, kw, matches) {
+  cvScene.innerHTML = '';
+  document.getElementById('cv-kw-pill').textContent = `「${kw}」でつながる`;
+  const meta = ROLE_META_CV[base.role] || { color:'coral', init:'匿' };
+  const ini  = base.nickname ? base.nickname.slice(0,1) : meta.init;
+
+  // 中央カード
+  const centerWrap = document.createElement('div');
+  centerWrap.className = 'cv-center';
+  const centerCard = document.createElement('div');
+  centerCard.className = 'post-card';
+  centerCard.style.position = 'relative';
+  centerCard.innerHTML = `
+    <div class="post-header">
+      <div class="avatar ${meta.color}">${ini}</div>
+      <span class="badge ${meta.color}">${base.role}</span>
+      ${base.age_tag ? `<span class="age-tag">${base.age_tag}</span>` : ''}
+      <span class="post-name">${base.nickname||'匿名'}</span>
+    </div>
+    <div class="post-text">${highlightKw(base.text, kw)}</div>`;
+  const hole0 = document.createElement('div'); hole0.className = 'cv-hole';
+  centerCard.insertBefore(hole0, centerCard.firstChild);
+  const label = document.createElement('div');
+  label.className = 'cv-center-label';
+  label.innerHTML = `「<span>${kw}</span>」でつながっています`;
+  centerWrap.appendChild(centerCard);
+  centerWrap.appendChild(label);
+  cvScene.appendChild(centerWrap);
+
+  // 浮遊カード
+  const driftAnims = ['drift1','drift2','drift3','drift4'];
+  matches.forEach((post, i) => {
+    const pm = ROLE_META_CV[post.role] || { color:'coral', init:'匿', cls:'cr', badgeCls:'coral' };
+    const pi = post.nickname ? post.nickname.slice(0,1) : pm.init;
+    const hasKw = extractKeywords(post.text).includes(kw);
+    const wrap = document.createElement('div');
+    wrap.className = 'cv-float drifting';
+    wrap.style.animation = `${driftAnims[i%4]} ${7+i*0.7}s ease-in-out infinite`;
+    const card = document.createElement('div');
+    card.className = 'cv-fc-card';
+    const holeEl = document.createElement('div'); holeEl.className = 'cv-hole';
+    card.appendChild(holeEl);
+    const header = document.createElement('div');
+    header.className = 'cv-fc-header';
+    header.innerHTML = `<div class="avatar ${pm.color}">${pi}</div><span class="badge ${pm.badgeCls}">${post.role}</span>${post.age_tag?`<span class="age-tag">${post.age_tag}</span>`:''}<span class="post-name" style="font-size:0.75rem">${post.nickname||'匿名'}</span>`;
+    card.appendChild(header);
+    const text = document.createElement('div');
+    text.className = 'cv-fc-text';
+    text.innerHTML = highlightKw(post.text, kw);
+    card.appendChild(text);
+    if (hasKw) { const b = document.createElement('span'); b.className='cv-fc-kw-match'; b.textContent=kw; card.appendChild(b); }
+    // 返信
+    const replies = (post.replies||[]).filter(r=>r.status==='approved'&&!r.parent_reply_id);
+    if (replies.length) {
+      const rEl = document.createElement('div'); rEl.className = 'cv-fc-replies';
+      rEl.appendChild(cvBuildReply(replies[0]));
+      if (replies.length > 1) {
+        const extra = document.createElement('div'); extra.className = 'cv-fc-extra';
+        replies.slice(1).forEach(r => extra.appendChild(cvBuildReply(r)));
+        rEl.appendChild(extra);
+        const moreBtn = document.createElement('button');
+        moreBtn.className = 'cv-fc-show-more';
+        moreBtn.innerHTML = `<svg width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M2 4l4 4 4-4" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg> 他${replies.length-1}件の返信を見る`;
+        rEl.appendChild(moreBtn);
+      }
+      card.appendChild(rEl);
+    }
+    wrap.appendChild(card);
+    cvScene.appendChild(wrap);
+    cvMakeDraggable(wrap);
+  });
+
+  // 初期位置
+  requestAnimationFrame(() => {
+    const sr = cvScene.getBoundingClientRect();
+    const floats = [...cvScene.querySelectorAll('.cv-float')];
+    const m=10, cW=floats[0]?floats[0].offsetWidth:240, cH=floats[0]?floats[0].offsetHeight:200;
+    const pos = [{left:m,top:m},{left:sr.width-cW-m,top:m},{left:m,top:sr.height-cH-m},{left:sr.width-cW-m,top:sr.height-cH-m}];
+    floats.forEach((el,i) => { const p=pos[i]||pos[i%pos.length]; el.style.left=p.left+'px'; el.style.top=p.top+'px'; });
+  });
+
+  cvCountDisplay.innerHTML = `<div class="cv-count-wrap"><div class="cv-ripple"></div><div class="cv-ripple"></div><div class="cv-ripple"></div><div class="cv-count-num">${cvCount.toLocaleString()}</div></div><div class="cv-count-label">つながった声の数</div>`;
+  cvView.classList.add('visible');
+  linesSvg.style.display = 'block';
+  cancelAnimationFrame(cvAnimFrameId);
+  cvAnimFrameId = requestAnimationFrame(cvDrawLines);
+}
+
+function cvBuildReply(r) {
+  const rm = ROLE_META_CV[r.role] || { cls:'cr', badgeCls:'coral' };
+  const el = document.createElement('div');
+  el.className = `cv-fc-reply ${rm.cls}`;
+  el.innerHTML = `<div class="cv-fc-reply-from">${r.nickname||'匿名'}<span class="cv-fc-reply-badge badge ${rm.badgeCls}">${r.role||''}</span></div>${r.text}`;
+  return el;
+}
+
+/* 戻るボタン */
+document.getElementById('cv-back-btn').addEventListener('click', () => {
+  cvConnectMode = false;
+  cancelAnimationFrame(cvAnimFrameId); cvAnimFrameId = null;
+  while (linesSvg.firstChild) linesSvg.removeChild(linesSvg.firstChild);
+  linesSvg.style.display = 'none';
+  cvView.classList.remove('visible');
+  cvScene.innerHTML = ''; cvCountDisplay.innerHTML = '';
+  cvDeselectAll();
+});
+
+/* ドラッグ */
+window.addEventListener('mousemove', e => {
+  if (!cvDragState) return;
+  const cx=e.clientX, cy=e.clientY;
+  const dx=cx-cvDragState.startX, dy=cy-cvDragState.startY;
+  if (!cvDragState.moved && (Math.abs(dx)>4||Math.abs(dy)>4)) {
+    cvDragState.moved = true;
+    const el=cvDragState.el, sr=cvScene.getBoundingClientRect(), er=el.getBoundingClientRect();
+    const cl=er.left-sr.left, ct=er.top-sr.top;
+    el.style.left=cl+'px'; el.style.top=ct+'px'; el.style.animation='none'; el.style.transform='none';
+    el.classList.add('pinned'); cvDragState.startLeft=cl; cvDragState.startTop=ct; cvDragState.startX=cx; cvDragState.startY=cy;
+  }
+  if (cvDragState.moved) { cvDragState.el.style.left=(cvDragState.startLeft+(cx-cvDragState.startX))+'px'; cvDragState.el.style.top=(cvDragState.startTop+(cy-cvDragState.startY))+'px'; e.preventDefault(); }
+});
+window.addEventListener('touchmove', e => {
+  if (!cvDragState) return;
+  const cx=e.touches[0].clientX, cy=e.touches[0].clientY;
+  const dx=cx-cvDragState.startX, dy=cy-cvDragState.startY;
+  if (!cvDragState.moved && (Math.abs(dx)>4||Math.abs(dy)>4)) {
+    cvDragState.moved = true;
+    const el=cvDragState.el, sr=cvScene.getBoundingClientRect(), er=el.getBoundingClientRect();
+    const cl=er.left-sr.left, ct=er.top-sr.top;
+    el.style.left=cl+'px'; el.style.top=ct+'px'; el.style.animation='none'; el.style.transform='none';
+    el.classList.add('pinned'); cvDragState.startLeft=cl; cvDragState.startTop=ct; cvDragState.startX=cx; cvDragState.startY=cy;
+  }
+  if (cvDragState.moved) { cvDragState.el.style.left=(cvDragState.startLeft+(cx-cvDragState.startX))+'px'; cvDragState.el.style.top=(cvDragState.startTop+(cy-cvDragState.startY))+'px'; e.preventDefault(); }
+}, {passive:false});
+window.addEventListener('mouseup', e => { if (!cvDragState) return; const {el,moved}=cvDragState; el.classList.remove('dragging'); if (!moved) cvActivateFloat(el); cvDragState=null; });
+window.addEventListener('touchend', e => { if (!cvDragState) return; const {el,moved}=cvDragState; el.classList.remove('dragging'); if (!moved) cvActivateFloat(el); cvDragState=null; });
+
+function cvMakeDraggable(el) {
+  const start = (cx,cy) => { cvDragState={el,startX:cx,startY:cy,startLeft:0,startTop:0,moved:false}; el.classList.add('dragging'); el.style.zIndex = ++cvFrontZ; };
+  el.addEventListener('mousedown', e => { if(e.button!==0)return; e.preventDefault(); start(e.clientX,e.clientY); });
+  el.addEventListener('touchstart', e => { e.preventDefault(); start(e.touches[0].clientX,e.touches[0].clientY); }, {passive:false});
+}
+function cvActivateFloat(el) {
+  cvScene.querySelectorAll('.cv-float.active-card').forEach(c => { if(c!==el) c.classList.remove('active-card'); });
+  el.classList.toggle('active-card');
+  el.style.zIndex = ++cvFrontZ;
+}
+
+/* SVGスレッド */
+function cvHoleCenter(el) {
+  const h = el.querySelector('.cv-hole');
+  if (!h) return null;
+  const r = h.getBoundingClientRect();
+  return { x: r.left+r.width/2, y: r.top+r.height/2 };
+}
+function cvDrawThread(svg, x1,y1,x2,y2, opacity) {
+  const dist=Math.hypot(x2-x1,y2-y1), sag=dist*0.13;
+  const path=document.createElementNS('http://www.w3.org/2000/svg','path');
+  path.setAttribute('d',`M${x1},${y1} Q${(x1+x2)/2},${(y1+y2)/2+sag} ${x2},${y2}`);
+  path.setAttribute('stroke',`rgba(180,148,110,${opacity})`);
+  path.setAttribute('stroke-width','1.6');
+  path.setAttribute('fill','none');
+  path.setAttribute('stroke-linecap','round');
+  svg.appendChild(path);
+}
+function cvDrawKnot(svg, x,y, isCenter) {
+  const r=isCenter?4.5:3.8, col='rgba(175,143,103,';
+  const body=document.createElementNS('http://www.w3.org/2000/svg','circle');
+  body.setAttribute('cx',x); body.setAttribute('cy',y); body.setAttribute('r',r); body.setAttribute('fill',col+'0.58)');
+  svg.appendChild(body);
+  const lw=r+3, lh=r+4;
+  const loop=document.createElementNS('http://www.w3.org/2000/svg','path');
+  loop.setAttribute('d',`M${x-r+1},${y-1.5} Q${x-lw},${y-lh} ${x},${y-r-1} Q${x+lw},${y-lh} ${x+r-1},${y-1.5}`);
+  loop.setAttribute('fill',col+'0.18)'); loop.setAttribute('stroke',col+'0.52)');
+  loop.setAttribute('stroke-width','1.2'); loop.setAttribute('stroke-linecap','round');
+  svg.appendChild(loop);
+  const shine=document.createElementNS('http://www.w3.org/2000/svg','circle');
+  shine.setAttribute('cx',x-1); shine.setAttribute('cy',y-1.2); shine.setAttribute('r',r*0.4); shine.setAttribute('fill','rgba(255,250,240,0.4)');
+  svg.appendChild(shine);
+}
+function cvDrawLines() {
+  if (!cvConnectMode) return;
+  const centerEl = cvScene.querySelector('.cv-center');
+  if (!centerEl) { cvAnimFrameId=requestAnimationFrame(cvDrawLines); return; }
+  while (linesSvg.firstChild) linesSvg.removeChild(linesSvg.firstChild);
+  const ch = cvHoleCenter(centerEl);
+  const floats = [...cvScene.querySelectorAll('.cv-float')];
+  const fHoles = floats.map(f=>cvHoleCenter(f)).filter(Boolean);
+  if (ch) {
+    fHoles.forEach(fh => cvDrawThread(linesSvg, ch.x,ch.y, fh.x,fh.y, 0.45));
+    fHoles.forEach(fh => cvDrawKnot(linesSvg, fh.x,fh.y, false));
+    cvDrawKnot(linesSvg, ch.x,ch.y, true);
+  }
+  cvAnimFrameId = requestAnimationFrame(cvDrawLines);
+}
+</script>
 </body>
 </html>
