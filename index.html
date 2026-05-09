@@ -607,6 +607,47 @@ mark.kw-glow { background:transparent;color:var(--c600);font-weight:500;border-r
 .cv-count-num { font-family:'Kaisei Opti',serif;font-size:2.25rem;color:var(--c400);line-height:1; }
 .cv-count-label { font-size:0.75rem;color:var(--muted);margin-top:4px;letter-spacing:0.05em; }
 @media(max-width:640px){ .cv-float{width:clamp(190px,42vw,240px)} .cv-center{width:min(260px,80vw)} .cv-header{padding:0.875rem 1.25rem;height:54px} }
+
+
+/* ▼▼▼ ここから追加 ▼▼▼ */
+
+/* 右下のつなぐボタン（FAB）を非表示 */
+.fab {
+  display: none !important;
+}
+
+/* キーワードチップを非表示 */
+.kw-section,
+.kw-chips,
+.kw-chip,
+.kw-label {
+  display: none !important;
+}
+
+/* キーワード光りを無効化 */
+mark.kw-glow {
+  animation: none !important;
+  background: transparent !important;
+}
+
+/* コネクトビューを非表示 */
+#connect-view {
+  display: none !important;
+}
+
+/* コネクトビュー内部の要素も非表示 */
+.cv-float,
+.cv-center,
+.cv-header,
+.cv-scene,
+#lines-svg {
+  display: none !important;
+}
+
+/* ▲▲▲ ここまで追加 ▲▲▲ */
+
+
+
 </style>
 </head>
 <body>
