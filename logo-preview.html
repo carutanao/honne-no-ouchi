@@ -1,0 +1,362 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<style>
+* { box-sizing:border-box; margin:0; padding:0; }
+body { font-family:'Helvetica Neue',sans-serif; background:#EEEBE4; padding:2.5rem 1.5rem 5rem; }
+h1 { text-align:center; font-size:0.7rem; letter-spacing:0.2em; color:#999; text-transform:uppercase; margin-bottom:2.5rem; }
+.grid { display:grid; grid-template-columns:repeat(5,1fr); gap:1rem; max-width:860px; margin:0 auto; }
+.cell { display:flex; flex-direction:column; align-items:center; gap:0.625rem; }
+.c { background:#FFFDF8; border-radius:14px; width:100%; aspect-ratio:1; display:flex; align-items:center; justify-content:center; box-shadow:0 1px 8px rgba(0,0,0,0.07); }
+.c.dk { background:#2C2C2A; }
+.c.br { background:#C9714A; }
+.c.cr { background:#FDE8D8; }
+.lbl { font-size:0.58rem; letter-spacing:0.06em; color:#999; text-align:center; line-height:1.5; }
+.n { font-size:0.55rem; color:#bbb; display:block; }
+</style>
+</head>
+<body>
+<h1>03 重なりふきだし × ジグゾーピース — 30 Variations</h1>
+<div class="grid">
+
+<!-- 01 基本：右タブ -->
+<div class="cell"><div class="c">
+<svg viewBox="0 0 60 46" width="52">
+  <rect x="29" y="10" width="29" height="22" rx="4" fill="#FDE8D8"/>
+  <polygon points="46,32 50,40 54,32" fill="#FDE8D8"/>
+  <rect x="1" y="2" width="30" height="22" rx="4" fill="#C9714A"/>
+  <path d="M30,9 L31.5,9 A6,6 0 1,1 31.5,21 L30,21 Z" fill="#C9714A"/>
+  <polygon points="6,24 10,32 14,24" fill="#C9714A"/>
+</svg>
+</div><p class="lbl"><span class="n">01</span>基本・右タブ</p></div>
+
+<!-- 02 左タブ（逆） -->
+<div class="cell"><div class="c">
+<svg viewBox="0 0 60 46" width="52">
+  <rect x="1" y="2" width="30" height="22" rx="4" fill="#C9714A"/>
+  <polygon points="6,24 10,32 14,24" fill="#C9714A"/>
+  <rect x="29" y="10" width="29" height="22" rx="4" fill="#FDE8D8"/>
+  <path d="M30,17 L28.5,17 A6,6 0 1,0 28.5,29 L30,29 Z" fill="#FDE8D8"/>
+  <polygon points="46,32 50,40 54,32" fill="#FDE8D8"/>
+</svg>
+</div><p class="lbl"><span class="n">02</span>左タブ（逆）</p></div>
+
+<!-- 03 ダブルタブ（上下） -->
+<div class="cell"><div class="c">
+<svg viewBox="0 0 60 46" width="52">
+  <rect x="29" y="8" width="29" height="26" rx="4" fill="#FDE8D8"/>
+  <polygon points="46,34 50,42 54,34" fill="#FDE8D8"/>
+  <rect x="1" y="2" width="30" height="26" rx="4" fill="#C9714A"/>
+  <path d="M30,7 L31.5,7 A4,4 0 1,1 31.5,15 L30,15 Z" fill="#C9714A"/>
+  <path d="M30,19 L31.5,19 A4,4 0 1,1 31.5,27 L30,27 Z" fill="#C9714A"/>
+  <polygon points="6,28 10,36 14,28" fill="#C9714A"/>
+</svg>
+</div><p class="lbl"><span class="n">03</span>ダブルタブ</p></div>
+
+<!-- 04 大きいタブ -->
+<div class="cell"><div class="c">
+<svg viewBox="0 0 62 46" width="54">
+  <rect x="29" y="10" width="31" height="24" rx="4" fill="#FDE8D8"/>
+  <polygon points="46,34 50,42 54,34" fill="#FDE8D8"/>
+  <rect x="1" y="2" width="30" height="24" rx="4" fill="#C9714A"/>
+  <path d="M30,7 L32,7 A9,9 0 1,1 32,25 L30,25 Z" fill="#C9714A"/>
+  <polygon points="6,26 10,34 14,26" fill="#C9714A"/>
+</svg>
+</div><p class="lbl"><span class="n">04</span>大きいタブ</p></div>
+
+<!-- 05 小さいタブ -->
+<div class="cell"><div class="c">
+<svg viewBox="0 0 60 44" width="52">
+  <rect x="29" y="10" width="29" height="20" rx="4" fill="#FDE8D8"/>
+  <polygon points="46,30 50,38 54,30" fill="#FDE8D8"/>
+  <rect x="1" y="2" width="30" height="20" rx="4" fill="#C9714A"/>
+  <path d="M30,10 L31,10 A3,3 0 1,1 31,16 L30,16 Z" fill="#C9714A"/>
+  <polygon points="6,22 10,30 14,22" fill="#C9714A"/>
+</svg>
+</div><p class="lbl"><span class="n">05</span>小さいタブ</p></div>
+
+<!-- 06 ハートタブ -->
+<div class="cell"><div class="c">
+<svg viewBox="0 0 60 46" width="52">
+  <rect x="29" y="10" width="29" height="22" rx="4" fill="#FDE8D8"/>
+  <polygon points="46,32 50,40 54,32" fill="#FDE8D8"/>
+  <rect x="1" y="2" width="30" height="22" rx="4" fill="#C9714A"/>
+  <path d="M30,22 C30,22 24,18 24,14 C24,11 26.5,10 28,11.5 C29,12.3 30,14 30,14 C30,14 31,12.3 32,11.5 C33.5,10 36,11 36,14 C36,18 30,22 30,22 Z" fill="#C9714A"/>
+  <polygon points="6,24 10,32 14,24" fill="#C9714A"/>
+</svg>
+</div><p class="lbl"><span class="n">06</span>ハートタブ</p></div>
+
+<!-- 07 スタータブ -->
+<div class="cell"><div class="c">
+<svg viewBox="0 0 60 46" width="52">
+  <rect x="29" y="10" width="29" height="22" rx="4" fill="#FDE8D8"/>
+  <polygon points="46,32 50,40 54,32" fill="#FDE8D8"/>
+  <rect x="1" y="2" width="30" height="22" rx="4" fill="#C9714A"/>
+  <polygon points="30,9 31.8,14.5 37.5,14.5 32.9,17.8 34.7,23.3 30,20 25.3,23.3 27.1,17.8 22.5,14.5 28.2,14.5" fill="#C9714A"/>
+  <polygon points="6,24 10,32 14,24" fill="#C9714A"/>
+</svg>
+</div><p class="lbl"><span class="n">07</span>スタータブ</p></div>
+
+<!-- 08 ダイヤタブ -->
+<div class="cell"><div class="c">
+<svg viewBox="0 0 60 46" width="52">
+  <rect x="29" y="10" width="29" height="22" rx="4" fill="#FDE8D8"/>
+  <polygon points="46,32 50,40 54,32" fill="#FDE8D8"/>
+  <rect x="1" y="2" width="30" height="22" rx="4" fill="#C9714A"/>
+  <polygon points="30,10 37,16 30,22 23,16" fill="#C9714A"/>
+  <polygon points="6,24 10,32 14,24" fill="#C9714A"/>
+</svg>
+</div><p class="lbl"><span class="n">08</span>ダイヤタブ</p></div>
+
+<!-- 09 三角タブ -->
+<div class="cell"><div class="c">
+<svg viewBox="0 0 60 46" width="52">
+  <rect x="29" y="10" width="29" height="22" rx="4" fill="#FDE8D8"/>
+  <polygon points="46,32 50,40 54,32" fill="#FDE8D8"/>
+  <rect x="1" y="2" width="30" height="22" rx="4" fill="#C9714A"/>
+  <polygon points="30,10 38,16 30,22" fill="#C9714A"/>
+  <polygon points="6,24 10,32 14,24" fill="#C9714A"/>
+</svg>
+</div><p class="lbl"><span class="n">09</span>三角タブ</p></div>
+
+<!-- 10 矢印タブ -->
+<div class="cell"><div class="c">
+<svg viewBox="0 0 60 46" width="52">
+  <rect x="29" y="10" width="29" height="22" rx="4" fill="#FDE8D8"/>
+  <polygon points="46,32 50,40 54,32" fill="#FDE8D8"/>
+  <rect x="1" y="2" width="30" height="22" rx="4" fill="#C9714A"/>
+  <polygon points="30,11 38,16 30,21 30,18 26,18 26,14 30,14" fill="#C9714A"/>
+  <polygon points="6,24 10,32 14,24" fill="#C9714A"/>
+</svg>
+</div><p class="lbl"><span class="n">10</span>矢印タブ</p></div>
+
+<!-- 11 丸ふきだし版 -->
+<div class="cell"><div class="c">
+<svg viewBox="0 0 60 46" width="52">
+  <circle cx="42" cy="20" r="16" fill="#FDE8D8"/>
+  <polygon points="38,34 42,42 46,34" fill="#FDE8D8"/>
+  <circle cx="20" cy="14" r="16" fill="#C9714A"/>
+  <path d="M30,9 L31.5,9 A6,6 0 1,1 31.5,21 L30,21 Z" fill="#C9714A"/>
+  <polygon points="12,28 16,36 20,28" fill="#C9714A"/>
+</svg>
+</div><p class="lbl"><span class="n">11</span>丸ふきだし</p></div>
+
+<!-- 12 四角ふきだし（rx=0） -->
+<div class="cell"><div class="c">
+<svg viewBox="0 0 60 46" width="52">
+  <rect x="29" y="10" width="29" height="22" rx="0" fill="#FDE8D8"/>
+  <polygon points="46,32 50,40 54,32" fill="#FDE8D8"/>
+  <rect x="1" y="2" width="30" height="22" rx="0" fill="#C9714A"/>
+  <path d="M30,9 L32,9 A6,6 0 1,1 32,21 L30,21 Z" fill="#C9714A"/>
+  <polygon points="6,24 10,32 14,24" fill="#C9714A"/>
+</svg>
+</div><p class="lbl"><span class="n">12</span>四角ふきだし</p></div>
+
+<!-- 13 上下配置＋タブ -->
+<div class="cell"><div class="c">
+<svg viewBox="0 0 38 62" width="32">
+  <rect x="2" y="30" width="34" height="20" rx="4" fill="#FDE8D8"/>
+  <polygon points="16,50 19,58 22,50" fill="#FDE8D8"/>
+  <rect x="2" y="2" width="34" height="20" rx="4" fill="#C9714A"/>
+  <path d="M17,22 L17,23.5 A6,6 0 1,1 29,23.5 L29,22 Z" fill="#C9714A"/>
+  <polygon points="4,22 19,22 19,16" fill="#C9714A" opacity="0"/>
+</svg>
+</div><p class="lbl"><span class="n">13</span>上下＋タブ</p></div>
+
+<!-- 14 家型＋丸の組み合わせ -->
+<div class="cell"><div class="c">
+<svg viewBox="0 0 60 50" width="52">
+  <circle cx="44" cy="22" r="14" fill="#FDE8D8"/>
+  <polygon points="38,34 42,42 46,34" fill="#FDE8D8"/>
+  <path d="M2,34 L2,18 L16,6 L30,18 L30,34 Q30,38 26,38 L6,38 Q2,38 2,34 Z" fill="#C9714A"/>
+  <path d="M30,16 L31.5,16 A6,6 0 1,1 31.5,28 L30,28 Z" fill="#C9714A"/>
+  <polygon points="10,38 14,46 18,38" fill="#C9714A"/>
+</svg>
+</div><p class="lbl"><span class="n">14</span>家型＋丸</p></div>
+
+<!-- 15 大小（親子）＋タブ -->
+<div class="cell"><div class="c">
+<svg viewBox="0 0 60 46" width="52">
+  <rect x="31" y="14" width="26" height="16" rx="4" fill="#FDE8D8"/>
+  <polygon points="44,30 47,37 50,30" fill="#FDE8D8"/>
+  <rect x="1" y="2" width="32" height="24" rx="4" fill="#C9714A"/>
+  <path d="M32,12 L33.5,12 A5,5 0 1,1 33.5,22 L32,22 Z" fill="#C9714A"/>
+  <polygon points="6,26 10,34 14,26" fill="#C9714A"/>
+</svg>
+</div><p class="lbl"><span class="n">15</span>大小・親子</p></div>
+
+<!-- 16 深い重なり -->
+<div class="cell"><div class="c">
+<svg viewBox="0 0 60 46" width="52">
+  <rect x="22" y="10" width="36" height="22" rx="4" fill="#FDE8D8"/>
+  <polygon points="40,32 44,40 48,32" fill="#FDE8D8"/>
+  <rect x="1" y="2" width="36" height="22" rx="4" fill="#C9714A"/>
+  <path d="M36,9 L37.5,9 A6,6 0 1,1 37.5,21 L36,21 Z" fill="#C9714A"/>
+  <polygon points="6,24 10,32 14,24" fill="#C9714A"/>
+</svg>
+</div><p class="lbl"><span class="n">16</span>深い重なり</p></div>
+
+<!-- 17 浅い重なり -->
+<div class="cell"><div class="c">
+<svg viewBox="0 0 64 46" width="56">
+  <rect x="34" y="10" width="28" height="22" rx="4" fill="#FDE8D8"/>
+  <polygon points="48,32 52,40 56,32" fill="#FDE8D8"/>
+  <rect x="1" y="2" width="34" height="22" rx="4" fill="#C9714A"/>
+  <path d="M34,9 L35.5,9 A6,6 0 1,1 35.5,21 L34,21 Z" fill="#C9714A"/>
+  <polygon points="6,24 10,32 14,24" fill="#C9714A"/>
+</svg>
+</div><p class="lbl"><span class="n">17</span>浅い重なり</p></div>
+
+<!-- 18 アウトラインのみ -->
+<div class="cell"><div class="c">
+<svg viewBox="0 0 60 46" width="52">
+  <rect x="29" y="10" width="29" height="22" rx="4" stroke="#C9714A" stroke-width="2" fill="none"/>
+  <polygon points="46,32 50,40 54,32" stroke="#C9714A" stroke-width="2" fill="none" stroke-linejoin="round"/>
+  <rect x="1" y="2" width="30" height="22" rx="4" stroke="#C9714A" stroke-width="2" fill="none"/>
+  <path d="M30,9 L31.5,9 A6,6 0 1,1 31.5,21 L30,21 Z" stroke="#C9714A" stroke-width="2" fill="none"/>
+  <polygon points="6,24 10,32 14,24" stroke="#C9714A" stroke-width="2" fill="none" stroke-linejoin="round"/>
+</svg>
+</div><p class="lbl"><span class="n">18</span>アウトラインのみ</p></div>
+
+<!-- 19 ダーク版 -->
+<div class="cell"><div class="c dk">
+<svg viewBox="0 0 60 46" width="52">
+  <rect x="29" y="10" width="29" height="22" rx="4" fill="#5F5E5A"/>
+  <polygon points="46,32 50,40 54,32" fill="#5F5E5A"/>
+  <rect x="1" y="2" width="30" height="22" rx="4" fill="#E8A882"/>
+  <path d="M30,9 L31.5,9 A6,6 0 1,1 31.5,21 L30,21 Z" fill="#E8A882"/>
+  <polygon points="6,24 10,32 14,24" fill="#E8A882"/>
+</svg>
+</div><p class="lbl"><span class="n">19</span>ダーク版</p></div>
+
+<!-- 20 ブランド反転 -->
+<div class="cell"><div class="c br">
+<svg viewBox="0 0 60 46" width="52">
+  <rect x="29" y="10" width="29" height="22" rx="4" fill="rgba(255,253,248,0.5)"/>
+  <polygon points="46,32 50,40 54,32" fill="rgba(255,253,248,0.5)"/>
+  <rect x="1" y="2" width="30" height="22" rx="4" fill="#FFFDF8"/>
+  <path d="M30,9 L31.5,9 A6,6 0 1,1 31.5,21 L30,21 Z" fill="#FFFDF8"/>
+  <polygon points="6,24 10,32 14,24" fill="#FFFDF8"/>
+</svg>
+</div><p class="lbl"><span class="n">20</span>反転</p></div>
+
+<!-- 21 タブだけ強調（別色） -->
+<div class="cell"><div class="c">
+<svg viewBox="0 0 60 46" width="52">
+  <rect x="29" y="10" width="29" height="22" rx="4" fill="#FDE8D8"/>
+  <polygon points="46,32 50,40 54,32" fill="#FDE8D8"/>
+  <rect x="1" y="2" width="30" height="22" rx="4" fill="#C9714A"/>
+  <polygon points="6,24 10,32 14,24" fill="#C9714A"/>
+  <path d="M30,9 L31.5,9 A6,6 0 1,1 31.5,21 L30,21 Z" fill="#712B13"/>
+</svg>
+</div><p class="lbl"><span class="n">21</span>タブを強調</p></div>
+
+<!-- 22 タブがゴールド -->
+<div class="cell"><div class="c">
+<svg viewBox="0 0 60 46" width="52">
+  <rect x="29" y="10" width="29" height="22" rx="4" fill="#FDE8D8"/>
+  <polygon points="46,32 50,40 54,32" fill="#FDE8D8"/>
+  <rect x="1" y="2" width="30" height="22" rx="4" fill="#C9714A"/>
+  <polygon points="6,24 10,32 14,24" fill="#C9714A"/>
+  <path d="M30,9 L31.5,9 A6,6 0 1,1 31.5,21 L30,21 Z" fill="#D4860A"/>
+</svg>
+</div><p class="lbl"><span class="n">22</span>ゴールドタブ</p></div>
+
+<!-- 23 同色（モノトーン） -->
+<div class="cell"><div class="c">
+<svg viewBox="0 0 60 46" width="52">
+  <rect x="29" y="10" width="29" height="22" rx="4" fill="#C9714A" opacity="0.55"/>
+  <polygon points="46,32 50,40 54,32" fill="#C9714A" opacity="0.55"/>
+  <rect x="1" y="2" width="30" height="22" rx="4" fill="#C9714A"/>
+  <path d="M30,9 L31.5,9 A6,6 0 1,1 31.5,21 L30,21 Z" fill="#C9714A"/>
+  <polygon points="6,24 10,32 14,24" fill="#C9714A"/>
+</svg>
+</div><p class="lbl"><span class="n">23</span>同色モノトーン</p></div>
+
+<!-- 24 タブに輪郭線 -->
+<div class="cell"><div class="c">
+<svg viewBox="0 0 60 46" width="52">
+  <rect x="29" y="10" width="29" height="22" rx="4" fill="#FDE8D8"/>
+  <polygon points="46,32 50,40 54,32" fill="#FDE8D8"/>
+  <rect x="1" y="2" width="30" height="22" rx="4" fill="#C9714A"/>
+  <polygon points="6,24 10,32 14,24" fill="#C9714A"/>
+  <path d="M30,9 L31.5,9 A6,6 0 1,1 31.5,21 L30,21 Z" fill="#C9714A" stroke="#FFFDF8" stroke-width="1.5"/>
+  <circle cx="36" cy="15" r="2" fill="#FFFDF8"/>
+</svg>
+</div><p class="lbl"><span class="n">24</span>タブに輪郭</p></div>
+
+<!-- 25 3つつながる（2タブ） -->
+<div class="cell"><div class="c">
+<svg viewBox="0 0 80 40" width="68">
+  <rect x="30" y="8" width="22" height="18" rx="4" fill="#FDE8D8"/>
+  <polygon points="36,26 40,33 44,26" fill="#FDE8D8"/>
+  <rect x="52" y="14" width="26" height="18" rx="4" fill="#FDE8D8" opacity="0.7"/>
+  <polygon points="60,32 64,39 68,32" fill="#FDE8D8" opacity="0.7"/>
+  <rect x="1" y="2" width="30" height="18" rx="4" fill="#C9714A"/>
+  <path d="M30,7 L31.5,7 A4,4 0 1,1 31.5,17 L30,17 Z" fill="#C9714A"/>
+  <polygon points="4,20 8,27 12,20" fill="#C9714A"/>
+  <path d="M52,13 L53.5,13 A4,4 0 1,1 53.5,23 L52,23 Z" fill="#FDE8D8"/>
+</svg>
+</div><p class="lbl"><span class="n">25</span>3つつながる</p></div>
+
+<!-- 26 タブ＋リング -->
+<div class="cell"><div class="c">
+<svg viewBox="0 0 60 46" width="52">
+  <rect x="29" y="10" width="29" height="22" rx="4" fill="#FDE8D8"/>
+  <polygon points="46,32 50,40 54,32" fill="#FDE8D8"/>
+  <rect x="1" y="2" width="30" height="22" rx="4" fill="#C9714A"/>
+  <polygon points="6,24 10,32 14,24" fill="#C9714A"/>
+  <path d="M30,9 L31.5,9 A6,6 0 1,1 31.5,21 L30,21 Z" fill="#C9714A"/>
+  <circle cx="35" cy="15" r="9" fill="none" stroke="#C9714A" stroke-width="1.5" stroke-dasharray="2,2"/>
+</svg>
+</div><p class="lbl"><span class="n">26</span>タブ＋リング</p></div>
+
+<!-- 27 ジグザグ接合 -->
+<div class="cell"><div class="c">
+<svg viewBox="0 0 60 46" width="52">
+  <rect x="29" y="10" width="29" height="22" rx="4" fill="#FDE8D8"/>
+  <polygon points="46,32 50,40 54,32" fill="#FDE8D8"/>
+  <rect x="1" y="2" width="30" height="22" rx="4" fill="#C9714A"/>
+  <polygon points="30,8 34,11 30,14 34,17 30,20 34,23 30,26 26,26 26,8" fill="#C9714A"/>
+  <polygon points="6,24 10,32 14,24" fill="#C9714A"/>
+</svg>
+</div><p class="lbl"><span class="n">27</span>ジグザグ接合</p></div>
+
+<!-- 28 波状接合 -->
+<div class="cell"><div class="c">
+<svg viewBox="0 0 60 46" width="52">
+  <rect x="29" y="10" width="29" height="22" rx="4" fill="#FDE8D8"/>
+  <polygon points="46,32 50,40 54,32" fill="#FDE8D8"/>
+  <rect x="1" y="2" width="30" height="22" rx="4" fill="#C9714A"/>
+  <path d="M26,8 Q28,11 26,14 Q24,17 26,20 Q28,23 26,26 L30,26 L30,8 Z" fill="#C9714A"/>
+  <polygon points="6,24 10,32 14,24" fill="#C9714A"/>
+</svg>
+</div><p class="lbl"><span class="n">28</span>波状接合</p></div>
+
+<!-- 29 テールが合流 -->
+<div class="cell"><div class="c">
+<svg viewBox="0 0 60 48" width="52">
+  <rect x="29" y="8" width="29" height="20" rx="4" fill="#FDE8D8"/>
+  <rect x="1" y="2" width="30" height="20" rx="4" fill="#C9714A"/>
+  <path d="M30,9 L31.5,9 A6,6 0 1,1 31.5,19 L30,19 Z" fill="#C9714A"/>
+  <polygon points="14,22 30,42 46,22" fill="#C9714A" opacity="0.3"/>
+  <polygon points="18,22 30,36 20,22" fill="#C9714A"/>
+  <polygon points="42,22 30,36 40,22" fill="#FDE8D8"/>
+</svg>
+</div><p class="lbl"><span class="n">29</span>テールが合流</p></div>
+
+<!-- 30 超ミニマル -->
+<div class="cell"><div class="c">
+<svg viewBox="0 0 44 32" width="40">
+  <rect x="1" y="1" width="24" height="16" rx="3" stroke="#C9714A" stroke-width="2" fill="none"/>
+  <polygon points="4,17 8,23 12,17" stroke="#C9714A" stroke-width="1.5" fill="none" stroke-linejoin="round"/>
+  <path d="M24,6 L25.2,6 A4.5,4.5 0 1,1 25.2,14 L24,14 Z" fill="#C9714A"/>
+  <rect x="22" y="7" width="20" height="16" rx="3" stroke="#C9714A" stroke-width="2" fill="none"/>
+  <polygon points="28,23 32,29 36,23" stroke="#C9714A" stroke-width="1.5" fill="none" stroke-linejoin="round"/>
+</svg>
+</div><p class="lbl"><span class="n">30</span>超ミニマル</p></div>
+
+</div>
+</body>
+</html>

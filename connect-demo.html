@@ -1,0 +1,1311 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>つなぐ — ホンネのおうち</title>
+<link href="https://fonts.googleapis.com/css2?family=Zen+Maru+Gothic:wght@400;500;700&family=Kaisei+Opti:wght@400;700&display=swap" rel="stylesheet">
+<style>
+/* ══ 実物と完全一致のCSS変数・ベース ══ */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+:root {
+  --c50:#FEF6F0; --c100:#FDE8D8; --c400:#C9714A; --c600:#993C1D; --c800:#712B13;
+  --t50:#E1F5EE; --t400:#1D9E75; --t600:#0F6E56;
+  --p50:#FBEAF0; --p400:#D4537E; --p600:#993556;
+  --g50:#F9F7F4; --g100:#F1EFE8; --g200:#D3D1C7; --g400:#888780; --g600:#5F5E5A;
+  --text:#2C2C2A; --muted:#5F5E5A; --light:#888780; --bg:#FFFDF8;
+}
+body { font-family:'Zen Maru Gothic',sans-serif; background:var(--bg); color:var(--text); line-height:1.7; }
+
+/* ── 水彩背景（実物と同一）── */
+.watercolor-bg {
+  position:fixed; inset:0; z-index:-1; pointer-events:none;
+  background:#FDFAF5;
+}
+.watercolor-bg::before {
+  content:'';
+  position:absolute; inset:0;
+  background:
+    radial-gradient(ellipse 60% 50% at 10% 20%, rgba(253,232,216,0.45) 0%, transparent 60%),
+    radial-gradient(ellipse 50% 60% at 90% 80%, rgba(225,245,238,0.4) 0%, transparent 60%),
+    radial-gradient(ellipse 40% 40% at 80% 15%, rgba(251,234,240,0.35) 0%, transparent 55%),
+    radial-gradient(ellipse 35% 45% at 20% 75%, rgba(255,248,236,0.3) 0%, transparent 55%);
+}
+
+/* ── ヘッダー（実物と同一）── */
+header {
+  padding:1.125rem 2rem;
+  display:flex; align-items:center; justify-content:space-between;
+  border-bottom:1px solid var(--c100);
+  background:var(--bg);
+  position:sticky; top:0; z-index:100; height:62px;
+}
+.logo { font-family:'Kaisei Opti',serif; font-size:1.2rem; color:var(--c800); display:flex; align-items:center; gap:8px; }
+.logo-dot { width:8px; height:8px; background:var(--c400); border-radius:50%; flex-shrink:0; }
+nav { display:flex; gap:1.25rem; align-items:center; }
+nav a { font-size:0.875rem; color:var(--muted); text-decoration:none; transition:color 0.15s; }
+nav a:hover { color:var(--c400); }
+.nav-btn { background:var(--c400); color:#fff; border:none; padding:0.45rem 1.1rem; border-radius:999px; font-size:0.875rem; font-family:'Zen Maru Gothic',sans-serif; cursor:pointer; }
+.demo-badge { font-size:0.6875rem; color:var(--c400); background:var(--c50); border:1px solid var(--c100); padding:2px 10px; border-radius:20px; letter-spacing:0.05em; }
+
+/* ── オンラインストリップ（実物：ティール色）── */
+.online-strip {
+  background:var(--t50);
+  border-bottom:1px solid #9FE1CB;
+  padding:0.5rem 2rem;
+  display:flex; align-items:center; gap:8px;
+  font-size:0.8125rem; color:var(--t600);
+  position:sticky; top:62px; z-index:99;
+}
+.online-dot { width:7px; height:7px; background:var(--t400); border-radius:50%; animation:pulse 2s infinite; flex-shrink:0; }
+@keyframes pulse { 0%,100%{opacity:1} 50%{opacity:0.4} }
+.connect-counter {
+  margin-left:auto;
+  display:flex; align-items:center; gap:5px;
+  font-size:0.8125rem; color:var(--c600);
+}
+.connect-num {
+  font-family:'Kaisei Opti',serif;
+  font-size:1rem; color:var(--c400);
+  transition:transform 0.3s cubic-bezier(0.34,1.56,0.64,1);
+}
+.connect-num.bump { transform:scale(1.5); }
+
+/* ── 投稿セクション（実物と同一）── */
+.posts-section { background:transparent; padding:2.5rem 2rem; }
+.posts-inner { max-width:700px; margin:0 auto; }
+
+/* ── フィルターバー（実物と同一）── */
+.filter-bar { display:flex; gap:0.5rem; flex-wrap:wrap; margin-bottom:1.25rem; }
+.fp { padding:0.35rem 0.875rem; border-radius:999px; border:1px solid var(--g200); font-size:0.8125rem; font-family:'Zen Maru Gothic',sans-serif; cursor:pointer; color:var(--muted); background:#fff; transition:all 0.15s; }
+.fp:hover,.fp.active { background:var(--c400); color:#fff; border-color:var(--c400); }
+
+/* ── 投稿カード（実物と同一）── */
+.post-card {
+  background:#fff; border:1px solid var(--g100); border-radius:16px;
+  padding:1.25rem 1.5rem; margin-bottom:1rem;
+  transition:box-shadow 0.2s, transform 0.2s, border-color 0.3s;
+  cursor:pointer;
+  animation:fadeUp 0.4s ease both;
+}
+.post-card:hover { box-shadow:0 2px 12px rgba(0,0,0,0.05); }
+
+/* 選択時のグロー（ほんのり） */
+.post-card.selected {
+  border-color:rgba(201,113,74,0.3);
+  box-shadow:
+    0 0 0 1px rgba(201,113,74,0.15),
+    0 0 16px 5px rgba(253,232,216,0.5),
+    0 0 36px 12px rgba(253,232,216,0.2);
+  transform:translateY(-1px);
+}
+
+@keyframes fadeUp { from{opacity:0;transform:translateY(16px)} to{opacity:1;transform:translateY(0)} }
+
+.post-header { display:flex; align-items:center; gap:10px; margin-bottom:0.75rem; flex-wrap:wrap; }
+.avatar { width:36px; height:36px; border-radius:50%; display:flex; align-items:center; justify-content:center; font-size:0.75rem; font-weight:500; flex-shrink:0; }
+.avatar.coral { background:var(--c50); color:var(--c800); }
+.avatar.teal  { background:var(--t50); color:var(--t600); }
+.avatar.pink  { background:var(--p50); color:var(--p600); }
+.avatar.amber { background:#FFF8EC; color:#9A5F04; }
+.post-name { font-size:0.8125rem; color:var(--muted); flex:1; }
+.badge { font-size:0.6875rem; padding:3px 10px; border-radius:999px; }
+.badge.coral { background:var(--c50); color:var(--c600); }
+.badge.teal  { background:var(--t50); color:var(--t600); }
+.badge.pink  { background:var(--p50); color:var(--p600); }
+.badge.amber { background:#FFF8EC; color:#9A5F04; }
+.age-tag { font-size:0.6875rem; padding:2px 8px; border-radius:999px; background:var(--g100); color:var(--g600); border:1px solid var(--g200); }
+
+.post-text { font-size:0.9375rem; color:var(--text); line-height:1.8; margin-bottom:0.875rem; white-space:pre-wrap; word-break:break-word; }
+
+/* ── アクションボタン（実物と同一）── */
+.post-actions { display:flex; align-items:center; gap:0.75rem; flex-wrap:wrap; }
+.read-btn { display:flex; align-items:center; gap:5px; font-size:0.8125rem; color:var(--muted); background:none; border:1px solid var(--g200); border-radius:999px; padding:0.3rem 0.875rem; cursor:pointer; font-family:'Zen Maru Gothic',sans-serif; transition:all 0.15s; }
+.read-btn:hover,.read-btn.done { background:var(--t50); color:var(--t600); border-color:var(--t400); }
+.reply-toggle { display:flex; align-items:center; gap:5px; font-size:0.8125rem; color:var(--muted); background:none; border:1px solid var(--g200); border-radius:999px; padding:0.3rem 0.875rem; cursor:pointer; font-family:'Zen Maru Gothic',sans-serif; transition:all 0.15s; }
+.reply-toggle:hover { border-color:var(--c400); color:var(--c600); }
+.post-time { font-size:0.75rem; color:var(--light); margin-left:auto; }
+
+/* ── キーワードチップ（カード内に展開）── */
+.kw-section {
+  overflow:hidden; max-height:0; opacity:0;
+  transition:max-height 0.4s ease, opacity 0.3s ease;
+  border-top:1px solid var(--g100); margin-top:0.75rem; padding-top:0;
+}
+.kw-section.open { max-height:100px; opacity:1; padding-top:0.75rem; }
+.kw-label { font-size:0.6875rem; color:var(--c400); letter-spacing:0.1em; margin-bottom:7px; }
+.kw-chips { display:flex; flex-wrap:wrap; gap:6px; }
+.kw-chip {
+  font-size:0.75rem; padding:4px 13px; border-radius:999px;
+  border:1px solid rgba(201,113,74,0.25);
+  background:var(--c50); color:var(--c600);
+  cursor:pointer; font-family:'Zen Maru Gothic',sans-serif;
+  transition:all 0.18s ease;
+  opacity:0; transform:translateY(7px);
+  animation:chipRise 0.3s ease forwards;
+}
+.kw-chip:nth-child(1){animation-delay:0.05s}
+.kw-chip:nth-child(2){animation-delay:0.1s}
+.kw-chip:nth-child(3){animation-delay:0.15s}
+.kw-chip:nth-child(4){animation-delay:0.2s}
+.kw-chip:nth-child(5){animation-delay:0.25s}
+@keyframes chipRise { to{opacity:1;transform:translateY(0)} }
+.kw-chip:hover,.kw-chip.active { background:var(--c400); color:#fff; border-color:var(--c400); box-shadow:0 2px 8px rgba(201,113,74,0.25); }
+.kw-chip.active { transform:scale(1.04); }
+
+/* ── 返信リスト（実物と同一）── */
+.replies-list { margin-top:0.875rem; display:flex; flex-direction:column; gap:0.5rem; }
+.reply-item {
+  background:#fff; border-left:2.5px solid var(--t400);
+  border-radius:0 10px 10px 10px;
+  padding:0.75rem 1rem; font-size:0.8125rem; color:var(--muted); line-height:1.7;
+  margin-left:16px; box-shadow:0 1px 4px rgba(0,0,0,0.04);
+  transition:transform 0.15s;
+}
+.reply-item:hover { transform:translateX(2px); }
+.reply-item.coral-reply { border-left-color:var(--c400); background:#FFFCFA; }
+.reply-item.teal-reply  { border-left-color:var(--t400); background:#FAFFFC; }
+.reply-item.pink-reply  { border-left-color:var(--p400); background:#FFF8FB; }
+.reply-from { font-size:0.75rem; font-weight:500; margin-bottom:4px; display:flex; align-items:center; gap:6px; }
+.reply-from .rbadge { font-size:0.625rem; padding:1px 7px; border-radius:999px; }
+.rbadge.coral { background:var(--c50); color:var(--c600); }
+.rbadge.teal  { background:var(--t50); color:var(--t600); }
+.rbadge.pink  { background:var(--p50); color:var(--p600); }
+
+/* ── FAB（丸型、3状態）── */
+.fab {
+  position:fixed; right:24px; bottom:32px; z-index:300;
+  width:56px; height:56px; border-radius:50%;
+  border:none; cursor:pointer;
+  display:flex; align-items:center; justify-content:center;
+  flex-direction:column; gap:2px;
+  font-family:'Kaisei Opti',serif;
+  transition:background 0.3s, opacity 0.3s, box-shadow 0.3s;
+}
+.fab.idle {
+  background:var(--g400); color:#fff; opacity:0.5;
+  box-shadow:0 4px 14px rgba(0,0,0,0.15);
+}
+.fab.post-selected {
+  background:var(--c400); color:#fff; opacity:1;
+  animation:fabPulse 2s ease-in-out infinite;
+}
+.fab.ready {
+  background:var(--c400); color:#fff; opacity:1;
+  animation:fabGlow 1.5s ease-in-out infinite;
+}
+@keyframes fabPulse {
+  0%,100%{ box-shadow:0 4px 18px rgba(201,113,74,0.35); }
+  50%{ box-shadow:0 4px 28px rgba(201,113,74,0.6); }
+}
+@keyframes fabGlow {
+  0%,100%{ box-shadow:0 0 0 0 rgba(201,113,74,0.4), 0 4px 18px rgba(201,113,74,0.5); transform:scale(1); }
+  50%{ box-shadow:0 0 0 10px rgba(201,113,74,0), 0 4px 32px rgba(201,113,74,0.7); transform:scale(1.05); }
+}
+.fab-icon { font-size:1.2rem; line-height:1; }
+.fab-label { font-size:0.5625rem; letter-spacing:0.08em; }
+
+/* ── トースト（実物と同一）── */
+#toast {
+  position:fixed; bottom:1.5rem; left:50%; transform:translateX(-50%) translateY(8px);
+  background:var(--text); color:#fff; font-size:0.875rem;
+  padding:0.75rem 1.5rem; border-radius:10px;
+  opacity:0; transition:all 0.25s; pointer-events:none; z-index:999;
+  font-family:'Zen Maru Gothic',sans-serif; white-space:nowrap;
+}
+#toast.show { opacity:1; transform:translateX(-50%) translateY(0); }
+
+/* ════════════════════════════════════════
+   コネクトビュー（オーバーレイ）
+════════════════════════════════════════ */
+#connect-view {
+  position:fixed; inset:0; z-index:400;
+  background:rgba(255,253,248,0.97);
+  display:none; flex-direction:column;
+  align-items:center; overflow:hidden;
+}
+#connect-view.visible {
+  display:flex;
+  animation:cvEnter 0.35s ease both;
+}
+@keyframes cvEnter { from{opacity:0;transform:scale(0.97)} to{opacity:1;transform:scale(1)} }
+
+/* コネクトビュー水彩背景 */
+#connect-view::before {
+  content:''; position:absolute; inset:0; pointer-events:none;
+  background:
+    radial-gradient(ellipse 70% 60% at 50% 40%, rgba(253,232,216,0.35) 0%, transparent 65%),
+    radial-gradient(ellipse 50% 50% at 15% 80%, rgba(225,245,238,0.3) 0%, transparent 55%),
+    radial-gradient(ellipse 45% 40% at 88% 18%, rgba(251,234,240,0.25) 0%, transparent 55%);
+}
+
+.cv-header {
+  width:100%; padding:1rem 2rem;
+  display:flex; align-items:center; justify-content:space-between;
+  border-bottom:1px solid var(--c100);
+  background:rgba(255,253,248,0.92);
+  backdrop-filter:blur(8px);
+  position:relative; z-index:10; flex-shrink:0; height:62px;
+}
+.cv-title {
+  font-family:'Kaisei Opti',serif; font-size:1rem; color:var(--c800);
+  display:flex; align-items:center; gap:8px;
+}
+.cv-kw-pill {
+  background:var(--c50); border:1px solid var(--c100);
+  color:var(--c600); font-size:0.75rem;
+  padding:3px 12px; border-radius:999px;
+}
+.cv-back {
+  display:flex; align-items:center; gap:6px;
+  font-size:0.875rem; color:var(--muted);
+  background:none; border:none; cursor:pointer;
+  font-family:'Zen Maru Gothic',sans-serif; transition:color 0.15s;
+}
+.cv-back:hover { color:var(--c400); }
+
+/* SVGライン — カードの後ろ側に */
+#lines-svg {
+  position:absolute; inset:0; width:100%; height:100%;
+  pointer-events:none; z-index:402;
+}
+
+/* シーン */
+.cv-scene {
+  position:relative; flex:1;
+  width:100%; max-width:720px;
+  display:flex; align-items:center; justify-content:center;
+}
+
+/* 中央カード */
+.cv-center {
+  position:relative; z-index:405;
+  width:min(320px, 86vw);
+}
+.cv-center .post-card {
+  cursor:default;
+  box-shadow:
+    0 0 0 1.5px rgba(201,113,74,0.2),
+    0 8px 40px rgba(201,113,74,0.12),
+    0 0 28px 10px rgba(253,232,216,0.4);
+  border-color:rgba(201,113,74,0.25);
+  transform:none !important;
+}
+.cv-center .post-card:hover {
+  transform:none !important;
+  box-shadow:
+    0 0 0 1.5px rgba(201,113,74,0.2),
+    0 8px 40px rgba(201,113,74,0.12),
+    0 0 28px 10px rgba(253,232,216,0.4) !important;
+}
+.cv-center-label {
+  text-align:center; margin-top:10px;
+  font-size:0.8125rem; color:var(--c400); letter-spacing:0.03em;
+}
+.cv-center-label span {
+  background:var(--c50); border:1px solid var(--c100);
+  padding:3px 14px; border-radius:999px;
+}
+
+/* ── 浮遊カード（ドラッグ可能）── */
+.cv-float {
+  position:absolute; z-index:404;
+  width:clamp(220px, 34vw, 264px);
+  cursor:grab; user-select:none; touch-action:none;
+  transition:box-shadow 0.2s;
+}
+.cv-float.drifting { animation-play-state:running; }
+.cv-float.pinned   { animation:none !important; }
+.cv-float.dragging { cursor:grabbing; z-index:420; }
+.cv-float.active-card {
+  z-index:415;
+  filter:drop-shadow(0 8px 24px rgba(0,0,0,0.13));
+}
+
+/* 浮遊カードの本体 */
+.cv-fc-card {
+  background:#fff; border-radius:16px;
+  border:1px solid var(--g100);
+  padding:1rem 1.125rem 0.875rem;
+  box-shadow:0 4px 18px rgba(0,0,0,0.07);
+  transition:box-shadow 0.2s, border-color 0.2s;
+  overflow:hidden;
+  position:relative;
+}
+.cv-float.active-card .cv-fc-card {
+  border-color:rgba(201,113,74,0.25);
+  box-shadow:0 8px 32px rgba(201,113,74,0.12), 0 0 0 1.5px rgba(201,113,74,0.15);
+}
+
+/* カード内 投稿ヘッダー */
+.cv-fc-header {
+  display:flex; align-items:center; gap:7px; flex-wrap:wrap;
+  margin-bottom:0.5rem;
+}
+.cv-fc-text {
+  font-size:0.8125rem; color:var(--text); line-height:1.75;
+  display:-webkit-box; -webkit-line-clamp:3; -webkit-box-orient:vertical; overflow:hidden;
+  margin-bottom:0.5rem;
+}
+.cv-float.active-card .cv-fc-text { -webkit-line-clamp:unset; }
+.cv-fc-kw-match {
+  display:inline-block; margin-bottom:0.5rem;
+  font-size:0.625rem; padding:2px 9px; border-radius:999px;
+  background:var(--c50); color:var(--c600); border:1px solid var(--c100);
+}
+
+/* カード内 返信エリア */
+.cv-fc-replies {
+  border-top:1px solid var(--g100);
+  margin-top:0.5rem; padding-top:0.625rem;
+}
+.cv-fc-reply {
+  font-size:0.75rem; color:var(--muted); line-height:1.65;
+  padding:0.5rem 0.625rem;
+  border-left:2.5px solid var(--t400);
+  border-radius:0 8px 8px 0;
+  background:#FAFFFC;
+  margin-bottom:0.375rem;
+}
+.cv-fc-reply.cr { border-left-color:var(--c400); background:#FFFCFA; }
+.cv-fc-reply.tr { border-left-color:var(--t400); background:#FAFFFC; }
+.cv-fc-reply.pr { border-left-color:var(--p400); background:#FFF8FB; }
+.cv-fc-reply-from {
+  display:flex; align-items:center; gap:5px;
+  font-size:0.6875rem; font-weight:500; color:var(--text);
+  margin-bottom:3px;
+}
+.cv-fc-reply-badge { font-size:0.575rem; padding:1px 6px; border-radius:999px; }
+
+/* 折りたたまれた追加返信 */
+.cv-fc-extra { display:none; }
+.cv-float.active-card .cv-fc-extra { display:block; }
+
+/* もっと見るボタン */
+.cv-fc-show-more {
+  display:flex; align-items:center; gap:4px;
+  font-size:0.75rem; color:var(--muted);
+  background:none; border:none; cursor:pointer;
+  font-family:'Zen Maru Gothic',sans-serif;
+  padding:4px 2px; margin-top:2px;
+  transition:color 0.15s;
+}
+.cv-fc-show-more:hover { color:var(--c400); }
+.cv-float.active-card .cv-fc-show-more { display:none; }
+
+/* ── アバター左上の「穴」── カード内に収まる、背景色に馴染む */
+.cv-hole {
+  position:absolute;
+  width:11px; height:11px; border-radius:50%;
+  background:rgba(255,253,248,0.94);
+  border:1.5px solid rgba(185,162,135,0.25);
+  box-shadow:
+    inset 0 1px 4px rgba(0,0,0,0.10),
+    inset 0 -1px 2px rgba(0,0,0,0.04);
+  z-index:6; pointer-events:none;
+}
+/* 浮遊カード（.cv-fc-card）内 */
+.cv-fc-card .cv-hole {
+  top:11px; left:11px;
+}
+/* 中央カード（.post-card）内 */
+.cv-center .post-card {
+  position:relative;
+}
+.cv-center .post-card .cv-hole {
+  top:16px; left:16px;
+  width:12px; height:12px;
+}
+
+/* ── キーワードのそっとした光り ── */
+mark.kw-glow {
+  background:transparent;
+  color:var(--c600); font-weight:500;
+  border-radius:3px; padding:0 2px;
+  animation:kwPulse 2.8s ease-in-out infinite;
+  display:inline; font-style:normal;
+}
+@keyframes kwPulse {
+  0%,100%{ background-color:rgba(201,113,74,0.09); }
+  50%{ background-color:rgba(201,113,74,0.26); }
+}
+/* フィード内選択状態のキーワード光り */
+.post-card.selected mark.kw-glow {
+  animation:kwPulseStrong 2s ease-in-out infinite;
+}
+@keyframes kwPulseStrong {
+  0%,100%{ background-color:rgba(201,113,74,0.12); }
+  50%{ background-color:rgba(201,113,74,0.34); box-shadow:0 0 6px rgba(201,113,74,0.15); }
+}
+
+/* ── ドリフトアニメーション（ゆっくり優しく）── */
+@keyframes drift1 {
+  0%,100%{ transform:translateY(0px) translateX(0px) rotate(-0.4deg); }
+  30%{ transform:translateY(-7px) translateX(3px) rotate(0.2deg); }
+  65%{ transform:translateY(-4px) translateX(-2px) rotate(-0.55deg); }
+}
+@keyframes drift2 {
+  0%,100%{ transform:translateY(0px) translateX(0px) rotate(0.5deg); }
+  38%{ transform:translateY(-8px) translateX(-3px) rotate(-0.18deg); }
+  72%{ transform:translateY(-4px) translateX(2px) rotate(0.65deg); }
+}
+@keyframes drift3 {
+  0%,100%{ transform:translateY(0px) translateX(0px) rotate(-0.3deg); }
+  42%{ transform:translateY(-6px) translateX(2px) rotate(0.35deg); }
+  76%{ transform:translateY(-3px) translateX(-3px) rotate(-0.48deg); }
+}
+@keyframes drift4 {
+  0%,100%{ transform:translateY(0px) translateX(0px) rotate(0.4deg); }
+  35%{ transform:translateY(-7px) translateX(-2px) rotate(-0.25deg); }
+  70%{ transform:translateY(-3px) translateX(3px) rotate(0.58deg); }
+}
+
+/* カウント表示 */
+.cv-count-display {
+  position:absolute; bottom:20px; left:50%; transform:translateX(-50%);
+  text-align:center; z-index:406;
+  animation:countFadeUp 0.5s ease 0.3s both;
+}
+@keyframes countFadeUp {
+  from{opacity:0;transform:translateX(-50%) translateY(12px)}
+  to{opacity:1;transform:translateX(-50%) translateY(0)}
+}
+.cv-count-wrap { position:relative; display:inline-block; }
+.cv-ripple {
+  position:absolute; top:50%; left:50%;
+  width:32px; height:32px; border-radius:50%;
+  border:1.5px solid rgba(201,113,74,0.4);
+  transform:translate(-50%,-50%);
+  animation:ripple 2s ease-out both;
+}
+.cv-ripple:nth-child(2){ animation-delay:0.4s; }
+.cv-ripple:nth-child(3){ animation-delay:0.8s; }
+@keyframes ripple {
+  0%  { width:32px; height:32px; opacity:0.7; }
+  100%{ width:110px; height:110px; opacity:0; }
+}
+.cv-count-num { font-family:'Kaisei Opti',serif; font-size:2.25rem; color:var(--c400); line-height:1; }
+.cv-count-label { font-size:0.75rem; color:var(--muted); margin-top:4px; letter-spacing:0.05em; }
+
+/* レスポンシブ */
+@media(max-width:640px){
+  header { padding:0.875rem 1.25rem; height:54px; }
+  .online-strip { top:54px; padding:0.5rem 1.25rem; font-size:0.8125rem; }
+  .posts-section { padding:2rem 1.25rem; }
+  .post-card { padding:1rem 1rem; }
+  .post-text { font-size:0.9rem; }
+  .filter-bar { gap:0.375rem; }
+  .fp { font-size:0.75rem; padding:0.3rem 0.75rem; }
+  .cv-float { width:clamp(190px, 42vw, 240px); }
+  .cv-center { width:min(260px, 80vw); }
+  .cv-header { padding:0.875rem 1.25rem; height:54px; }
+}
+</style>
+</head>
+<body>
+
+<div class="watercolor-bg"></div>
+
+<!-- ══ ヘッダー（実物と同一） ══ -->
+<header>
+  <div class="logo"><span class="logo-dot"></span>ホンネのおうち</div>
+  <nav>
+    <a href="#">声を読む</a>
+    <a href="/about.html">このサイトについて</a>
+    <span class="demo-badge">DEMO</span>
+  </nav>
+</header>
+
+<!-- ══ オンラインストリップ（実物と同一：ティール色） ══ -->
+<div class="online-strip">
+  <span class="online-dot"></span>
+  <span>今、<strong>23人</strong>がここにいます。あなたはひとりじゃありません。</span>
+  <div class="connect-counter">
+    <svg width="13" height="13" viewBox="0 0 14 14" fill="none" style="opacity:0.8">
+      <path d="M3 7.5C3 5 5 3.2 7 3.2s4 1.8 4 4.3" stroke="#C9714A" stroke-width="1.4" stroke-linecap="round"/>
+      <circle cx="3" cy="7.5" r="1.6" fill="#C9714A"/>
+      <circle cx="11" cy="7.5" r="1.6" fill="#C9714A"/>
+    </svg>
+    つながった声&nbsp;<span class="connect-num" id="connectNumStrip">0</span>&nbsp;件
+  </div>
+</div>
+
+<!-- ══ 投稿フィード ══ -->
+<section class="posts-section">
+  <div class="posts-inner">
+    <p style="font-family:'Kaisei Opti',serif;font-size:1.25rem;color:var(--text);margin-bottom:0.375rem">みんなの声</p>
+    <p style="font-size:0.875rem;color:var(--light);margin-bottom:1.25rem">それぞれの本音が、ここに集まっています。</p>
+
+    <div class="filter-bar">
+      <button class="fp active" data-filter="all">すべて</button>
+      <button class="fp" data-filter="now">今、子育て中の親</button>
+      <button class="fp" data-filter="past">乗り越えた親</button>
+      <button class="fp" data-filter="child">育った子ども</button>
+      <button class="fp" data-filter="cheer">応援している人</button>
+    </div>
+
+    <div id="posts-list"></div>
+  </div>
+</section>
+
+<!-- FAB -->
+<button class="fab idle" id="fab">
+  <span class="fab-icon">✦</span>
+  <span class="fab-label">つなぐ</span>
+</button>
+
+<div id="toast"></div>
+
+<!-- ══ コネクトビュー ══ -->
+<div id="connect-view">
+  <svg id="lines-svg" style="display:none"></svg>
+  <div class="cv-header">
+    <div class="cv-title">
+      <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+        <path d="M3 8.5C3 5.8 5 3.7 8 3.7s5 2.1 5 4.8" stroke="#C9714A" stroke-width="1.5" stroke-linecap="round"/>
+        <circle cx="3" cy="8.5" r="2" fill="#C9714A"/>
+        <circle cx="13" cy="8.5" r="2" fill="#C9714A"/>
+      </svg>
+      つながった声
+      <span class="cv-kw-pill" id="cv-kw-pill"></span>
+    </div>
+    <button class="cv-back" id="cv-back-btn">
+      <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M9 2L4 7l5 5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      一覧に戻る
+    </button>
+  </div>
+  <div class="cv-scene" id="cv-scene"></div>
+  <div class="cv-count-display" id="cv-count-display"></div>
+</div>
+
+<script>
+/* ════════════════════════════════
+   データ
+════════════════════════════════ */
+const POSTS = [
+  {
+    id:1, role:'now', avatarColor:'coral', avatarText:'さ',
+    badge:'今、子育て中の親', badgeClass:'coral',
+    nickname:'さくらまま', ageTag:'4〜6歳',
+    text:'夕飯を作る気力が、今夜はどこにもなかった。コンビニのおにぎりを並べながら「ごめんね」って心の中でつぶやいた。毎日こんなんで、ほんとにごめん。',
+    time:'8分前', replyCount:3,
+    keywords:['疲れた','夕飯','子ども','一人で','謝りたい'],
+    cvReplies:[
+      { nick:'ハルママ', badge:'乗り越えた親', cls:'tr', text:'コンビニご飯の夜、何度もあったよ。それでも「ごめん」って思えるあなたは十分すぎるくらい素敵なお母さん。' },
+      { nick:'たかし', badge:'育った子ども', cls:'pr', text:'おにぎりでも、ちゃんと並べてくれた。それだけで十分だったって、大人になった今ならわかる。' },
+      { nick:'のぞみ', badge:'今、子育て中の親', cls:'cr', text:'私も今日同じだった。読んで少し楽になりました。ありがとう。' }
+    ]
+  },
+  {
+    id:2, role:'past', avatarColor:'teal', avatarText:'ハ',
+    badge:'乗り越えた親', badgeClass:'teal',
+    nickname:'ハルママ', ageTag:null,
+    text:'不安な夜を何百回も越えてきた。「もう限界」と思いながらも朝になれば子どもの笑顔が待っていた。あの頃の私に言ってあげたい、ちゃんと大丈夫だったよって。',
+    time:'23分前', replyCount:5,
+    keywords:['不安','限界','朝が来る','乗り越えた','大丈夫'],
+    cvReplies:[
+      { nick:'のぞみ', badge:'今、子育て中の親', cls:'cr', text:'深夜に読んで泣いてしまいました。「大丈夫」って言葉がこんなに刺さるとは。ありがとうございます。' },
+      { nick:'娘より', badge:'育った子ども', cls:'pr', text:'うちのお母さんも同じだったと思う。読んで、ありがとうって伝えたくなった。' },
+      { nick:'さくらまま', badge:'今、子育て中の親', cls:'cr', text:'ありがとうございます。少し先が見えた気がします。' },
+      { nick:'匿名', badge:'今、子育て中の親', cls:'cr', text:'このコメント、スクショしました。辛い夜に読み返します。' }
+    ]
+  },
+  {
+    id:3, role:'child', avatarColor:'pink', avatarText:'娘',
+    badge:'育った子ども', badgeClass:'pink',
+    nickname:'娘より', ageTag:null,
+    text:'大変だったろうなって今になってわかる。あの頃ごめんね、って言いたくなる。でも、ありがとうって気持ちのほうがずっと大きい。育ててくれてありがとう、お母さん。',
+    time:'1時間前', replyCount:7,
+    keywords:['ありがとう','感謝','育ててくれた','気づき','親子'],
+    cvReplies:[
+      { nick:'ハルママ', badge:'乗り越えた親', cls:'tr', text:'こんな言葉をもらえたら、あの頃の苦労が全部報われる気がします。' },
+      { nick:'さくらまま', badge:'今、子育て中の親', cls:'cr', text:'娘もいつかこう思ってくれるのかな。泣けてきた。' },
+      { nick:'みき', badge:'応援している人', cls:'tr', text:'私も同じ気持ちです。お母さんにちゃんと伝えようと思いました。' }
+    ]
+  },
+  {
+    id:4, role:'now', avatarColor:'coral', avatarText:'匿',
+    badge:'今、子育て中の親', badgeClass:'coral',
+    nickname:null, ageTag:'7〜12歳',
+    text:'反抗期の息子と毎日ぶつかる。「うるさい」「関係ない」って言われるたびに胸が痛い。それでもご飯だけはちゃんと作ってる。伝わってるといいな。',
+    time:'2時間前', replyCount:4,
+    keywords:['反抗期','傷ついた','食事','伝われ','一人で'],
+    cvReplies:[
+      { nick:'ハルママ', badge:'乗り越えた親', cls:'tr', text:'反抗期は終わります。あの頃は「ご飯だけ」でいいって思ってた。それでよかった。' },
+      { nick:'たかし', badge:'育った子ども', cls:'pr', text:'元反抗期の子どもとして言います。ちゃんと届いてたよ、毎日のご飯。' },
+      { nick:'のぞみ', badge:'今、子育て中の親', cls:'cr', text:'うちもそうです。泣きたい夜、何度もある。一緒に乗り越えよう。' }
+    ]
+  },
+  {
+    id:5, role:'child', avatarColor:'pink', avatarText:'た',
+    badge:'育った子ども', badgeClass:'pink',
+    nickname:'たかし', ageTag:null,
+    text:'お母さんが一人で頑張ってた姿、全部見てたよ。当時は口に出せなかったけど、ずっと誇りだったし、今もそう。ありがとうって今すぐ伝えたい。',
+    time:'3時間前', replyCount:2,
+    keywords:['ありがとう','誇り','見てた','感謝','一人で'],
+    cvReplies:[
+      { nick:'さくらまま', badge:'今、子育て中の親', cls:'cr', text:'子どもにこう思ってもらえるって...今夜の頑張りの意味がわかった。' },
+      { nick:'ハルママ', badge:'乗り越えた親', cls:'tr', text:'私の子どもも、いつかこう言ってくれるといいな。ありがとう。' }
+    ]
+  },
+  {
+    id:6, role:'cheer', avatarColor:'amber', avatarText:'み',
+    badge:'応援している人', badgeClass:'amber',
+    nickname:'みき', ageTag:null,
+    text:'うちのお母さん、ひとりで私と弟を育ててくれた。すごいんだよ本当に。こういう場所があること、もっとみんなに知ってほしい。',
+    time:'4時間前', replyCount:1,
+    keywords:['応援','一人で','頑張ってる','家族','知ってほしい'],
+    cvReplies:[
+      { nick:'さくらまま', badge:'今、子育て中の親', cls:'cr', text:'こういう言葉、すごく嬉しい。ありがとう。' },
+      { nick:'娘より', badge:'育った子ども', cls:'pr', text:'応援してくれる人がいるって、お母さんに伝えたい。' }
+    ]
+  },
+  {
+    id:7, role:'past', avatarColor:'teal', avatarText:'匿',
+    badge:'乗り越えた親', badgeClass:'teal',
+    nickname:null, ageTag:null,
+    text:'一人で育てること、最初は怖くて仕方なかった。でも気づいたら十数年経ってた。なんとかなるし、なんとかした。大丈夫、って今なら胸を張って言える。',
+    time:'5時間前', replyCount:6,
+    keywords:['大丈夫','怖かった','乗り越えた','一人で','時間'],
+    cvReplies:[
+      { nick:'のぞみ', badge:'今、子育て中の親', cls:'cr', text:'「大丈夫」って言葉、信じてみます。ありがとう。' },
+      { nick:'さくらまま', badge:'今、子育て中の親', cls:'cr', text:'十数年後の自分に、今の私へのメッセージを書いてほしいです。' },
+      { nick:'匿名', badge:'今、子育て中の親', cls:'cr', text:'どうにかなるって言葉、今の私には宝物です。' }
+    ]
+  },
+  {
+    id:8, role:'now', avatarColor:'coral', avatarText:'の',
+    badge:'今、子育て中の親', badgeClass:'coral',
+    nickname:'のぞみ', ageTag:'0〜3歳',
+    text:'深夜2時の授乳中にこれを書いてる。隣で静かに眠る子の顔を見てたら、泣けてきた。しんどいけど、この子がいてくれる。それだけでいい、今夜は。',
+    time:'6時間前', replyCount:8,
+    keywords:['深夜','一人で','泣けてきた','子どもがいる','疲れた'],
+    cvReplies:[
+      { nick:'ハルママ', badge:'乗り越えた親', cls:'tr', text:'深夜の授乳中、ここに書けてよかった。一人じゃないよ。' },
+      { nick:'娘より', badge:'育った子ども', cls:'pr', text:'夜中も頑張ってくれてたんだな。本当にありがとう、お母さん。' },
+      { nick:'さくらまま', badge:'今、子育て中の親', cls:'cr', text:'私も深夜に書いてます。つながってる気がして、少し楽になりました。' }
+    ]
+  }
+];
+
+const REPLIES = {
+  1:[
+    { nick:'ハルママ', badge:'乗り越えた親', badgeClass:'teal', colorClass:'teal-reply',
+      text:'コンビニご飯の夜、何度もあったよ。それでも「ごめん」って思えるあなたは十分すぎるくらい素敵なお母さん。' },
+    { nick:'たかし', badge:'育った子ども', badgeClass:'pink', colorClass:'pink-reply',
+      text:'おにぎりでも、ちゃんと並べてくれた。それだけで十分だったって、大人になった今ならわかる。' }
+  ],
+  2:[
+    { nick:'のぞみ', badge:'今、子育て中の親', badgeClass:'coral', colorClass:'coral-reply',
+      text:'深夜に読んで泣いてしまいました。「大丈夫」って言葉がこんなに刺さるとは。ありがとうございます。' },
+    { nick:'娘より', badge:'育った子ども', badgeClass:'pink', colorClass:'pink-reply',
+      text:'うちのお母さんも同じだったと思う。読んで、ありがとうって伝えたくなった。' }
+  ]
+};
+
+/* ════════════════════════════════
+   状態
+════════════════════════════════ */
+let selectedId  = null;
+let selectedKw  = null;
+let connectMode = false;
+let animFrameId = null;
+
+const LS_KEY = 'honne_demo_connect_count';
+let connectCount = parseInt(localStorage.getItem(LS_KEY) || '0', 10);
+
+/* ════════════════════════════════
+   DOM参照
+════════════════════════════════ */
+const fab            = document.getElementById('fab');
+const postsList      = document.getElementById('posts-list');
+const cvView         = document.getElementById('connect-view');
+const cvScene        = document.getElementById('cv-scene');
+const linesSvg       = document.getElementById('lines-svg');
+const cvCountDisplay = document.getElementById('cv-count-display');
+const stripNum       = document.getElementById('connectNumStrip');
+
+stripNum.textContent = connectCount;
+
+/* ════════════════════════════════
+   ユーティリティ
+════════════════════════════════ */
+function setCount(n) {
+  connectCount = n;
+  localStorage.setItem(LS_KEY, n);
+  stripNum.textContent = n;
+  stripNum.classList.add('bump');
+  setTimeout(() => stripNum.classList.remove('bump'), 400);
+}
+
+function showToast(msg) {
+  const t = document.getElementById('toast');
+  t.textContent = msg;
+  t.classList.add('show');
+  setTimeout(() => t.classList.remove('show'), 2200);
+}
+
+function shuffle(arr) {
+  const a = [...arr];
+  for (let i = a.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [a[i], a[j]] = [a[j], a[i]];
+  }
+  return a;
+}
+
+function highlightKw(text, kw) {
+  if (!kw) return text;
+  const escaped = kw.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+  return text.replace(new RegExp(escaped, 'g'), `<mark class="kw-glow">${kw}</mark>`);
+}
+
+/* ════════════════════════════════
+   投稿カード生成
+════════════════════════════════ */
+function buildCard(post, mini = false) {
+  const card = document.createElement('div');
+  card.className = 'post-card';
+  card.dataset.id = post.id;
+
+  const namePart = post.nickname ? `<span class="post-name">${post.nickname}</span>` : `<span class="post-name">匿名</span>`;
+  const agePart  = post.ageTag ? `<span class="age-tag">${post.ageTag}</span>` : '';
+
+  const kwHTML = mini ? '' : `
+    <div class="kw-section" id="kw-${post.id}">
+      <div class="kw-label">つながるワード</div>
+      <div class="kw-chips">
+        ${post.keywords.map(k => `<button class="kw-chip" data-kw="${k}" data-pid="${post.id}">${k}</button>`).join('')}
+      </div>
+    </div>`;
+
+  const actHTML = mini ? '' : `
+    <div class="post-actions">
+      <button class="read-btn" onclick="this.classList.toggle('done');event.stopPropagation()">
+        <svg width="13" height="13" viewBox="0 0 13 13" fill="none"><path d="M2 7l3 3 6-6" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        読んだ
+      </button>
+      <button class="reply-toggle" onclick="event.stopPropagation()">
+        <svg width="13" height="13" viewBox="0 0 13 13" fill="none"><path d="M11 2H2C1.45 2 1 2.45 1 3V8C1 8.55 1.45 9 2 9H4L6 11L8 9H11C11.55 9 12 8.55 12 8V3C12 2.45 11.55 2 11 2Z" stroke="currentColor" stroke-width="1.1" stroke-linejoin="round"/></svg>
+        返信 ${post.replyCount}件
+      </button>
+      <span class="post-time">${post.time}</span>
+    </div>`;
+
+  card.innerHTML = `
+    <div class="post-header">
+      <div class="avatar ${post.avatarColor}">${post.avatarText}</div>
+      <span class="badge ${post.badgeClass}">${post.badge}</span>
+      ${agePart}
+      ${namePart}
+    </div>
+    <div class="post-text">${post.text}</div>
+    ${kwHTML}
+    ${actHTML}
+  `;
+  return card;
+}
+
+/* ════════════════════════════════
+   フィードレンダリング
+════════════════════════════════ */
+function renderFeed(filter = 'all') {
+  postsList.innerHTML = '';
+  const list = filter === 'all' ? POSTS : POSTS.filter(p => p.role === filter);
+
+  list.forEach((post, idx) => {
+    const card = buildCard(post);
+    postsList.appendChild(card);
+    card.addEventListener('click', e => {
+      if (e.target.classList.contains('kw-chip')) return;
+      handleCardClick(post.id);
+    });
+
+    // 返信を最初の2件だけ表示
+    if (filter === 'all' && REPLIES[post.id]) {
+      const replyList = document.createElement('div');
+      replyList.className = 'replies-list';
+      REPLIES[post.id].forEach(r => {
+        const ri = document.createElement('div');
+        ri.className = `reply-item ${r.colorClass}`;
+        ri.innerHTML = `
+          <div class="reply-from">
+            ${r.nick}
+            <span class="rbadge ${r.badgeClass}">${r.badge}</span>
+          </div>
+          ${r.text}`;
+        replyList.appendChild(ri);
+      });
+      postsList.appendChild(replyList);
+    }
+  });
+
+  // チップのイベント再アタッチ
+  document.querySelectorAll('.kw-chip').forEach(chip => {
+    chip.addEventListener('click', e => {
+      e.stopPropagation();
+      handleChipClick(parseInt(chip.dataset.pid), chip.dataset.kw, chip);
+    });
+  });
+}
+
+/* ════════════════════════════════
+   選択 / 解除
+════════════════════════════════ */
+function handleCardClick(id) {
+  if (connectMode) return;
+  if (selectedId === id) { deselectAll(); return; }
+  if (selectedId !== null) deselectAll();
+
+  selectedId = id;
+  const card = postsList.querySelector(`.post-card[data-id="${id}"]`);
+  if (!card) return;
+  card.classList.add('selected');
+
+  const kwSec = document.getElementById(`kw-${id}`);
+  if (kwSec) {
+    kwSec.classList.add('open');
+    // チップアニメーションをリセットして再生
+    kwSec.querySelectorAll('.kw-chip').forEach(c => {
+      c.style.animation = 'none';
+      void c.offsetWidth;
+      c.style.animation = '';
+    });
+  }
+  fab.className = 'fab post-selected';
+  selectedKw = null;
+}
+
+function deselectAll() {
+  if (selectedId !== null) {
+    const card = postsList.querySelector(`.post-card[data-id="${selectedId}"]`);
+    if (card) {
+      card.classList.remove('selected');
+      const kwSec = document.getElementById(`kw-${selectedId}`);
+      if (kwSec) kwSec.classList.remove('open');
+    }
+    if (selectedKw) clearFeedKw(selectedId);
+  }
+  selectedId = null; selectedKw = null;
+  fab.className = 'fab idle';
+  document.querySelectorAll('.kw-chip.active').forEach(c => c.classList.remove('active'));
+}
+
+/* ════════════════════════════════
+   チップ選択
+════════════════════════════════ */
+function highlightFeedKw(postId, kw) {
+  const post = POSTS.find(p => p.id === postId);
+  if (!post) return;
+  const card = postsList.querySelector(`.post-card[data-id="${postId}"]`);
+  if (!card) return;
+  const textEl = card.querySelector('.post-text');
+  if (textEl) textEl.innerHTML = highlightKw(post.text, kw);
+}
+
+function clearFeedKw(postId) {
+  const post = POSTS.find(p => p.id === postId);
+  if (!post) return;
+  const card = postsList.querySelector(`.post-card[data-id="${postId}"]`);
+  if (!card) return;
+  const textEl = card.querySelector('.post-text');
+  if (textEl) textEl.textContent = post.text;
+}
+
+function handleChipClick(pid, kw, chipEl) {
+  if (selectedId !== pid) handleCardClick(pid);
+  document.querySelectorAll('.kw-chip.active').forEach(c => c.classList.remove('active'));
+  chipEl.classList.add('active');
+  // 前のキーワードをクリアして新しいのを光らせる
+  if (selectedKw && selectedKw !== kw) clearFeedKw(pid);
+  selectedKw = kw;
+  highlightFeedKw(pid, kw);
+  fab.className = 'fab ready';
+}
+
+/* ════════════════════════════════
+   FAB
+════════════════════════════════ */
+fab.addEventListener('click', () => {
+  if (connectMode) return;
+  if (!selectedId) { showToast('まず投稿を選んでください'); return; }
+  if (!selectedKw) { showToast('つながるワードを選んでください'); return; }
+  doConnect();
+});
+
+/* ════════════════════════════════
+   つなぐ実行
+════════════════════════════════ */
+function doConnect() {
+  connectMode = true;
+  const base = POSTS.find(p => p.id === selectedId);
+  const kw   = selectedKw;
+
+  let matches = POSTS.filter(p => p.id !== base.id && p.keywords.includes(kw));
+  const others = shuffle(POSTS.filter(p => p.id !== base.id && !matches.includes(p)));
+  matches = shuffle([...matches, ...others]).slice(0, 4);
+
+  buildConnectView(base, kw, matches);
+  setCount(connectCount + 1);
+}
+
+/* ════════════════════════════════
+   ドラッグ管理
+════════════════════════════════ */
+let dragState = null;
+
+function initDragListeners() {
+  window.addEventListener('mousemove', onDragMove);
+  window.addEventListener('touchmove', onDragMove, { passive:false });
+  window.addEventListener('mouseup',   onDragEnd);
+  window.addEventListener('touchend',  onDragEnd);
+}
+
+function onDragMove(e) {
+  if (!dragState) return;
+  const cx = e.touches ? e.touches[0].clientX : e.clientX;
+  const cy = e.touches ? e.touches[0].clientY : e.clientY;
+  const dx = cx - dragState.startX;
+  const dy = cy - dragState.startY;
+
+  if (!dragState.moved && (Math.abs(dx) > 4 || Math.abs(dy) > 4)) {
+    // 初めて動いた瞬間に現在の視覚位置をピン留め
+    dragState.moved = true;
+    const el = dragState.el;
+    const sceneRect = cvScene.getBoundingClientRect();
+    const elRect    = el.getBoundingClientRect();
+    const curLeft   = elRect.left - sceneRect.left;
+    const curTop    = elRect.top  - sceneRect.top;
+    el.style.left      = curLeft + 'px';
+    el.style.top       = curTop  + 'px';
+    el.style.animation = 'none';
+    el.style.transform = 'none';
+    el.classList.add('pinned');
+    el.dataset.pinned  = '1';
+    dragState.startLeft = curLeft;
+    dragState.startTop  = curTop;
+    dragState.startX    = cx;
+    dragState.startY    = cy;
+  }
+  if (dragState.moved) {
+    dragState.el.style.left = (dragState.startLeft + (cx - dragState.startX)) + 'px';
+    dragState.el.style.top  = (dragState.startTop  + (cy - dragState.startY)) + 'px';
+    e.preventDefault();
+  }
+}
+
+function onDragEnd() {
+  if (!dragState) return;
+  const { el, moved } = dragState;
+  el.classList.remove('dragging');
+  if (!moved) activateFloatCard(el);
+  dragState = null;
+}
+
+function makeDraggable(el) {
+  const startDrag = (clientX, clientY) => {
+    // ドラッグ開始時はアニメーションをまだ止めない
+    dragState = {
+      el,
+      startX: clientX,
+      startY: clientY,
+      startLeft: 0,
+      startTop:  0,
+      moved: false
+    };
+    el.classList.add('dragging');
+    bringToFront(el);
+  };
+  el.addEventListener('mousedown', e => {
+    if (e.button !== 0) return;
+    e.preventDefault();
+    startDrag(e.clientX, e.clientY);
+  });
+  el.addEventListener('touchstart', e => {
+    e.preventDefault();
+    startDrag(e.touches[0].clientX, e.touches[0].clientY);
+  }, { passive:false });
+}
+
+let frontZ = 406;
+function bringToFront(el) {
+  el.style.zIndex = ++frontZ;
+}
+
+function activateFloatCard(el) {
+  // 他のカードを非アクティブに
+  cvScene.querySelectorAll('.cv-float.active-card').forEach(c => {
+    if (c !== el) c.classList.remove('active-card');
+  });
+  el.classList.toggle('active-card');
+  bringToFront(el);
+}
+
+/* ════════════════════════════════
+   コネクトビュー構築
+════════════════════════════════ */
+function buildConnectView(base, kw, matches) {
+  cvScene.innerHTML = '';
+  document.getElementById('cv-kw-pill').textContent = `「${kw}」でつながる`;
+
+  // ── 中央カード ──
+  const centerWrap = document.createElement('div');
+  centerWrap.className = 'cv-center';
+  const centerCard = buildCard(base, true);
+  // キーワードを中央カードのテキストにも光らせる
+  const centerText = centerCard.querySelector('.post-text');
+  if (centerText) centerText.innerHTML = highlightKw(base.text, kw);
+  // 穴をカード内（アバター左上）に配置
+  const centerHole = document.createElement('div');
+  centerHole.className = 'cv-hole';
+  centerCard.insertBefore(centerHole, centerCard.firstChild);
+  const label = document.createElement('div');
+  label.className = 'cv-center-label';
+  label.innerHTML = `「<span>${kw}</span>」でつながっています`;
+  centerWrap.appendChild(centerCard);
+  centerWrap.appendChild(label);
+  cvScene.appendChild(centerWrap);
+
+  // ── 浮遊カード（返信付き）──
+  const driftAnims = ['drift1','drift2','drift3','drift4'];
+
+  matches.forEach((post, i) => {
+    const wrap = document.createElement('div');
+    wrap.className = 'cv-float drifting';
+    wrap.style.animation = `${driftAnims[i % 4]} ${7 + i * 0.7}s ease-in-out infinite`;
+
+    // カード本体
+    const card = document.createElement('div');
+    card.className = 'cv-fc-card';
+    const hasKw = post.keywords.includes(kw);
+    const agePart = post.ageTag ? `<span class="age-tag">${post.ageTag}</span>` : '';
+
+    // ヘッダー
+    const header = document.createElement('div');
+    header.className = 'cv-fc-header';
+    header.innerHTML = `
+      <div class="avatar ${post.avatarColor}">${post.avatarText}</div>
+      <span class="badge ${post.badgeClass}">${post.badge}</span>
+      ${agePart}
+      <span class="post-name" style="font-size:0.75rem">${post.nickname || '匿名'}</span>
+    `;
+    card.appendChild(header);
+
+    // 本文（キーワードを光らせる）
+    const text = document.createElement('div');
+    text.className = 'cv-fc-text';
+    text.innerHTML = highlightKw(post.text, kw);
+    card.appendChild(text);
+
+    // キーワードマッチ
+    if (hasKw) {
+      const kwBadge = document.createElement('span');
+      kwBadge.className = 'cv-fc-kw-match';
+      kwBadge.textContent = kw;
+      card.appendChild(kwBadge);
+    }
+
+    // 返信エリア
+    if (post.cvReplies && post.cvReplies.length > 0) {
+      const repliesEl = document.createElement('div');
+      repliesEl.className = 'cv-fc-replies';
+
+      // 1件目：常に表示
+      repliesEl.appendChild(buildFloatReply(post.cvReplies[0]));
+
+      // 2件目以降：折りたたみ
+      if (post.cvReplies.length > 1) {
+        const extra = document.createElement('div');
+        extra.className = 'cv-fc-extra';
+        post.cvReplies.slice(1).forEach(r => extra.appendChild(buildFloatReply(r)));
+        repliesEl.appendChild(extra);
+
+        const moreBtn = document.createElement('button');
+        moreBtn.className = 'cv-fc-show-more';
+        moreBtn.innerHTML = `<svg width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M2 4l4 4 4-4" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg> 他${post.cvReplies.length - 1}件の返信を見る`;
+        repliesEl.appendChild(moreBtn);
+      }
+
+      card.appendChild(repliesEl);
+    }
+
+    // 穴をカード内（アイコン左上）に配置
+    const floatHole = document.createElement('div');
+    floatHole.className = 'cv-hole';
+    card.insertBefore(floatHole, card.firstChild);
+    wrap.appendChild(card);
+    cvScene.appendChild(wrap);
+    makeDraggable(wrap);
+  });
+
+  // ── 初期位置をJSで計算して設定 ──
+  requestAnimationFrame(() => {
+    const scene   = cvScene.getBoundingClientRect();
+    const floats  = [...cvScene.querySelectorAll('.cv-float')];
+    const margin  = 10;
+    const cardW   = floats[0] ? floats[0].offsetWidth  : 240;
+    const cardH   = floats[0] ? floats[0].offsetHeight : 200;
+    const sw = scene.width;
+    const sh = scene.height;
+
+    const positions = [
+      { left: margin,           top: margin },
+      { left: sw - cardW - margin, top: margin },
+      { left: margin,           top: sh - cardH - margin },
+      { left: sw - cardW - margin, top: sh - cardH - margin },
+    ];
+
+    floats.forEach((el, i) => {
+      const pos = positions[i] || positions[i % positions.length];
+      el.style.left = pos.left + 'px';
+      el.style.top  = pos.top  + 'px';
+    });
+  });
+
+  // ── カウント ──
+  cvCountDisplay.innerHTML = `
+    <div class="cv-count-wrap">
+      <div class="cv-ripple"></div><div class="cv-ripple"></div><div class="cv-ripple"></div>
+      <div class="cv-count-num">${connectCount.toLocaleString()}</div>
+    </div>
+    <div class="cv-count-label">つながった声の数</div>
+  `;
+
+  cvView.classList.add('visible');
+  linesSvg.style.display = 'block';
+  cancelAnimationFrame(animFrameId);
+  animFrameId = requestAnimationFrame(drawLines);
+}
+
+function buildFloatReply(r) {
+  const el = document.createElement('div');
+  el.className = `cv-fc-reply ${r.cls}`;
+  const badgeCls = r.cls === 'cr' ? 'coral' : r.cls === 'pr' ? 'pink' : 'teal';
+  el.innerHTML = `
+    <div class="cv-fc-reply-from">
+      ${r.nick}
+      <span class="cv-fc-reply-badge badge ${badgeCls}">${r.badge}</span>
+    </div>
+    ${r.text}
+  `;
+  return el;
+}
+
+/* ════════════════════════════════
+   SVGライン描画（穴→穴の糸）
+════════════════════════════════ */
+function holeCenter(el) {
+  const h = el.querySelector('.cv-hole');
+  if (!h) return null;
+  const r = h.getBoundingClientRect();
+  return { x: r.left + r.width / 2, y: r.top + r.height / 2 };
+}
+
+/* 穴に結んだような優しい結び目を描く */
+function drawKnot(svg, x, y, isCenter) {
+  const r = isCenter ? 4.5 : 3.8;
+  const col = 'rgba(175,143,103,';
+
+  // 結び目の本体（小さな丸）
+  const body = document.createElementNS('http://www.w3.org/2000/svg', 'circle');
+  body.setAttribute('cx', x); body.setAttribute('cy', y);
+  body.setAttribute('r', r);
+  body.setAttribute('fill', col + '0.58)');
+  svg.appendChild(body);
+
+  // 結び目のループ（耳のような小さなカーブ）
+  const lw = r + 3;
+  const lh = r + 4;
+  const loop = document.createElementNS('http://www.w3.org/2000/svg', 'path');
+  loop.setAttribute('d',
+    `M${x - r + 1},${y - 1.5}` +
+    ` Q${x - lw},${y - lh} ${x},${y - r - 1}` +
+    ` Q${x + lw},${y - lh} ${x + r - 1},${y - 1.5}`
+  );
+  loop.setAttribute('fill', col + '0.18)');
+  loop.setAttribute('stroke', col + '0.52)');
+  loop.setAttribute('stroke-width', '1.2');
+  loop.setAttribute('stroke-linecap', 'round');
+  svg.appendChild(loop);
+
+  // 結び目のハイライト（立体感）
+  const shine = document.createElementNS('http://www.w3.org/2000/svg', 'circle');
+  shine.setAttribute('cx', x - 1); shine.setAttribute('cy', y - 1.2);
+  shine.setAttribute('r', r * 0.4);
+  shine.setAttribute('fill', 'rgba(255,250,240,0.4)');
+  svg.appendChild(shine);
+}
+
+function drawThread(svg, x1, y1, x2, y2, opacity) {
+  const dist = Math.hypot(x2 - x1, y2 - y1);
+  const sag  = dist * 0.13;
+  const mx   = (x1 + x2) / 2;
+  const my   = (y1 + y2) / 2 + sag;
+  const path = document.createElementNS('http://www.w3.org/2000/svg', 'path');
+  path.setAttribute('d', `M${x1},${y1} Q${mx},${my} ${x2},${y2}`);
+  path.setAttribute('stroke', `rgba(180,148,110,${opacity})`);
+  path.setAttribute('stroke-width', '1.6');
+  path.setAttribute('fill', 'none');
+  path.setAttribute('stroke-linecap', 'round');
+  svg.appendChild(path);
+}
+
+function drawLines() {
+  if (!connectMode) return;
+
+  const centerEl = cvScene.querySelector('.cv-center');
+  if (!centerEl) { animFrameId = requestAnimationFrame(drawLines); return; }
+
+  while (linesSvg.firstChild) linesSvg.removeChild(linesSvg.firstChild);
+
+  const ch = holeCenter(centerEl);
+  const floats = [...cvScene.querySelectorAll('.cv-float')];
+  const floatHoles = floats.map(f => holeCenter(f)).filter(Boolean);
+
+  // 中央→各浮遊カードへ紐でつなぐ
+  if (ch) {
+    floatHoles.forEach(fh => {
+      drawThread(linesSvg, ch.x, ch.y, fh.x, fh.y, 0.45);
+    });
+    // 各浮遊カードの結び目（紐の上に重ねて描く）
+    floatHoles.forEach(fh => drawKnot(linesSvg, fh.x, fh.y, false));
+    // 中央カードの結び目（最後に描いて一番上に）
+    drawKnot(linesSvg, ch.x, ch.y, true);
+  }
+
+  animFrameId = requestAnimationFrame(drawLines);
+}
+
+/* ════════════════════════════════
+   一覧に戻る
+════════════════════════════════ */
+document.getElementById('cv-back-btn').addEventListener('click', () => {
+  connectMode = false;
+  cancelAnimationFrame(animFrameId); animFrameId = null;
+  while (linesSvg.firstChild) linesSvg.removeChild(linesSvg.firstChild);
+  linesSvg.style.display = 'none';
+  cvView.classList.remove('visible');
+  cvScene.innerHTML = ''; cvCountDisplay.innerHTML = '';
+  deselectAll();
+});
+
+/* ════════════════════════════════
+   フィルタータブ
+════════════════════════════════ */
+document.querySelectorAll('.fp').forEach(btn => {
+  btn.addEventListener('click', () => {
+    document.querySelectorAll('.fp').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    deselectAll();
+    renderFeed(btn.dataset.filter);
+  });
+});
+
+/* ════════════════════════════════
+   初期化
+════════════════════════════════ */
+initDragListeners();
+renderFeed('all');
+</script>
+</body>
+</html>
