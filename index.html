@@ -514,6 +514,8 @@ footer { background:var(--g100); padding:2rem; text-align:center; font-size:0.81
 /* ══════════════════════════════
    つなぐ機能 CSS
 ══════════════════════════════ */
+/* カードをクリック可能に見せる */
+.post-card { cursor:pointer; }
 /* カード選択状態 */
 .post-card.selected {
   border-color:rgba(201,113,74,0.3);
@@ -537,7 +539,8 @@ mark.kw-glow { background:transparent;color:var(--c600);font-weight:500;border-r
 @keyframes kwPulseStrong { 0%,100%{background-color:rgba(201,113,74,0.12)} 50%{background-color:rgba(201,113,74,0.34);box-shadow:0 0 6px rgba(201,113,74,0.15)} }
 /* FAB */
 .fab { position:fixed;right:24px;bottom:32px;z-index:300;width:56px;height:56px;border-radius:50%;border:none;cursor:pointer;display:flex;align-items:center;justify-content:center;flex-direction:column;gap:2px;font-family:'Kaisei Opti',serif;transition:background 0.3s,opacity 0.3s,box-shadow 0.3s; }
-.fab.idle { background:var(--g400);color:#fff;opacity:0.5;box-shadow:0 4px 14px rgba(0,0,0,0.15); }
+.fab.idle { background:var(--c50);color:var(--c600);opacity:1;box-shadow:0 4px 18px rgba(201,113,74,0.18);border:1.5px solid var(--c100);animation:fabIdleFloat 3s ease-in-out infinite; }
+@keyframes fabIdleFloat { 0%,100%{transform:translateY(0)} 50%{transform:translateY(-4px)} }
 .fab.post-selected { background:var(--c400);color:#fff;opacity:1;animation:fabPulse 2s ease-in-out infinite; }
 .fab.ready { background:var(--c400);color:#fff;opacity:1;animation:fabGlow 1.5s ease-in-out infinite; }
 @keyframes fabPulse { 0%,100%{box-shadow:0 4px 18px rgba(201,113,74,0.35)} 50%{box-shadow:0 4px 28px rgba(201,113,74,0.6)} }
