@@ -965,6 +965,7 @@ async function removePresence() {
 }
 
 async function pingPresence() {
+  if (document.hidden) return; // タブ非表示中はスキップ（removePresenceで削除済みのため）
   try {
     const now = new Date().toISOString();
     // 自分のセッションをupsert
@@ -1000,6 +1001,7 @@ async function pingPresence() {
 
 // タブを閉じる・ページ離脱時に自分のセッションを削除
 window.addEventListener('beforeunload', removePresence);
+window.addEventListener('pagehide', removePresence); // iOS Safari対応
 // タブが非表示になったら削除、再表示されたらpingで復活
 document.addEventListener('visibilitychange', () => {
   if (document.hidden) removePresence();
