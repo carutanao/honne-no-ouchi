@@ -106,14 +106,6 @@ li { font-size:0.9rem; color:var(--muted); line-height:2; }
 .contact-link:hover { text-decoration:underline; }
 
 /* フォーム */
-.form-group { margin-bottom:1.25rem; }
-.form-label { font-size:0.8125rem; color:var(--muted); display:block; margin-bottom:0.375rem; }
-.form-input, .form-textarea { width:100%; padding:0.75rem 1rem; border:1px solid var(--g200); border-radius:10px; font-size:0.9rem; font-family:'Zen Maru Gothic',sans-serif; color:var(--text); background:var(--g50); outline:none; transition:border-color 0.2s; }
-.form-input:focus, .form-textarea:focus { border-color:var(--c400); background:#fff; }
-.form-textarea { min-height:140px; resize:vertical; }
-.form-btn { background:var(--c400); color:#fff; border:none; padding:0.875rem 2rem; border-radius:10px; font-size:0.9375rem; font-family:'Zen Maru Gothic',sans-serif; cursor:pointer; transition:background 0.2s; }
-.form-btn:hover { background:var(--c600); }
-.form-note { font-size:0.8125rem; color:var(--light); margin-top:0.75rem; }
 
 /* 更新日 */
 .updated { font-size:0.8125rem; color:var(--light); margin-top:3rem; padding-top:1.5rem; border-top:1px solid var(--g100); }
@@ -269,33 +261,11 @@ li { font-size:0.9rem; color:var(--muted); line-height:2; }
 
 
 
-    <h2 style="margin-top:2.5rem">お問い合わせフォーム</h2>
-    <p style="margin-bottom:1.5rem">以下のフォームからもご連絡いただけます。</p>
-
-    <div class="form-group">
-      <label class="form-label">お名前（任意）</label>
-      <input class="form-input" type="text" placeholder="匿名でも大丈夫です"/>
+    <div class="contact-card" style="margin-top:2rem">
+      <p class="contact-label">お問い合わせ方法</p>
+      <p class="contact-value">メールにてご連絡ください</p>
+      <p class="contact-note">上記メールアドレス宛にお気軽にご連絡いただけます。件名に「ほんねのおうち」とご記載いただけるとスムーズです。</p>
     </div>
-    <div class="form-group">
-      <label class="form-label">メールアドレス（返信希望の場合）</label>
-      <input class="form-input" type="email" placeholder="example@mail.com"/>
-    </div>
-    <div class="form-group">
-      <label class="form-label">お問い合わせ種別</label>
-      <select class="form-input">
-        <option value="">選択してください</option>
-        <option>ご意見・ご感想</option>
-        <option>不適切な投稿の報告</option>
-        <option>バグ・不具合の報告</option>
-        <option>その他</option>
-      </select>
-    </div>
-    <div class="form-group">
-      <label class="form-label">お問い合わせ内容</label>
-      <textarea class="form-textarea" placeholder="内容をご記入ください…"></textarea>
-    </div>
-    <button class="form-btn" onclick="sendContact()">送信する</button>
-    <p class="form-note">※ 現在このフォームはサンプルです。実際の送信機能は別途設定が必要です。</p>
   </div>
 
 </main>
@@ -307,10 +277,6 @@ function showTab(id) {
   document.getElementById('page-' + id).classList.add('active');
   event.currentTarget.classList.add('active');
   window.scrollTo({ top: 0, behavior: 'smooth' });
-}
-
-function sendContact() {
-  alert('ありがとうございます。\n現在フォーム送信機能は準備中です。\nメールまたはXよりご連絡ください。');
 }
 
 // URLハッシュで直接ページを開く
