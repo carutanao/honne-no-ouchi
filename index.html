@@ -1572,9 +1572,10 @@ async function submitPost() {
       })
     });
     resetWrite();
-    await loadPosts();
     showLineModal(notifToken);
+    loadPosts().catch(()=>{});
   } catch(e) {
+    console.error('submitPost error:', e);
     showToast('送信に失敗しました。もう一度お試しください。');
   } finally {
     btn.disabled = false; btn.textContent = '送る';
@@ -2121,9 +2122,12 @@ function closeLineModal() {
   document.getElementById('line-notify-overlay').classList.remove('show');
 }
 
-// オーバーレイ背景クリックで閉じる
-document.getElementById('line-notify-overlay').addEventListener('click', function(e) {
-  if (e.target === this) closeLineModal();
+// オーバーレイ背景クリックで閉じる（DOMContentLoaded後に実行）
+document.addEventListener('DOMContentLoaded', function() {
+  const overlay = document.getElementById('line-notify-overlay');
+  if (overlay) overlay.addEventListener('click', function(e) {
+    if (e.target === this) closeLineModal();
+  });
 });
 </script>
 
