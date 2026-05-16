@@ -1558,7 +1558,8 @@ async function submitPost() {
   btn.disabled = true; btn.textContent = '送信中…';
   const notifToken = generateNotifToken();
   try {
-    await sbFetch('posts', {
+    // ① 通常の投稿（notification_tokenは含めない）
+    const posted = await sbFetch('posts', {
       method: 'POST',
       body: JSON.stringify({
         role: roleName,
@@ -1567,13 +1568,21 @@ async function submitPost() {
         nickname: nickname,
         icon: icon,
         status: 'approved',
-        is_private: false,
-        notification_token: notifToken
+        is_private: false
       })
     });
+    // ② 投稿成功 → モーダルを表示
     resetWrite();
     showLineModal(notifToken);
     loadPosts().catch(()=>{});
+    // ③ 投稿IDを取得してトークンをバックグラウンドで保存
+    if (posted && posted[0] && posted[0].id) {
+      sbFetch(`posts?id=eq.${posted[0].id}`, {
+        method: 'PATCH',
+        prefer: 'return=minimal',
+        body: JSON.stringify({ notification_token: notifToken })
+      }).catch(e => console.warn('token save failed:', e));
+    }
   } catch(e) {
     console.error('submitPost error:', e);
     showToast('送信に失敗しました。もう一度お試しください。');
