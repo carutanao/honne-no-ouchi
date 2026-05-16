@@ -377,6 +377,11 @@ footer { background:var(--g100); padding:2rem; text-align:center; font-size:0.81
 #toast { position:fixed; bottom:1.5rem; left:50%; transform:translateX(-50%) translateY(8px); background:var(--text); color:#fff; font-size:0.875rem; padding:0.75rem 1.5rem; border-radius:10px; opacity:0; transition:all 0.25s; pointer-events:none; z-index:999; font-family:'Zen Maru Gothic',sans-serif; white-space:nowrap; }
 #toast.show { opacity:1; transform:translateX(-50%) translateY(0); }
 
+/* SNS通知 */
+.sns-notice { display:flex; align-items:flex-start; gap:0.5rem; padding:0.75rem 0.875rem; background:var(--g50); border-radius:10px; border-left:2.5px solid var(--g200); margin-bottom:0.875rem; }
+.sns-notice-icon { flex-shrink:0; margin-top:1px; color:var(--light); opacity:0.7; }
+.sns-notice-text { font-size:0.75rem; color:var(--light); line-height:1.75; }
+
 
 /* ニックネーム入力 */
 .nickname-area { margin-bottom:1rem; animation:fadeIn 0.3s ease both; }
@@ -828,6 +833,14 @@ mark.kw-glow {
       </div>
       <span class="hitori-badge" id="hitori-badge">非公開</span>
     </label>
+    <div class="sns-notice">
+      <svg class="sns-notice-icon" width="14" height="14" viewBox="0 0 16 16" fill="none">
+        <circle cx="8" cy="8" r="7" stroke="#888780" stroke-width="1.3"/>
+        <path d="M8 7v5" stroke="#888780" stroke-width="1.3" stroke-linecap="round"/>
+        <circle cx="8" cy="5" r="0.7" fill="#888780"/>
+      </svg>
+      <p class="sns-notice-text">いただいた声は、必要な方に届けるため匿名でSNSにご紹介することがあります。</p>
+    </div>
     <div class="write-footer">
       <span class="write-note" id="write-note">ここに置いていっていいんです。</span>
       <button class="btn-p" style="padding:0.625rem 1.5rem;font-size:0.875rem" id="submit-btn" onclick="submitPost()">送る</button>
