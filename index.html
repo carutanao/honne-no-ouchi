@@ -651,7 +651,69 @@ mark.kw-glow {
 
 /* ▲▲▲ ここまで追加 ▲▲▲ */
 
-
+/* ── LINE通知モーダル ── */
+#line-notify-overlay{
+  position:fixed;inset:0;z-index:600;
+  background:rgba(44,44,42,0.55);
+  display:none;align-items:flex-end;justify-content:center;
+  backdrop-filter:blur(3px);
+}
+#line-notify-overlay.show{display:flex;animation:lnOverlayIn 0.28s ease both;}
+@keyframes lnOverlayIn{from{opacity:0}to{opacity:1}}
+#line-notify-sheet{
+  width:100%;max-width:480px;
+  background:#fff;border-radius:24px 24px 0 0;
+  padding:2rem 1.5rem 2.5rem;
+  text-align:center;
+  animation:lnSheetUp 0.38s cubic-bezier(0.22,1,0.36,1) both;
+}
+@keyframes lnSheetUp{from{transform:translateY(100%)}to{transform:translateY(0)}}
+.ln-done-icon{
+  width:52px;height:52px;border-radius:50%;
+  background:var(--c50);border:2px solid var(--c100);
+  display:flex;align-items:center;justify-content:center;
+  margin:0 auto 1rem;
+  animation:lnIconPop 0.45s cubic-bezier(0.34,1.56,0.64,1) 0.15s both;
+}
+@keyframes lnIconPop{from{transform:scale(0);opacity:0}to{transform:scale(1);opacity:1}}
+.ln-done-title{font-family:'Kaisei Opti',serif;font-size:1.1rem;color:var(--c800);margin-bottom:0.4rem;}
+.ln-done-sub{font-size:0.8rem;color:var(--muted);line-height:1.8;margin-bottom:1.5rem;}
+.ln-divider{height:1px;background:var(--g100);margin:0 -1.5rem 1.5rem;}
+.ln-invite{
+  background:#F0FBF4;border:1.5px solid #B8EBD0;
+  border-radius:16px;padding:1.25rem 1rem;margin-bottom:0.875rem;
+}
+.ln-invite-title{font-size:0.875rem;font-weight:700;color:#066F38;margin-bottom:0.375rem;}
+.ln-invite-desc{font-size:0.78rem;color:#2D7A4F;line-height:1.75;margin-bottom:1rem;}
+.ln-code-wrap{
+  background:#fff;border:1.5px dashed #7DD5A4;
+  border-radius:10px;padding:0.75rem;margin-bottom:1rem;
+}
+.ln-code-label{font-size:0.68rem;color:#2D7A4F;letter-spacing:0.08em;margin-bottom:0.25rem;}
+.ln-code{
+  font-size:1.375rem;font-weight:700;letter-spacing:0.15em;
+  color:#066F38;font-family:monospace;
+}
+.ln-code-hint{font-size:0.7rem;color:#2D7A4F;margin-top:0.25rem;opacity:0.8;}
+.btn-line{
+  display:flex;align-items:center;justify-content:center;gap:0.625rem;
+  background:#06C755;color:#fff;border:none;
+  width:100%;padding:0.875rem;border-radius:12px;
+  font-size:0.9375rem;font-family:'Zen Maru Gothic',sans-serif;
+  font-weight:700;cursor:pointer;
+  transition:background 0.2s,transform 0.1s;
+  text-decoration:none;
+}
+.btn-line:hover{background:#05b34c;transform:translateY(-1px);}
+.ln-skip{
+  background:none;border:none;
+  font-size:0.8rem;color:var(--light);
+  font-family:'Zen Maru Gothic',sans-serif;
+  cursor:pointer;padding:0.5rem;
+  display:block;width:100%;text-align:center;
+  transition:color 0.15s;
+}
+.ln-skip:hover{color:var(--muted);}
 
 </style>
 <!-- Google tag (gtag.js) -->
@@ -1300,6 +1362,12 @@ async function submitReply(fid, postId, postRole) {
       method: 'POST',
       body: JSON.stringify({ post_id: postId, role: rp.textContent, text: ta.value.trim(), nickname: replyNick, icon: replyIcon, status: 'approved' })
     });
+    // LINE通知（失敗しても投稿には影響させない）
+    fetch('/api/notify-reply', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ postId, replyRole: rp.textContent })
+    }).catch(() => {});
     ta.value = '';
     if (nickInput) nickInput.value = '';
     if (optsEl) optsEl.innerHTML = '';
@@ -1368,6 +1436,12 @@ async function submitNestedReply(fid, postId, parentReplyId) {
         status: 'approved'
       })
     });
+    // LINE通知（失敗しても投稿には影響させない）
+    fetch('/api/notify-reply', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ postId, replyRole: rp.textContent })
+    }).catch(() => {});
     ta.value = '';
     if (nickInput) { nickInput.value = ''; nickInput.disabled = false; nickInput.style.opacity = '1'; }
     if (anonBtn) { anonBtn.classList.remove('active'); anonBtn.textContent = '匿名にする'; }
@@ -1482,6 +1556,7 @@ async function submitPost() {
   const icon = iconActive ? iconActive.dataset.iconId : null;
   const btn = document.getElementById('submit-btn');
   btn.disabled = true; btn.textContent = '送信中…';
+  const notifToken = generateNotifToken();
   try {
     await sbFetch('posts', {
       method: 'POST',
@@ -1492,12 +1567,13 @@ async function submitPost() {
         nickname: nickname,
         icon: icon,
         status: 'approved',
-        is_private: false
+        is_private: false,
+        notification_token: notifToken
       })
     });
-    showToast('投稿しました。ありがとうございます。');
     resetWrite();
     await loadPosts();
+    showLineModal(notifToken);
   } catch(e) {
     showToast('送信に失敗しました。もう一度お試しください。');
   } finally {
@@ -2027,6 +2103,62 @@ function cvDrawLines() {
   }
   cvAnimFrameId = requestAnimationFrame(cvDrawLines);
 }
+
+// ===== LINE通知モーダル =====
+function generateNotifToken() {
+  const chars = 'ABCDEFGHJKLMNPQRSTUVWXYZ23456789';
+  let t = '';
+  for (let i = 0; i < 8; i++) t += chars[Math.floor(Math.random() * chars.length)];
+  return t;
+}
+
+function showLineModal(token) {
+  document.getElementById('ln-code').textContent = 'HONNE-' + token;
+  document.getElementById('line-notify-overlay').classList.add('show');
+}
+
+function closeLineModal() {
+  document.getElementById('line-notify-overlay').classList.remove('show');
+}
+
+// オーバーレイ背景クリックで閉じる
+document.getElementById('line-notify-overlay').addEventListener('click', function(e) {
+  if (e.target === this) closeLineModal();
+});
 </script>
+
+<!-- LINE通知モーダル -->
+<div id="line-notify-overlay">
+  <div id="line-notify-sheet">
+    <div class="ln-done-icon">
+      <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+        <path d="M4 12L10 18L20 7" stroke="#C9714A" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/>
+      </svg>
+    </div>
+    <div class="ln-done-title">声を届けました</div>
+    <div class="ln-done-sub">誰かがあなたの声を読んでいます。<br>返信が届いたときにお知らせします。</div>
+    <div class="ln-divider"></div>
+    <div class="ln-invite">
+      <div class="ln-invite-title">🔔 返信が来たらLINEでお知らせ</div>
+      <div class="ln-invite-desc">
+        ① 下のボタンから公式LINEを友だち追加<br>
+        ② LINEに下のコードを送る
+      </div>
+      <div class="ln-code-wrap" id="ln-code-wrap">
+        <div class="ln-code-label">あなたの識別コード</div>
+        <div class="ln-code" id="ln-code">HONNE-XXXXXXXX</div>
+        <div class="ln-code-hint">友だち追加後、このコードをLINEに送ってください</div>
+      </div>
+      <a class="btn-line" href="https://lin.ee/PghB2Pc" target="_blank" rel="noopener" onclick="localStorage.setItem('honne_line_added','1')">
+        <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
+          <rect width="20" height="20" rx="4" fill="white" fill-opacity="0.25"/>
+          <path d="M10 3.5C6.41 3.5 3.5 6.01 3.5 9.1C3.5 11.81 5.73 14.1 8.8 14.72L9.6 16.5L11.2 15.1C14.27 14.94 16.5 12.6 16.5 9.1C16.5 6.01 13.59 3.5 10 3.5Z" fill="white"/>
+        </svg>
+        友だち追加する
+      </a>
+    </div>
+    <button class="ln-skip" onclick="closeLineModal()">あとで、またはスキップ</button>
+  </div>
+</div>
 </body>
 </html>
